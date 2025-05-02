@@ -29,7 +29,7 @@ COPY --from=builder /app/package.json ./
 COPY --from=builder /app/build/server ./build/server
 COPY --from=builder /app/build/client ./build/client
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 EXPOSE 3000
 
