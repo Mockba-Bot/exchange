@@ -1,23 +1,11 @@
 import { Outlet } from "@remix-run/react";
-import { Scaffold } from "@orderly.network/ui-scaffold";
-import config from "@/utils/config";
-import { useNav } from "@/hooks/useNav";
+import { BaseLayout } from "@/components/baseLayout";
+import { PathEnum } from "@/constant";
 
-export default function MarketsPage() {
-  const { onRouteChange } = useNav();
-
+export default function MarketsLayout() {
   return (
-    <Scaffold
-      mainNavProps={{
-        ...config.scaffold.mainNavProps,
-        initialMenu: "/markets",
-      }}
-      footerProps={config.scaffold.footerProps}
-      routerAdapter={{
-        onRouteChange,
-      }}
-    >
+    <BaseLayout initialMenu={PathEnum.Markets}>
       <Outlet />
-    </Scaffold>
+    </BaseLayout>
   );
 }

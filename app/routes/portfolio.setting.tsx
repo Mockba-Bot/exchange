@@ -1,9 +1,10 @@
 import { MetaFunction } from "@remix-run/node";
 import { SettingModule } from "@orderly.network/portfolio";
-import { generatePageTitle } from "@/utils/utils";
+import { generatePageTitle } from "@/utils";
+import { PageTitleMap, PathEnum } from "@/constant";
 
 export const meta: MetaFunction = () => {
-  return [{ title: generatePageTitle("Settings") }];
+  return [{ title: generatePageTitle(PageTitleMap[PathEnum.Setting]) }];
 };
 
 export default function SettingsPage() {

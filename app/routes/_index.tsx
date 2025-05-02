@@ -3,7 +3,7 @@ import {
   type LoaderFunction,
   type MetaFunction,
 } from "@remix-run/node";
-import { DEFAULT_SYMBOL } from "@/utils/storage";
+import { DEFAULT_SYMBOL } from "@/storage";
 
 export const meta: MetaFunction = () => {
   return [

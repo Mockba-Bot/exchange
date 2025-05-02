@@ -1,28 +1,35 @@
 import { useMemo } from "react";
-import { Outlet, useLocation } from "@remix-run/react";
-import { PortfolioLayoutWidget } from "@orderly.network/portfolio";
-import config from "@/utils/config";
+import { Outlet } from "@remix-run/react";
+import {
+  PortfolioLayoutWidget,
+  PortfolioLeftSidebarPath,
+} from "@orderly.network/portfolio";
 import { useNav } from "@/hooks/useNav";
+import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
+import { usePathWithoutLang } from "@/hooks/usePathWithoutLang";
+import { PathEnum } from "@/constant";
 
 export default function PortfolioLayout() {
-  const location = useLocation();
-  const pathname = location.pathname;
+  const config = useOrderlyConfig();
+  const path = usePathWithoutLang();
 
   const { onRouteChange } = useNav();
 
   const currentPath = useMemo(() => {
-    if (pathname.endsWith("/portfolio")) return "/portfolio";
-    if (pathname.endsWith("/portfolio/fee")) return "/portfolio/feeTier";
-    if (pathname.endsWith("/portfolio/api-key")) return "/portfolio/apiKey";
-    return pathname;
-  }, [pathname]);
+    if (path.endsWith(PathEnum.FeeTier))
+      return PortfolioLeftSidebarPath.FeeTier;
+
+    if (path.endsWith(PathEnum.ApiKey)) return PortfolioLeftSidebarPath.ApiKey;
+
+    return path;
+  }, [path]);
 
   return (
     <PortfolioLayoutWidget
       footerProps={config.scaffold.footerProps}
       mainNavProps={{
         ...config.scaffold.mainNavProps,
-        initialMenu: "/portfolio",
+        initialMenu: PathEnum.Portfolio,
       }}
       routerAdapter={{
         onRouteChange,

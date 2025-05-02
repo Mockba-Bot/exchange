@@ -5,15 +5,18 @@ import { API } from "@orderly.network/types";
 import { Box } from "@orderly.network/ui";
 import { PositionsModule } from "@orderly.network/portfolio";
 import { useTradingLocalStorage } from "@orderly.network/trading";
-import { updateSymbol } from "@/utils/storage";
-import config from "@/utils/config";
-import { generatePageTitle } from "@/utils/utils";
+import { updateSymbol } from "@/storage";
+import { generatePageTitle } from "@/utils";
+import { PageTitleMap, PathEnum } from "@/constant";
+import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
+import { i18n, parseI18nLang } from "@orderly.network/i18n";
 
 export const meta: MetaFunction = () => {
-  return [{ title: generatePageTitle("Positions") }];
+  return [{ title: generatePageTitle(PageTitleMap[PathEnum.Positions]) }];
 };
 
 export default function PositionsPage() {
+  const config = useOrderlyConfig();
   const local = useTradingLocalStorage();
   const navigate = useNavigate();
 
@@ -21,7 +24,7 @@ export default function PositionsPage() {
     (data: API.Symbol) => {
       const symbol = data.symbol;
       updateSymbol(symbol);
-      navigate(`/perp/${symbol}`);
+      navigate(`/${parseI18nLang(i18n.language)}${PathEnum.Perp}/${symbol}`);
     },
     [navigate]
   );

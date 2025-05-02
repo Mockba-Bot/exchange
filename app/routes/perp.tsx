@@ -1,21 +1,10 @@
 import { Outlet } from "@remix-run/react";
-import { Scaffold } from "@orderly.network/ui-scaffold";
-import config from "@/utils/config";
-import { useNav } from "@/hooks/useNav";
+import { BaseLayout } from "@/components/baseLayout";
 
-export default function PerpPage() {
-  const { onRouteChange } = useNav();
-
+export default function PerpLayout() {
   return (
-    <Scaffold
-      mainNavProps={config.scaffold.mainNavProps}
-      footerProps={config.scaffold.footerProps}
-      routerAdapter={{
-        onRouteChange,
-        currentPath: "/",
-      }}
-    >
+    <BaseLayout>
       <Outlet />
-    </Scaffold>
+    </BaseLayout>
   );
 }
