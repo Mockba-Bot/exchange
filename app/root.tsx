@@ -4,11 +4,20 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "@remix-run/react";
 import OrderlyProvider from "@/components/orderlyProvider";
+import { getLocalePathFromPathname, i18n } from "@orderly.network/i18n";
 import "./styles/index.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+  const localePath = getLocalePathFromPathname(location.pathname);
+
+  if (localePath && localePath !== i18n.language) {
+    i18n.changeLanguage(localePath);
+  }
+
   return (
     <html lang="en">
       <head>

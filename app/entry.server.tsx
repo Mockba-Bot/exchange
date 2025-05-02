@@ -3,18 +3,34 @@
  * You are free to delete this file if you'd like to, but if you ever want it revealed again, you can run `npx remix reveal` ✨
  * For more information, see https://remix.run/file-conventions/entry.server
  */
-
 import { PassThrough } from "node:stream";
-
 import type { AppLoadContext, EntryContext } from "@remix-run/node";
-import { createReadableStreamFromReadable } from "@remix-run/node";
+import { createReadableStreamFromReadable, redirect } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
+import {
+  i18nCookieKey,
+  LocaleEnum,
+  parseI18nLang,
+  getLocalePathFromPathname,
+  removeLangPrefix,
+} from "@orderly.network/i18n";
+import { parse } from "cookie";
+import { PathEnum } from "./constant";
+import { DEFAULT_SYMBOL } from "./storage";
+
+// Get the locale from cookie
+async function getLocaleFromCookie(request: Request) {
+  const cookieHeader = request.headers.get("Cookie");
+  const cookie = parse(cookieHeader || "");
+  const cookieLang = cookie[i18nCookieKey] || LocaleEnum.en;
+  return parseI18nLang(cookieLang);
+}
 
 const ABORT_DELAY = 5_000;
 
-export default function handleRequest(
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
@@ -24,6 +40,41 @@ export default function handleRequest(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   loadContext: AppLoadContext
 ) {
+  /* custom logic start */
+  const url = new URL(request.url);
+  const pathname = url.pathname;
+  const localePath = getLocalePathFromPathname(pathname);
+
+  const pathWithoutLang = removeLangPrefix(pathname);
+
+  if (pathWithoutLang === PathEnum.Perp) {
+    url.pathname = `/${localePath}${PathEnum.Perp}/${DEFAULT_SYMBOL}`;
+    return redirect(url.toString());
+  }
+
+  // If the pathname has a locale path, return
+  if (!localePath) {
+    let newPathname = pathname;
+
+    const cookieLocale = await getLocaleFromCookie(request);
+    const localePaths = Object.values(PathEnum);
+
+    if (pathname === "/") {
+      newPathname = `/${cookieLocale}${PathEnum.Perp}/${DEFAULT_SYMBOL}`;
+    } else if (localePaths.includes(pathname as PathEnum)) {
+      newPathname = `/${cookieLocale}${pathname}`;
+    } else if (pathname.startsWith(PathEnum.Perp)) {
+      newPathname = `/${cookieLocale}${PathEnum.Perp}/${DEFAULT_SYMBOL}`;
+    }
+
+    if (newPathname !== pathname) {
+      console.log(`redirect: ${pathname} ==> ${newPathname}`);
+      url.pathname = newPathname;
+      return redirect(url.toString());
+    }
+  }
+  /** custom logic end */
+
   return isbot(request.headers.get("user-agent") || "")
     ? handleBotRequest(
         request,

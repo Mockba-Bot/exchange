@@ -20,7 +20,7 @@ export function useNav() {
 
       if (option.href === "/") {
         const symbol = getSymbol();
-        navigate(`/${lang}/${PathEnum.Perp}/${symbol}`);
+        navigate(`/${lang}${PathEnum.Perp}/${symbol}`);
         return;
       }
 

@@ -72,7 +72,6 @@ export default function MarketsPage() {
         href={{
           trading: tradingUrl,
         }}
-        backgroundSrc="/leaderboard/background.jpg"
         className="oui-py-5"
       />
     </Box>
