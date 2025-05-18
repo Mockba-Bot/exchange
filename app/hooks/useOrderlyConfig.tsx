@@ -33,6 +33,7 @@ export const useOrderlyConfig = () => {
             { name: t("common.trading"), href: PathEnum.Root },
             { name: t("common.portfolio"), href: PathEnum.Portfolio },
             { name: t("common.markets"), href: PathEnum.Markets },
+            { name: t("common.tradingBot"), href: PathEnum.TradingBot },
             {
               name: t("tradingLeaderboard.leaderboard"),
               href: PathEnum.Leaderboard,
@@ -74,10 +75,21 @@ export const useOrderlyConfig = () => {
       orderlyAppProvider: {
         appIcons: {
           main: {
-            component: <img src="/orderly-logo.svg" style={{ height: 40 }} />,
+            component: (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, marginLeft: 4, marginTop: 2 }}>
+                <img src="/mockba-icon.png" alt="" style={{ height: 28 }} />
+                <span style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}>Mockba</span>
+              </div>
+            ),
           },
           secondary: {
-            img: "/orderly-logo-secondary.svg",
+            component: (
+              <img
+                src="/mockba-icon.png"
+                alt=""
+                style={{ height: 32, borderRadius: 8 }} // Example styles
+              />
+            ),
           },
         },
         restrictedInfo: {
@@ -90,7 +102,8 @@ export const useOrderlyConfig = () => {
         tradingViewConfig: {
           scriptSRC: "/tradingview/charting_library/charting_library.js",
           library_path: "/tradingview/charting_library/",
-          customCssUrl: "/tradingview/chart.css",
+          customCssUrl: "/tradingview/chart.css"
+          
         },
         sharePnLConfig: {
           backgroundImages: [
@@ -109,6 +122,7 @@ export const useOrderlyConfig = () => {
           refLink: "https://orderly.network",
           refSlogan: "Orderly referral",
         },
+        
       },
     };
   }, [t]);
