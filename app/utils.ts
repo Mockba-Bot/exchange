@@ -13,3 +13,8 @@ export function formatSymbol(symbol: string, format = "base-type") {
     .replace("base", base)
     .replace("quote", quote);
 }
+
+
+export function formatAssetPrice(price: number): string {
+  return price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}

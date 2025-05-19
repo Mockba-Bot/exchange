@@ -76,7 +76,7 @@ export const useOrderlyConfig = () => {
         appIcons: {
           main: {
             component: (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, marginLeft: 4, marginTop: 2 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, marginLeft: 6, marginTop: 2 }}>
                 <img src="/mockba-icon.png" alt="" style={{ height: 28 }} />
                 <span style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}>Mockba</span>
               </div>

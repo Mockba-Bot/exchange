@@ -8,8 +8,8 @@ import { PathEnum } from "@/constant";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Orderly SDK template" },
-    { name: "description", content: "Orderly SDK template" },
+    { title: "Mockba Exchange" },
+    { name: "description", content: "Mockba descentralized trading platform" },
   ];
 };
 

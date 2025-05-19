@@ -262,6 +262,7 @@
   "trading.riskRate.formula": "Risk rate = Maintenance margin ratio / Margin ratio * 100%",
   "trading.asset&Margin": "Asset & Margin",
   "trading.fundingRate.predFundingRate": "Pred. funding rate",
+  "trading.fullscreen.mode": "Pred. funding rate",
   "chart.now": "Now",
   "positions.positionHistory": "Position history",
   "positions.liquidation": "Liquidation",
