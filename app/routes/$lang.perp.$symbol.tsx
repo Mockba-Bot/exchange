@@ -24,6 +24,8 @@ export default function PerpPage() {
   useEffect(() => {
     updateSymbol(symbol);
   }, [symbol]);
+  
+
 
   const onSymbolChange = useCallback(
     (data: API.Symbol) => {
@@ -47,9 +49,9 @@ export default function PerpPage() {
       <div
         style={{
           position: "absolute",
-          top: "8%", // Responsive vertical positioning (adjust as needed)
-          left: "55%", // Responsive horizontal positioning (align to header zone)
-          transform: "translate(-50%, 0)", // Optional: center based on button width
+          top: "8%",
+          left: "55%",
+          transform: "translate(-50%, 0)",
           zIndex: 50,
           display: "none",
         }}
@@ -72,7 +74,15 @@ export default function PerpPage() {
         </button>
       </div>
 
-      <div ref={chartContainerRef}>
+      <div
+        ref={chartContainerRef}
+        style={{
+          width: '100%',
+          height: 'calc(100vh - 60px)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
         <TradingPage
           symbol={symbol}
           onSymbolChange={onSymbolChange}
