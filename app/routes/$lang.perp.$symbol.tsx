@@ -110,12 +110,6 @@ export default function PerpPage() {
   return (
     <div
       ref={chartContainerRef}
-      style={{
-        width: "100%",
-        height: "calc(100vh - 60px)",
-        position: "relative",
-        overflow: "hidden",
-      }}
     >
       <TradingPage
         symbol={symbol}
