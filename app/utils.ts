@@ -1,4 +1,4 @@
-export function generatePageTitle(title: string, suffix = "Orderly") {
+export function generatePageTitle(title: string, suffix = "Mockba") {
   return `${title} | ${suffix}`;
 }
 
