@@ -2,9 +2,11 @@ import { useState } from "react";
 import { MarketsProvider } from "@orderly.network/markets";
 import CustomMarketTable from "@/components/smartbot/CustomMarketTable";
 import AnalyzeModal from "@/components/smartbot/AnalyzeModal";
+import TelegramLogin from "@/components/smartbot/TelegramLogin"; // ✅ Add import
 
 const SmartBotMarketsPage = () => {
   const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
+  const [maxLeverage, setMaxLeverage] = useState<number>(50); // default
   const [response, setResponse] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,14 +46,21 @@ const SmartBotMarketsPage = () => {
 
   return (
     <MarketsProvider>
+      {/* ✅ Insert Telegram Login Widget */}
+      <div className="mb-4 flex justify-center">
+        <TelegramLogin />
+      </div>
+
+      {/* ✅ Your market table */}
       <CustomMarketTable
-        setSelectedSymbol={(symbol: string) => {
+        setSelectedSymbol={(symbol, leverage) => {
           setSelectedSymbol(symbol);
-          setResponse(null); // reset previous result
+          setMaxLeverage(leverage);
           setShowModal(true);
         }}
       />
 
+      {/* ✅ Analysis modal */}
       {showModal && selectedSymbol && (
         <AnalyzeModal
           symbol={selectedSymbol}
@@ -62,6 +71,7 @@ const SmartBotMarketsPage = () => {
           onSubmit={handleSubmit}
           responseText={response}
           loading={loading}
+          maxLeverage_={maxLeverage}
         />
       )}
     </MarketsProvider>

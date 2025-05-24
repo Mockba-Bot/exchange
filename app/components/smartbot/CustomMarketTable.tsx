@@ -4,7 +4,7 @@ import {
   useRecentListScript,
   useNewListingListScript,
 } from "@orderly.network/markets";
-import { useMarkets } from "@orderly.network/hooks";
+import { useMarkets, useWalletConnector } from "@orderly.network/hooks";
 import { Button, Card, usePagination } from "@orderly.network/ui";
 import { useTranslation } from "@orderly.network/i18n";
 import {
@@ -42,7 +42,7 @@ const formatVolume = (value: number) =>
 
 
 interface CustomMarketTableProps {
-  setSelectedSymbol: (symbol: string) => void;
+  setSelectedSymbol: (symbol: string, maxLeverage: number) => void;
 }
 
 const CustomMarketTable: FC<CustomMarketTableProps> = ({ setSelectedSymbol }) => {
@@ -51,10 +51,16 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({ setSelectedSymbol }) =>
   const [search, setSearch] = useState("");
   const rowRefs = useRef<(HTMLTableRowElement | null)[]>([]);
 
+  // --- Add this state for connection ---
+  const [connected, setConnected] = useState(
+    !!localStorage.getItem("orderly_mainnet_address")
+  );
+
   const [markets] = useMarkets();
   const favorites = useFavoritesListScript();
   const recent = useRecentListScript();
   const newListing = useNewListingListScript();
+  const { connect } = useWalletConnector();
 
   const toggleFavorite = () => { };
 
@@ -84,22 +90,48 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({ setSelectedSymbol }) =>
     return data.slice(start, start + pagination.pageSize);
   }, [data, pagination.page, pagination.pageSize]);
 
+  // --- Add this effect to auto-detect changes in localStorage ---
+  useEffect(() => {
+    const checkConnection = () => {
+      setConnected(!!localStorage.getItem("orderly_mainnet_address"));
+    };
+
+    // Listen for storage changes (from other tabs/windows)
+    window.addEventListener("storage", checkConnection);
+
+    // Optionally, poll every second in this tab as well
+    const interval = setInterval(checkConnection, 1000);
+
+    return () => {
+      window.removeEventListener("storage", checkConnection);
+      clearInterval(interval);
+    };
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const focused = document.activeElement;
       const rowIndex = rowRefs.current.findIndex((r) => r === focused);
+
       if (e.key === "ArrowDown" && rowIndex < pagedData.length - 1) {
         rowRefs.current[rowIndex + 1]?.focus();
       } else if (e.key === "ArrowUp" && rowIndex > 0) {
         rowRefs.current[rowIndex - 1]?.focus();
       } else if (e.key === "Enter" && focused instanceof HTMLTableRowElement) {
         const symbol = focused.dataset.symbol;
-        if (symbol) setSelectedSymbol(symbol);
+        const market = pagedData.find((m) => m.symbol === symbol);
+        if (symbol && market) {
+          const leverage = market.leverage || 50; // default fallback
+          setSelectedSymbol(symbol, leverage);
+        }
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [pagedData, setSelectedSymbol]);
+
+
 
   return (
     <div className="oui-p-6 w-full">
@@ -237,16 +269,27 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({ setSelectedSymbol }) =>
                   {market.leverage ? `${market.leverage}x` : "—"}
                 </td>
                 <td className="oui-py-3 oui-px-4">
-                  <div className="oui-flex oui-gap-2">
-                    <Button
-                      size="sm"
-                      icon={<WandSparkles />}
-                      onClick={() => setSelectedSymbol(market.symbol)}
+                  {connected ? (
+                    <div className="oui-flex oui-gap-2">
+                      <Button
+                        size="sm"
+                        icon={<WandSparkles />}
+                        onClick={() => setSelectedSymbol(market.symbol, market.leverage || 50)}
+                      >
+                        Analyze
+                      </Button>
+                      <Button size="sm" icon={<ChartSpline />}>Elliot Waves</Button>
+                    </div>
+                  ) : (
+                    <button
+                      className="oui-button oui-inline-flex oui-items-center oui-justify-center oui-whitespace-nowrap oui-transition-colors disabled:oui-cursor-not-allowed disabled:oui-bg-base-3 disabled:oui-text-base-contrast-36 disabled:hover:oui-bg-base-3 oui-gradient-brand oui-text-[rgba(0,0,0,0.88)] oui-px-3 oui-rounded-md oui-h-8 oui-text-sm hover:oui-bg-primary-darken/80 active:oui-bg-primary-darken/70 wallet-connect-button"
+                      data-testid="oui-testid-nav-bar-connectWallet-btn"
+                      style={{ "--oui-gradient-angle": "45deg" } as React.CSSProperties}
+                      onClick={connect} // from useWalletConnector()
                     >
-                      Analyze
-                    </Button>
-                    <Button size="sm" icon={<ChartSpline />} >Elliot Waves</Button>
-                  </div>
+                      Connect wallet
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

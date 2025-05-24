@@ -20,6 +20,7 @@ type AnalyzeModalProps = {
   }) => void;
   responseText?: string | null;
   loading?: boolean;
+  maxLeverage_: number;
 };
 
 const AnalyzeModal: FC<AnalyzeModalProps> = ({
@@ -28,6 +29,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
   onSubmit,
   responseText,
   loading,
+  maxLeverage_ = 50, // Default fallback
 }) => {
   const [interval, setInterval] = useState("");
   const [leverage, setLeverage] = useState("");
@@ -40,9 +42,15 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
   });
 
   const handleSubmit = () => {
+    const numericLeverage = Number(leverage);
+
     const newErrors = {
       interval: interval === "",
-      leverage: leverage === "",
+      leverage:
+        leverage === "" ||
+        isNaN(numericLeverage) ||
+        numericLeverage < 1 ||
+        numericLeverage > maxLeverage_,
       indicator: indicator === "",
     };
 
@@ -52,7 +60,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
 
     onSubmit({
       interval,
-      leverage: Number(leverage),
+      leverage: numericLeverage,
       indicator,
     });
   };
@@ -135,20 +143,35 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
                 type="number"
                 inputMode="numeric"
                 min={1}
-                max={50}
+                max={maxLeverage_}
                 step={1}
                 value={leverage}
                 onChange={(e) => {
                   setLeverage(e.target.value);
-                  setErrors((err) => ({ ...err, leverage: false }));
+                }}
+                onKeyUp={() => {
+                  const numericValue = Number(leverage);
+                  const isValid =
+                    leverage !== "" &&
+                    !isNaN(numericValue) &&
+                    numericValue >= 1 &&
+                    numericValue <= maxLeverage_;
+
+                  setErrors((err) => ({
+                    ...err,
+                    leverage: !isValid,
+                  }));
                 }}
                 className={`oui-input-input oui-w-full oui-h-8 oui-px-2 oui-bg-base-6 oui-rounded-md oui-text-white oui-border ${errors.leverage ? "oui-border-danger" : "oui-border-base-4"
                   }`}
-                placeholder="e.g. 20"
+                placeholder={`e.g. ${maxLeverage_}`}
               />
+
               {errors.leverage && (
                 <p className="oui-text-xs oui-text-danger mt-1">
-                  This field is required.
+                  {leverage === "" || isNaN(Number(leverage))
+                    ? "This field is required."
+                    : `Leverage must be between 1 and ${maxLeverage_}.`}
                 </p>
               )}
             </div>
