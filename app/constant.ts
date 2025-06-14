@@ -27,7 +27,7 @@ export const PageTitleMap = {
   [PathEnum.Setting]: "Settings",
   [PathEnum.Markets]: "Markets",
   [PathEnum.Leaderboard]: "Leaderboard",
-  [PathEnum.SmartBot]: "Smart Bot",
+  [PathEnum.SmartBot]: "Smart Analyst",
   [PathEnum.RewardsTrading]: "Trading Rewards",
   [PathEnum.RewardsAffiliate]: "Affiliate program",
 };

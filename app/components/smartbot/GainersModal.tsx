@@ -24,7 +24,7 @@ type AnalyzeModalProps = {
   maxLeverage_: number;
 };
 
-const AnalyzeModal: FC<AnalyzeModalProps> = ({
+const GainerModal: FC<AnalyzeModalProps> = ({
   symbol,
   onClose,
   onSubmit,
@@ -238,4 +238,4 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
   );
 };
 
-export default AnalyzeModal;
+export default GainerModal;

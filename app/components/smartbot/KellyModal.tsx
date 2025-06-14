@@ -11,20 +11,21 @@ import {
 } from "@orderly.network/ui";
 import { Bot } from "lucide-react";
 
-type AnalyzeModalProps = {
+type KellyModalProps = {
   symbol: string | null;
   onClose: () => void;
   onSubmit: (config: {
     interval: string;
     leverage: number;
     indicator: string;
+    freeCollateral: number;
   }) => void;
   responseText?: string | null;
   loading?: boolean;
   maxLeverage_: number;
 };
 
-const AnalyzeModal: FC<AnalyzeModalProps> = ({
+const KellyModal: FC<KellyModalProps> = ({
   symbol,
   onClose,
   onSubmit,
@@ -35,11 +36,13 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
   const [interval, setInterval] = useState("");
   const [leverage, setLeverage] = useState("");
   const [indicator, setIndicator] = useState("");
+  const [freeCollateral, setFreeCollateral] = useState("");
 
   const [errors, setErrors] = useState({
     interval: false,
     leverage: false,
     indicator: false,
+    freeCollateral: false,
   });
 
   const handleSubmit = () => {
@@ -51,6 +54,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
         isNaN(numericLeverage) ||
         numericLeverage < 1 ||
         numericLeverage > maxLeverage_,
+      freeCollateral: Number(freeCollateral) < 0 || isNaN(Number(freeCollateral)),
       indicator: indicator === "",
     };
 
@@ -62,6 +66,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
       interval,
       leverage: numericLeverage,
       indicator,
+      freeCollateral: Number(freeCollateral),
     });
   };
 
@@ -86,7 +91,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
               className="oui-h-5 oui-w-5"
               style={{ marginRight: 8 }}
             />
-            Analyze {displaySymbol}
+            Kelly+Montecarlo  {displaySymbol}
           </DialogTitle>
         </DialogHeader>
 
@@ -152,7 +157,14 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
                 step={1}
                 value={leverage}
                 onChange={(e) => {
-                  setLeverage(e.target.value);
+                  let val = e.target.value;
+                  // Remove non-digit characters
+                  val = val.replace(/[^0-9]/g, "");
+                  // Prevent multiple leading zeros, but allow a single "0"
+                  if (val.length > 1) {
+                    val = val.replace(/^0+/, "");
+                  }
+                  setLeverage(val);
                 }}
                 onKeyUp={() => {
                   const numericValue = Number(leverage);
@@ -177,6 +189,43 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
                   {leverage === "" || isNaN(Number(leverage))
                     ? "This field is required."
                     : `Leverage must be between 1 and ${maxLeverage_}.`}
+                </p>
+              )}
+            </div>
+
+            {/* Free Collateral */}
+            <div>
+              <label htmlFor="free-collateral-input" className="oui-text-xs oui-text-base-contrast mb-1 block">
+                Input free collateral <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="free-collateral-input"
+                type="number"
+                inputMode="numeric"
+                min={0}
+                step={1}
+                value={freeCollateral}
+                onChange={(e) => {
+                  setFreeCollateral(Number(e.target.value));
+                }}
+                onKeyUp={() => {
+                  const isValid = freeCollateral >= 0;
+
+                  setErrors((err) => ({
+                    ...err,
+                    freeCollateral: !isValid,
+                  }));
+                }}
+                className={`oui-input-input oui-w-full oui-h-8 oui-px-2 oui-bg-base-6 oui-rounded-md oui-text-white oui-border ${
+                  errors.freeCollateral ? "oui-border-danger" : "oui-border-base-4"
+                }`}
+                placeholder="e.g. 100"
+              />
+              {errors.freeCollateral && (
+                <p className="oui-text-xs oui-text-danger mt-1">
+                  {isNaN(freeCollateral) || freeCollateral === 0
+                    ? "This field is required."
+                    : `Free collateral must be a positive number.`}
                 </p>
               )}
             </div>
@@ -238,4 +287,4 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
   );
 };
 
-export default AnalyzeModal;
+export default KellyModal;

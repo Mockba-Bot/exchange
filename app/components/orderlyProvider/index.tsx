@@ -28,8 +28,8 @@ const OrderlyProvider: FC<{ children: ReactNode }> = (props) => {
     >
       <WalletConnectorProvider>
         <OrderlyAppProvider
-          brokerId="woofi_pro"
-          brokerName="WOOFi Pro"
+          brokerId="apolo_pay"
+          brokerName="Apolo pay"
           networkId="mainnet"
           appIcons={config.orderlyAppProvider.appIcons}
         >

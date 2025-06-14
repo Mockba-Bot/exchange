@@ -11,20 +11,18 @@ import {
 } from "@orderly.network/ui";
 import { Bot } from "lucide-react";
 
-type AnalyzeModalProps = {
+type ElliotModalProps = {
   symbol: string | null;
   onClose: () => void;
   onSubmit: (config: {
     interval: string;
-    leverage: number;
-    indicator: string;
   }) => void;
   responseText?: string | null;
   loading?: boolean;
   maxLeverage_: number;
 };
 
-const AnalyzeModal: FC<AnalyzeModalProps> = ({
+const ElliotModal: FC<ElliotModalProps> = ({
   symbol,
   onClose,
   onSubmit,
@@ -33,25 +31,14 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
   maxLeverage_ = 100,
 }) => {
   const [interval, setInterval] = useState("");
-  const [leverage, setLeverage] = useState("");
-  const [indicator, setIndicator] = useState("");
 
   const [errors, setErrors] = useState({
     interval: false,
-    leverage: false,
-    indicator: false,
   });
 
   const handleSubmit = () => {
-    const numericLeverage = Number(leverage);
     const newErrors = {
       interval: interval === "",
-      leverage:
-        leverage === "" ||
-        isNaN(numericLeverage) ||
-        numericLeverage < 1 ||
-        numericLeverage > maxLeverage_,
-      indicator: indicator === "",
     };
 
     setErrors(newErrors);
@@ -60,8 +47,6 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
 
     onSubmit({
       interval,
-      leverage: numericLeverage,
-      indicator,
     });
   };
 
@@ -86,7 +71,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
               className="oui-h-5 oui-w-5"
               style={{ marginRight: 8 }}
             />
-            Analyze {displaySymbol}
+            Analyze Elliot {displaySymbol}
           </DialogTitle>
         </DialogHeader>
 
@@ -138,80 +123,6 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
               )}
             </div>
 
-            {/* Leverage */}
-            <div>
-              <label htmlFor="leverage-input" className="oui-text-xs oui-text-base-contrast mb-1 block">
-                Input leverage <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="leverage-input"
-                type="number"
-                inputMode="numeric"
-                min={1}
-                max={maxLeverage_}
-                step={1}
-                value={leverage}
-                onChange={(e) => {
-                  setLeverage(e.target.value);
-                }}
-                onKeyUp={() => {
-                  const numericValue = Number(leverage);
-                  const isValid =
-                    leverage !== "" &&
-                    !isNaN(numericValue) &&
-                    numericValue >= 1 &&
-                    numericValue <= maxLeverage_;
-
-                  setErrors((err) => ({
-                    ...err,
-                    leverage: !isValid,
-                  }));
-                }}
-                className={`oui-input-input oui-w-full oui-h-8 oui-px-2 oui-bg-base-6 oui-rounded-md oui-text-white oui-border ${
-                  errors.leverage ? "oui-border-danger" : "oui-border-base-4"
-                }`}
-                placeholder={`e.g. ${maxLeverage_}`}
-              />
-              {errors.leverage && (
-                <p className="oui-text-xs oui-text-danger mt-1">
-                  {leverage === "" || isNaN(Number(leverage))
-                    ? "This field is required."
-                    : `Leverage must be between 1 and ${maxLeverage_}.`}
-                </p>
-              )}
-            </div>
-
-            {/* Indicator */}
-            <div>
-              <label className="oui-text-xs oui-text-base-contrast mb-1 block">
-                Select indicator <span className="text-red-500">*</span>
-              </label>
-              <Select
-                value={indicator}
-                onValueChange={(val) => {
-                  setIndicator(val);
-                  setErrors((err) => ({ ...err, indicator: false }));
-                }}
-                size="lg"
-                variant="outlined"
-                error={errors.indicator}
-                placeholder="Choose strategy"
-                classNames={{ trigger: "w-full" }}
-              >
-                <SelectItem value="Trend-Following">Trend-Following</SelectItem>
-                <SelectItem value="Volatility Breakout">Volatility Breakout</SelectItem>
-                <SelectItem value="Momentum Reversal">Momentum Reversal</SelectItem>
-                <SelectItem value="Momentum + Volatility">Momentum + Volatility</SelectItem>
-                <SelectItem value="Advanced">Hybrid</SelectItem>
-                <SelectItem value="Advanced">Advanced</SelectItem>
-              </Select>
-              {errors.indicator && (
-                <p className="oui-text-xs oui-text-danger mt-1">
-                  This field is required.
-                </p>
-              )}
-            </div>
-
             {/* Submit Button */}
             <div className="oui-flex oui-justify-end oui-gap-2 oui-pt-2 oui-pb-4">
               <ThrottledButton
@@ -238,4 +149,4 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
   );
 };
 
-export default AnalyzeModal;
+export default ElliotModal;
