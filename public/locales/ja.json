@@ -636,5 +636,7 @@
   "apolo.smartTrade.select": "種類を選択",
   "apolo.smartTrade.gainers.select": "上昇銘柄",
   "apolo.smartTrade.losers.select": "下落銘柄",
-  "apolo.smartTrade.smartanalysis": "スマート分析"
+  "apolo.smartTrade.smartanalysis": "スマート分析",
+  "apolo.smartTrade.telegram": "Telegramアカウントを接続",
+  "apolo.smartTrade.telegram.description": "続行するには、Telegramアカウントを接続してください。"
 }

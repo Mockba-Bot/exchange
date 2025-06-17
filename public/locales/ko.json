@@ -636,5 +636,7 @@
   "apolo.smartTrade.select": "종류 선택",
   "apolo.smartTrade.gainers.select": "상승 종목",
   "apolo.smartTrade.losers.select": "하락 종목",
-  "apolo.smartTrade.smartanalysis": "스마트 분석"
+  "apolo.smartTrade.smartanalysis": "스마트 분석",
+  "apolo.smartTrade.telegram": "텔레그램 계정 연결",
+  "apolo.smartTrade.telegram.description": "계속하려면 텔레그램 계정을 연결하세요."
 }

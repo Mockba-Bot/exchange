@@ -636,5 +636,7 @@
   "apolo.smartTrade.select": "Sélectionner un type",
   "apolo.smartTrade.gainers.select": "Gagnants",
   "apolo.smartTrade.losers.select": "Perdants",
-  "apolo.smartTrade.smartanalysis": "Analyse Intelligente"
+  "apolo.smartTrade.smartanalysis": "Analyse Intelligente",
+  "apolo.smartTrade.telegram": "Connecter le compte Telegram",
+  "apolo.smartTrade.telegram.description": "Veuillez connecter votre compte Telegram pour continuer."
 }

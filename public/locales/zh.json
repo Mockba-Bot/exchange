@@ -636,5 +636,7 @@
   "apolo.smartTrade.select": "选择类型",
   "apolo.smartTrade.gainers.select": "涨幅榜",
   "apolo.smartTrade.losers.select": "跌幅榜",
-  "apolo.smartTrade.smartanalysis": "智能分析"
+  "apolo.smartTrade.smartanalysis": "智能分析",
+  "apolo.smartTrade.telegram": "连接Telegram账户",
+  "apolo.smartTrade.telegram.description": "请连接您的Telegram账户以继续."
 }
