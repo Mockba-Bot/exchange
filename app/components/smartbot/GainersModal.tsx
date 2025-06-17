@@ -6,8 +6,8 @@ import {
   DialogTitle,
   Select,
   SelectItem,
+  ThrottledButton,
   Spinner,
-  ThrottledButton
 } from "@orderly.network/ui";
 import { Bot } from "lucide-react";
 
@@ -16,42 +16,31 @@ type AnalyzeModalProps = {
   onClose: () => void;
   onSubmit: (config: {
     interval: string;
-    leverage: number;
-    indicator: string;
+    type: "gainers" | "losers";
   }) => void;
   responseText?: string | null;
   loading?: boolean;
-  maxLeverage_: number;
 };
 
-const GainerModal: FC<AnalyzeModalProps> = ({
+const GainersModal: FC<AnalyzeModalProps> = ({
   symbol,
   onClose,
   onSubmit,
   responseText,
   loading,
-  maxLeverage_ = 100,
 }) => {
   const [interval, setInterval] = useState("");
-  const [leverage, setLeverage] = useState("");
-  const [indicator, setIndicator] = useState("");
+  const [type, setType] = useState("");
 
   const [errors, setErrors] = useState({
     interval: false,
-    leverage: false,
-    indicator: false,
+    type: false,
   });
 
   const handleSubmit = () => {
-    const numericLeverage = Number(leverage);
     const newErrors = {
       interval: interval === "",
-      leverage:
-        leverage === "" ||
-        isNaN(numericLeverage) ||
-        numericLeverage < 1 ||
-        numericLeverage > maxLeverage_,
-      indicator: indicator === "",
+      type: type === "",
     };
 
     setErrors(newErrors);
@@ -60,33 +49,16 @@ const GainerModal: FC<AnalyzeModalProps> = ({
 
     onSubmit({
       interval,
-      leverage: numericLeverage,
-      indicator,
+      type: type as "gainers" | "losers",
     });
   };
 
-  const displaySymbol =
-    symbol?.startsWith("PERP_") && symbol.split("_").length === 3
-      ? `${symbol.split("_")[1]}-PERP`
-      : symbol ?? "";
-
-  const symbolIcon =
-    symbol?.startsWith("PERP_") && symbol.split("_").length === 3
-      ? symbol.split("_")[1]
-      : symbol?.split("-")[0] ?? "";
-
   return (
-    <Dialog open={!!symbol} onOpenChange={onClose}>
+    <Dialog open={true} onOpenChange={onClose}>
       <DialogContent className="oui-space-y-6 pb-2">
         <DialogHeader>
           <DialogTitle className="flex items-center">
-            <img
-              src={`https://oss.orderly.network/static/symbol_logo/${symbolIcon}.png`}
-              alt={displaySymbol}
-              className="oui-h-5 oui-w-5"
-              style={{ marginRight: 8 }}
-            />
-            Analyze {displaySymbol}
+            Market Signal Analysis
           </DialogTitle>
         </DialogHeader>
 
@@ -96,9 +68,9 @@ const GainerModal: FC<AnalyzeModalProps> = ({
               {responseText}
             </div>
             <div className="oui-flex oui-justify-end oui-gap-2 oui-pt-2 oui-pb-4">
-              <Button size="md" icon={<Bot />} onClick={onClose}>
+              <ThrottledButton size="md" icon={<Bot />} onClick={onClose}>
                 Close
-              </Button>
+              </ThrottledButton>
             </div>
           </div>
         ) : (
@@ -138,74 +110,27 @@ const GainerModal: FC<AnalyzeModalProps> = ({
               )}
             </div>
 
-            {/* Leverage */}
-            <div>
-              <label htmlFor="leverage-input" className="oui-text-xs oui-text-base-contrast mb-1 block">
-                Input leverage <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="leverage-input"
-                type="number"
-                inputMode="numeric"
-                min={1}
-                max={maxLeverage_}
-                step={1}
-                value={leverage}
-                onChange={(e) => {
-                  setLeverage(e.target.value);
-                }}
-                onKeyUp={() => {
-                  const numericValue = Number(leverage);
-                  const isValid =
-                    leverage !== "" &&
-                    !isNaN(numericValue) &&
-                    numericValue >= 1 &&
-                    numericValue <= maxLeverage_;
-
-                  setErrors((err) => ({
-                    ...err,
-                    leverage: !isValid,
-                  }));
-                }}
-                className={`oui-input-input oui-w-full oui-h-8 oui-px-2 oui-bg-base-6 oui-rounded-md oui-text-white oui-border ${
-                  errors.leverage ? "oui-border-danger" : "oui-border-base-4"
-                }`}
-                placeholder={`e.g. ${maxLeverage_}`}
-              />
-              {errors.leverage && (
-                <p className="oui-text-xs oui-text-danger mt-1">
-                  {leverage === "" || isNaN(Number(leverage))
-                    ? "This field is required."
-                    : `Leverage must be between 1 and ${maxLeverage_}.`}
-                </p>
-              )}
-            </div>
-
-            {/* Indicator */}
+            {/* Type */}
             <div>
               <label className="oui-text-xs oui-text-base-contrast mb-1 block">
-                Select indicator <span className="text-red-500">*</span>
+                Select type <span className="text-red-500">*</span>
               </label>
               <Select
-                value={indicator}
+                value={type}
                 onValueChange={(val) => {
-                  setIndicator(val);
-                  setErrors((err) => ({ ...err, indicator: false }));
+                  setType(val);
+                  setErrors((err) => ({ ...err, type: false }));
                 }}
                 size="lg"
                 variant="outlined"
-                error={errors.indicator}
-                placeholder="Choose strategy"
+                error={errors.type}
+                placeholder="Gainers or Losers"
                 classNames={{ trigger: "w-full" }}
               >
-                <SelectItem value="Trend-Following">Trend-Following</SelectItem>
-                <SelectItem value="Volatility Breakout">Volatility Breakout</SelectItem>
-                <SelectItem value="Momentum Reversal">Momentum Reversal</SelectItem>
-                <SelectItem value="Momentum + Volatility">Momentum + Volatility</SelectItem>
-                <SelectItem value="Advanced">Hybrid</SelectItem>
-                <SelectItem value="Advanced">Advanced</SelectItem>
+                <SelectItem value="gainers">Gainers</SelectItem>
+                <SelectItem value="losers">Losers</SelectItem>
               </Select>
-              {errors.indicator && (
+              {errors.type && (
                 <p className="oui-text-xs oui-text-danger mt-1">
                   This field is required.
                 </p>
@@ -238,4 +163,4 @@ const GainerModal: FC<AnalyzeModalProps> = ({
   );
 };
 
-export default GainerModal;
+export default GainersModal;

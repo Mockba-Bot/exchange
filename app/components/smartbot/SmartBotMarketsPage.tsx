@@ -15,6 +15,7 @@ const SmartBotMarketsPage = () => {
   const [selectedSymbolElliot, setSelectedSymbolElliot] = useState<string | null>(null);
   const [showKellyModal, setShowKellyModal] = useState(false);
   const [selectedSymbolKelly, setSelectedSymbolKelly] = useState<string | null>(null);
+  const [showGainersModal, setShowGainersModal] = useState(false);
   // State to manage loading state
   const [loading, setLoading] = useState(false);
   const handleSubmit = async ({
@@ -30,7 +31,7 @@ const SmartBotMarketsPage = () => {
       setLoading(true);
       setShowModal(false);
 
-      const telegramUser =  localStorage.getItem("token");
+      const telegramUser = localStorage.getItem("token");
       const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
       const targetLang = localStorage.getItem("orderly_i18nLng") || "en";
 
@@ -58,9 +59,9 @@ const SmartBotMarketsPage = () => {
       toast.loading(
         <ToastTile
           title="Smart analysis in progress"
-          subtitle="You'll receive the result on Telegram. This may take up to 3 minutes."
+          subtitle="You'll receive the result on Telegram. This may take up to 5 minutes."
         />,
-        { duration: 5000 }
+        { duration: 10000 }
       );
 
     } catch (error) {
@@ -85,7 +86,7 @@ const SmartBotMarketsPage = () => {
       setLoading(true);
       setShowElliotModal(false);
 
-      const telegramUser =  localStorage.getItem("token");
+      const telegramUser = localStorage.getItem("token");
       const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
       const targetLang = localStorage.getItem("orderly_i18nLng") || "en";
 
@@ -111,9 +112,9 @@ const SmartBotMarketsPage = () => {
       toast.loading(
         <ToastTile
           title="Smart analysis in progress"
-          subtitle="You'll receive the result on Telegram. This may take up to 3 minutes."
+          subtitle="You'll receive the result on Telegram. This may take up to 5 minutes."
         />,
-        { duration: 5000 }
+        { duration: 10000 }
       );
 
     } catch (error) {
@@ -144,7 +145,7 @@ const SmartBotMarketsPage = () => {
       setLoading(true);
       setShowKellyModal(false);
 
-      const telegramUser =  localStorage.getItem("token");
+      const telegramUser = localStorage.getItem("token");
       const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
       const targetLang = localStorage.getItem("orderly_i18nLng") || "en";
 
@@ -173,9 +174,9 @@ const SmartBotMarketsPage = () => {
       toast.loading(
         <ToastTile
           title="Smart analysis in progress"
-          subtitle="You'll receive the result on Telegram. This may take up to 3 minutes."
+          subtitle="You'll receive the result on Telegram. This may take up to 5 minutes."
         />,
-        { duration: 5000 }
+        { duration: 10000 }
       );
 
     } catch (error) {
@@ -190,6 +191,58 @@ const SmartBotMarketsPage = () => {
       setLoading(false);
     }
   };
+
+  const handleGainersSubmit = async ({
+    interval,
+    type,
+  }: {
+    interval: string;
+    type: "gainers" | "losers";
+  }) => {
+    try {
+      setLoading(true);
+      setShowGainersModal(false);
+
+      const telegramUser = localStorage.getItem("token");
+      const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
+      const targetLang = localStorage.getItem("orderly_i18nLng") || "en";
+
+      const payload = {
+        token: String(telegramUser),
+        target_lang: targetLang,
+        interval: interval,
+        change_threshold: 0.005, // = 0.5%
+        type: type,
+        top_n: 10,
+      };
+
+      const res = await fetch(`${apiUrl}/trading/gainers_analysis`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) return;
+
+      toast.loading(
+        <ToastTile
+          title="Smart market scan in progress"
+          subtitle="Top 10 assets will be sent to your Telegram in a moment."
+        />,
+        { duration: 10000 }
+      );
+    } catch (error) {
+      toast.error(
+        <ToastTile title="Error" subtitle="Too many requests. Please wait." />,
+        { duration: 5000 }
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
 
 
@@ -213,6 +266,8 @@ const SmartBotMarketsPage = () => {
           setMaxLeverage(leverage);
           setShowKellyModal(true);
         }}
+
+        setShowGainersModal={(show) => setShowGainersModal(show)}
       />
 
       {showModal && selectedSymbol && (
@@ -231,9 +286,9 @@ const SmartBotMarketsPage = () => {
       )}
 
       {/* Show Elliot Modal if needed */}
-      {showElliotModal && selectedSymbol && (
+      {showElliotModal && selectedSymbolElliot && (
         <ElliotModal
-          symbol={selectedSymbol}
+          symbol={selectedSymbolElliot}
           onClose={() => setShowElliotModal(false)}
           onSubmit={handleElliotSubmit}
           responseText={null}
@@ -248,6 +303,17 @@ const SmartBotMarketsPage = () => {
           symbol={selectedSymbolKelly}
           onClose={() => setShowKellyModal(false)}
           onSubmit={handleKellySubmit}
+          responseText={null}
+          loading={loading}
+          maxLeverage_={maxLeverage}
+        />
+      )}
+
+      {/* Show Gainers Modal if needed */}
+      {showGainersModal && (
+        <GainersModal
+          onClose={() => setShowGainersModal(false)}
+          onSubmit={handleGainersSubmit}
           responseText={null}
           loading={loading}
           maxLeverage_={maxLeverage}

@@ -19,12 +19,14 @@ import {
   PocketKnife
 } from "lucide-react";
 
-const TABS = [
-  { value: "favorites", label: "Favorites", icon: Star },
-  { value: "all", label: "All markets", icon: BarChart2 },
-  { value: "new", label: "New listings", icon: Lightbulb },
-] as const;
 
+
+interface CustomMarketTableProps {
+  setSelectedSymbol: (symbol: string, leverage: number) => void;
+  setSelectedSymbolElliot: (symbol: string, leverage: number) => void;
+  setSelectedSymbolKelly: (symbol: string, leverage: number) => void;
+  setShowGainersModal: (show: boolean) => void;
+}
 
 type TabType = typeof TABS[number]["value"];
 const PAGE_SIZE = 10;
@@ -49,11 +51,21 @@ interface CustomMarketTableProps {
   setSelectedSymbol: (symbol: string, maxLeverage: number) => void;
   setSelectedSymbolElliot: (symbol: string, maxLeverage: number) => void;
   setSelectedSymbolKelly: (symbol: string, maxLeverage: number) => void;
-  setShowGainersModal?: (show: boolean) => void; // Optional prop for Gainers modal
+  setShowGainersModal: (show: boolean) => void; // Optional prop for Gainers modal
 }
 
-const CustomMarketTable: FC<CustomMarketTableProps> = ({ setSelectedSymbol, setSelectedSymbolElliot, setSelectedSymbolKelly, setShowGainersModal }) => {
+const CustomMarketTable: FC<CustomMarketTableProps> = ({
+  setSelectedSymbol,
+  setSelectedSymbolElliot,
+  setSelectedSymbolKelly,
+  setShowGainersModal
+}) => {
   const { t } = useTranslation();
+  const TABS = [
+    { value: "favorites", label: t("markets.favorites"), icon: Star },
+    { value: "all", label: t("markets.allMarkets"), icon: BarChart2 },
+    { value: "new", label: t("markets.newListings"), icon: Lightbulb },
+  ] as const;
   const [tab, setTab] = useState<TabType>("all");
   const [search, setSearch] = useState("");
   const rowRefs = useRef<(HTMLTableRowElement | null)[]>([]);
@@ -185,7 +197,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({ setSelectedSymbol, setS
                 })}
                 <button
                   type="button"
-                  onClick={() => setShowGainersModal && setShowGainersModal(true)}
+                  onClick={() => setShowGainersModal(true)}
                   className={`oui-tab-trigger oui-inline-flex oui-items-center oui-justify-center oui-whitespace-nowrap oui-box-content oui-font-medium
                   hover:oui-text-base-contrast-54 oui-ring-offset-background oui-transition-all oui-space-x-1
                   focus-visible:oui-outline-none focus-visible:oui-ring-2 focus-visible:oui-ring-ring focus-visible:oui-ring-offset-2
@@ -207,7 +219,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({ setSelectedSymbol, setS
                 </div>
                 <input
                   type="text"
-                  placeholder={t("common.search") || "Search market"}
+                  placeholder={t("markets.search.placeholder") || "Search market"}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="oui-w-full oui-bg-transparent oui-flex-1 focus-visible:oui-outline-none oui-flex placeholder:oui-text-base-contrast-20 oui-tabular-nums oui-text-white autofill:oui-bg-transparent oui-input-input disabled:oui-cursor-not-allowed oui-peer oui-h-7 oui-text-2xs placeholder:oui-text-2xs"
@@ -250,10 +262,10 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({ setSelectedSymbol, setS
                   <th className="oui-py-3 oui-px-4">
                     <Star className="oui-w-4 oui-h-4 oui-text-base-contrast-54" />
                   </th>
-                  <th className="oui-py-3 oui-px-4">{t("common.market") || "Market"}</th>
-                  <th className="oui-py-3 oui-px-4">{t("common.market") || "Price"}</th>
-                  <th className="oui-py-3 oui-px-4">{t("common.market") || "24h Volume"}</th>
-                  <th className="oui-py-3 oui-px-4">{t("common.market") || "Leverage"}</th>
+                  <th className="oui-py-3 oui-px-4">{t("common.marketPrice") || "Market"}</th>
+                  <th className="oui-py-3 oui-px-4">{t("common.price") || "Price"}</th>
+                  <th className="oui-py-3 oui-px-4">{t("markets.column.24hVolume") || "24h Volume"}</th>
+                  <th className="oui-py-3 oui-px-4">{t("common.leverage") || "Leverage"}</th>
                   <th className="oui-py-3 oui-px-4">Actions</th>
                 </tr>
               </thead>
@@ -366,7 +378,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({ setSelectedSymbol, setS
           {pagination && pagedData.length > 0 && isConnected && (
             <div className="oui-flex oui-items-center oui-justify-between oui-p-4 oui-text-xs oui-text-base-contrast-54">
               <div className="oui-flex oui-items-center oui-space-x-2">
-                <span>{t("common.rowsPerPage") || "Rows per page"}</span>
+                <span>{t("ui.pagination.rowsPerPage") || "Rows per page"}</span>
                 <select
                   className="oui-bg-base-6 oui-border oui-border-base-4 oui-rounded-md oui-px-2 oui-py-1 oui-text-white"
                   value={pagination.pageSize}
