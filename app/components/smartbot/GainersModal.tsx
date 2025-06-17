@@ -10,6 +10,21 @@ import {
   Spinner,
 } from "@orderly.network/ui";
 import { Bot } from "lucide-react";
+import { useTranslation as useOrderlyTranslation } from "@orderly.network/i18n";
+import enTranslationsJson from "../../../public/locales/en.json";
+const enTranslations = enTranslationsJson as Record<string, string>;
+
+const useTranslation = () => {
+  const { t } = useOrderlyTranslation();
+  const currentLang = localStorage.getItem('orderly_i18nLng');
+  
+  return (key: string) => {
+    const orderlyTranslation = t(key);
+    if (orderlyTranslation !== key) return orderlyTranslation;
+    if (currentLang === 'en' && enTranslations[key]) return enTranslations[key];
+    return key;
+  };
+};
 
 type AnalyzeModalProps = {
   symbol: string | null;
@@ -31,6 +46,7 @@ const GainersModal: FC<AnalyzeModalProps> = ({
 }) => {
   const [interval, setInterval] = useState("");
   const [type, setType] = useState("");
+  const t = useTranslation();
 
   const [errors, setErrors] = useState({
     interval: false,
@@ -58,7 +74,7 @@ const GainersModal: FC<AnalyzeModalProps> = ({
       <DialogContent className="oui-space-y-6 pb-2">
         <DialogHeader>
           <DialogTitle className="flex items-center">
-            Market Signal Analysis
+            {t("apolo.smarTrade.marketAnalysis.tittle")}
           </DialogTitle>
         </DialogHeader>
 
@@ -69,7 +85,7 @@ const GainersModal: FC<AnalyzeModalProps> = ({
             </div>
             <div className="oui-flex oui-justify-end oui-gap-2 oui-pt-2 oui-pb-4">
               <ThrottledButton size="md" icon={<Bot />} onClick={onClose}>
-                Close
+                {t("apolo.smartTrade.close")}
               </ThrottledButton>
             </div>
           </div>
@@ -85,7 +101,7 @@ const GainersModal: FC<AnalyzeModalProps> = ({
             {/* Interval */}
             <div>
               <label className="oui-text-xs oui-text-base-contrast mb-1 block">
-                Select interval <span className="text-red-500">*</span>
+                {t("apolo.smartTrade.select.interval")} <span className="text-red-500">*</span>
               </label>
               <Select
                 value={interval}
@@ -96,7 +112,7 @@ const GainersModal: FC<AnalyzeModalProps> = ({
                 size="lg"
                 variant="outlined"
                 error={errors.interval}
-                placeholder="Select interval"
+                placeholder={t("apolo.smartTrade.select.interval")}
                 classNames={{ trigger: "w-full" }}
               >
                 <SelectItem value="1h">1h</SelectItem>
@@ -105,7 +121,7 @@ const GainersModal: FC<AnalyzeModalProps> = ({
               </Select>
               {errors.interval && (
                 <p className="oui-text-xs oui-text-danger mt-1">
-                  This field is required.
+                  {t("apolo.smartTrade.required")}
                 </p>
               )}
             </div>
@@ -113,7 +129,7 @@ const GainersModal: FC<AnalyzeModalProps> = ({
             {/* Type */}
             <div>
               <label className="oui-text-xs oui-text-base-contrast mb-1 block">
-                Select type <span className="text-red-500">*</span>
+                {t("apolo.smartTrade.select")} <span className="text-red-500">*</span>
               </label>
               <Select
                 value={type}
@@ -124,15 +140,15 @@ const GainersModal: FC<AnalyzeModalProps> = ({
                 size="lg"
                 variant="outlined"
                 error={errors.type}
-                placeholder="Gainers or Losers"
+                placeholder={t("apolo.smartTrade.gainers")}
                 classNames={{ trigger: "w-full" }}
               >
-                <SelectItem value="gainers">Gainers</SelectItem>
-                <SelectItem value="losers">Losers</SelectItem>
+                <SelectItem value="gainers">{t("apolo.smartTrade.gainers.select")}</SelectItem>
+                <SelectItem value="losers">{t("apolo.smartTrade.losers.select")}</SelectItem>
               </Select>
               {errors.type && (
                 <p className="oui-text-xs oui-text-danger mt-1">
-                  This field is required.
+                  {t("apolo.smartTrade.required")}
                 </p>
               )}
             </div>
@@ -149,10 +165,10 @@ const GainersModal: FC<AnalyzeModalProps> = ({
                 {loading ? (
                   <>
                     <Spinner size="sm" />
-                    Smart Analysis...
+                    ...
                   </>
                 ) : (
-                  "Run Analysis"
+                  t("apolo.smartTrade.analysis.button")
                 )}
               </ThrottledButton>
             </div>

@@ -619,7 +619,7 @@
   "apolo.smartTrade.gainers": "Gagnants/Perdants",
   "apolo.smartTrade.select.interval": "Sélectionner un intervalle",
   "apolo.smartTrade.select.leverage": "Saisir l'effet de levier",
-  "apolo.smartTrade.select.leverage.placeholder": "ex. 100",
+  "apolo.smartTrade.select.leverage.placeholder": "ex. 10",
   "apolo.smartTrade.select.collateral": "Saisir le collatéral disponible",
   "apolo.smartTrade.select.indicator": "Sélectionner un indicateur",
   "apolo.smartTrade.choose.strategy": "Choisir une stratégie",
@@ -638,5 +638,8 @@
   "apolo.smartTrade.losers.select": "Perdants",
   "apolo.smartTrade.smartanalysis": "Analyse Intelligente",
   "apolo.smartTrade.telegram": "Connecter le compte Telegram",
-  "apolo.smartTrade.telegram.description": "Veuillez connecter votre compte Telegram pour continuer."
+  "apolo.smartTrade.telegram.description": "Veuillez connecter votre compte Telegram pour continuer.",
+  "apolo.smartTrade.leverage.error": "Leverage doit être un nombre supérieur à 0 et inférieur ou égal à",
+  "apolo.smartTrade.freeCollateral.error": "Le capital libre doit être un nombre positif.",
+  "apolo.smartTrade.actions": "Actions"
 }

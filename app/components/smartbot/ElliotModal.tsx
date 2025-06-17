@@ -10,6 +10,21 @@ import {
   ThrottledButton
 } from "@orderly.network/ui";
 import { Bot } from "lucide-react";
+import { useTranslation as useOrderlyTranslation } from "@orderly.network/i18n";
+import enTranslationsJson from "../../../public/locales/en.json";
+const enTranslations = enTranslationsJson as Record<string, string>;
+
+const useTranslation = () => {
+  const { t } = useOrderlyTranslation();
+  const currentLang = localStorage.getItem('orderly_i18nLng');
+  
+  return (key: string) => {
+    const orderlyTranslation = t(key);
+    if (orderlyTranslation !== key) return orderlyTranslation;
+    if (currentLang === 'en' && enTranslations[key]) return enTranslations[key];
+    return key;
+  };
+};
 
 type ElliotModalProps = {
   symbol: string | null;
@@ -35,6 +50,8 @@ const ElliotModal: FC<ElliotModalProps> = ({
   const [errors, setErrors] = useState({
     interval: false,
   });
+
+  const t = useTranslation();   
 
   const handleSubmit = () => {
     const newErrors = {
@@ -71,7 +88,7 @@ const ElliotModal: FC<ElliotModalProps> = ({
               className="oui-h-5 oui-w-5"
               style={{ marginRight: 8 }}
             />
-            Analyze Elliot {displaySymbol}
+            {t("apolo.smartTrade.elliotWaves.title")} {displaySymbol}
           </DialogTitle>
         </DialogHeader>
 
@@ -82,7 +99,7 @@ const ElliotModal: FC<ElliotModalProps> = ({
             </div>
             <div className="oui-flex oui-justify-end oui-gap-2 oui-pt-2 oui-pb-4">
               <Button size="md" icon={<Bot />} onClick={onClose}>
-                Close
+                {t("apolo.smartTrade.close")}
               </Button>
             </div>
           </div>
@@ -98,7 +115,7 @@ const ElliotModal: FC<ElliotModalProps> = ({
             {/* Interval */}
             <div>
               <label className="oui-text-xs oui-text-base-contrast mb-1 block">
-                Select interval <span className="text-red-500">*</span>
+                {t("apolo.smartTrade.select.interval")} <span className="text-red-500">*</span>
               </label>
               <Select
                 value={interval}
@@ -109,7 +126,7 @@ const ElliotModal: FC<ElliotModalProps> = ({
                 size="lg"
                 variant="outlined"
                 error={errors.interval}
-                placeholder="Select interval"
+                placeholder={t("apolo.smartTrade.select.interval")}
                 classNames={{ trigger: "w-full" }}
               >
                 <SelectItem value="1h">1h</SelectItem>
@@ -118,7 +135,7 @@ const ElliotModal: FC<ElliotModalProps> = ({
               </Select>
               {errors.interval && (
                 <p className="oui-text-xs oui-text-danger mt-1">
-                  This field is required.
+                  {t("apolo.smartTrade.required")}
                 </p>
               )}
             </div>
@@ -135,10 +152,10 @@ const ElliotModal: FC<ElliotModalProps> = ({
                 {loading ? (
                   <>
                     <Spinner size="sm" />
-                    Smart Analysis...
+                    ...
                   </>
                 ) : (
-                  "Run Analysis"
+                  t("apolo.smartTrade.smartanalysis")
                 )}
               </ThrottledButton>
             </div>

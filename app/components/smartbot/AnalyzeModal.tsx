@@ -10,6 +10,21 @@ import {
   ThrottledButton
 } from "@orderly.network/ui";
 import { Bot } from "lucide-react";
+import { useTranslation as useOrderlyTranslation } from "@orderly.network/i18n";
+import enTranslationsJson from "../../../public/locales/en.json";
+const enTranslations = enTranslationsJson as Record<string, string>;
+
+const useTranslation = () => {
+  const { t } = useOrderlyTranslation();
+  const currentLang = localStorage.getItem('orderly_i18nLng');
+  
+  return (key: string) => {
+    const orderlyTranslation = t(key);
+    if (orderlyTranslation !== key) return orderlyTranslation;
+    if (currentLang === 'en' && enTranslations[key]) return enTranslations[key];
+    return key;
+  };
+};
 
 type AnalyzeModalProps = {
   symbol: string | null;
@@ -75,6 +90,8 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
       ? symbol.split("_")[1]
       : symbol?.split("-")[0] ?? "";
 
+  const t = useTranslation();    
+
   return (
     <Dialog open={!!symbol} onOpenChange={onClose}>
       <DialogContent className="oui-space-y-6 pb-2">
@@ -86,7 +103,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
               className="oui-h-5 oui-w-5"
               style={{ marginRight: 8 }}
             />
-            Analyze {displaySymbol}
+            {t("apolo.smartTrade.title")} {displaySymbol}
           </DialogTitle>
         </DialogHeader>
 
@@ -97,7 +114,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
             </div>
             <div className="oui-flex oui-justify-end oui-gap-2 oui-pt-2 oui-pb-4">
               <Button size="md" icon={<Bot />} onClick={onClose}>
-                Close
+                {t("apolo.smartTrade.close")}
               </Button>
             </div>
           </div>
@@ -113,7 +130,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
             {/* Interval */}
             <div>
               <label className="oui-text-xs oui-text-base-contrast mb-1 block">
-                Select interval <span className="text-red-500">*</span>
+                {t("apolo.smartTrade.select.interval")} <span className="text-red-500">*</span>
               </label>
               <Select
                 value={interval}
@@ -124,7 +141,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
                 size="lg"
                 variant="outlined"
                 error={errors.interval}
-                placeholder="Select interval"
+                placeholder={t("apolo.smartTrade.select.interval")}
                 classNames={{ trigger: "w-full" }}
               >
                 <SelectItem value="1h">1h</SelectItem>
@@ -133,7 +150,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
               </Select>
               {errors.interval && (
                 <p className="oui-text-xs oui-text-danger mt-1">
-                  This field is required.
+                  {t("apolo.smartTrade.required")}
                 </p>
               )}
             </div>
@@ -141,7 +158,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
             {/* Leverage */}
             <div>
               <label htmlFor="leverage-input" className="oui-text-xs oui-text-base-contrast mb-1 block">
-                Input leverage <span className="text-red-500">*</span>
+                {t("apolo.smartTrade.select.leverage")} <span className="text-red-500">*</span>
               </label>
               <input
                 id="leverage-input"
@@ -170,13 +187,13 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
                 className={`oui-input-input oui-w-full oui-h-8 oui-px-2 oui-bg-base-6 oui-rounded-md oui-text-white oui-border ${
                   errors.leverage ? "oui-border-danger" : "oui-border-base-4"
                 }`}
-                placeholder={`e.g. ${maxLeverage_}`}
+                placeholder={t("apolo.smartTrade.select.leverage.placeholder")}
               />
               {errors.leverage && (
                 <p className="oui-text-xs oui-text-danger mt-1">
                   {leverage === "" || isNaN(Number(leverage))
-                    ? "This field is required."
-                    : `Leverage must be between 1 and ${maxLeverage_}.`}
+                    ? t("apolo.smartTrade.required")
+                    : t("apolo.smartTrade.leverage.error")}
                 </p>
               )}
             </div>
@@ -184,7 +201,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
             {/* Indicator */}
             <div>
               <label className="oui-text-xs oui-text-base-contrast mb-1 block">
-                Select indicator <span className="text-red-500">*</span>
+                {t("apolo.smartTrade.select.indicator")} <span className="text-red-500">*</span>
               </label>
               <Select
                 value={indicator}
@@ -195,7 +212,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
                 size="lg"
                 variant="outlined"
                 error={errors.indicator}
-                placeholder="Choose strategy"
+                placeholder={t("apolo.smartTrade.select.indicator")}
                 classNames={{ trigger: "w-full" }}
               >
                 <SelectItem value="Trend-Following">Trend-Following</SelectItem>
@@ -207,7 +224,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
               </Select>
               {errors.indicator && (
                 <p className="oui-text-xs oui-text-danger mt-1">
-                  This field is required.
+                  {t("apolo.smartTrade.required")}
                 </p>
               )}
             </div>
@@ -224,10 +241,10 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
                 {loading ? (
                   <>
                     <Spinner size="sm" />
-                    Smart Analysis...
+                    ...
                   </>
                 ) : (
-                  "Run Analysis"
+                  t("apolo.smartTrade.analyze")
                 )}
               </ThrottledButton>
             </div>

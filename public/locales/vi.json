@@ -619,7 +619,7 @@
   "apolo.smartTrade.gainers": "Tăng/Giảm mạnh",
   "apolo.smartTrade.select.interval": "Chọn khoảng thời gian",
   "apolo.smartTrade.select.leverage": "Nhập đòn bẩy",
-  "apolo.smartTrade.select.leverage.placeholder": "vd. 100",
+  "apolo.smartTrade.select.leverage.placeholder": "vd. 10",
   "apolo.smartTrade.select.collateral": "Nhập tài sản thế chấp khả dụng",
   "apolo.smartTrade.select.indicator": "Chọn chỉ báo",
   "apolo.smartTrade.choose.strategy": "Chọn chiến lược",
@@ -638,5 +638,8 @@
   "apolo.smartTrade.losers.select": "Giảm mạnh",
   "apolo.smartTrade.smartanalysis": "Phân tích Thông minh",
   "apolo.smartTrade.telegram": "Kết nối tài khoản Telegram",
-  "apolo.smartTrade.telegram.description": "Vui lòng kết nối tài khoản Telegram của bạn để tiếp tục."
+  "apolo.smartTrade.telegram.description": "Vui lòng kết nối tài khoản Telegram của bạn để tiếp tục.",
+  "apolo.smartTrade.leverage.error": "Đòn bẩy phải lớn hơn 0 và nhỏ hơn hoặc bằng",
+  "apolo.smartTrade.freeCollateral.error": "Tài sản thế chấp miễn phí phải lớn hơn 0 và nhỏ hơn hoặc bằng",
+  "apolo.smartTrade.actions": "Hành động"
 }

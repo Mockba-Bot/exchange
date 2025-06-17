@@ -619,7 +619,7 @@
   "apolo.smartTrade.gainers": "상승/하락 종목",
   "apolo.smartTrade.select.interval": "간격 선택",
   "apolo.smartTrade.select.leverage": "레버리지 입력",
-  "apolo.smartTrade.select.leverage.placeholder": "예: 100",
+  "apolo.smartTrade.select.leverage.placeholder": "예: 10",
   "apolo.smartTrade.select.collateral": "사용 가능한 담보 입력",
   "apolo.smartTrade.select.indicator": "지표 선택",
   "apolo.smartTrade.choose.strategy": "전략 선택",
@@ -638,5 +638,8 @@
   "apolo.smartTrade.losers.select": "하락 종목",
   "apolo.smartTrade.smartanalysis": "스마트 분석",
   "apolo.smartTrade.telegram": "텔레그램 계정 연결",
-  "apolo.smartTrade.telegram.description": "계속하려면 텔레그램 계정을 연결하세요."
+  "apolo.smartTrade.telegram.description": "계속하려면 텔레그램 계정을 연결하세요.",
+  "apolo.smartTrade.leverage.error": "레버리지는 1에서 100 사이여야 합니다.",
+  "apolo.smartTrade.freeCollateral.error": "프리 담보는 양수여야 합니다.",
+  "apolo.smartTrade.actions": "작업"
 }

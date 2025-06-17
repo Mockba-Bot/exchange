@@ -6,7 +6,9 @@ import {
 } from "@orderly.network/markets";
 import { useMarkets, useWalletConnector } from "@orderly.network/hooks";
 import { Button, Card, usePagination } from "@orderly.network/ui";
-import { useTranslation } from "@orderly.network/i18n";
+import { useTranslation as useOrderlyTranslation } from "@orderly.network/i18n";
+import enTranslationsJson from "../../../public/locales/en.json";
+const enTranslations = enTranslationsJson as Record<string, string>;
 import TelegramLogin from "@/components/smartbot/TelegramLogin"; // ✅ Add import
 import {
   Star,
@@ -30,6 +32,18 @@ interface CustomMarketTableProps {
 
 type TabType = typeof TABS[number]["value"];
 const PAGE_SIZE = 10;
+
+const useTranslation = () => {
+  const { t } = useOrderlyTranslation();
+  const currentLang = localStorage.getItem('orderly_i18nLng');
+  
+  return (key: string) => {
+    const orderlyTranslation = t(key);
+    if (orderlyTranslation !== key) return orderlyTranslation;
+    if (currentLang === 'en' && enTranslations[key]) return enTranslations[key];
+    return key;
+  };
+};
 
 const formatNumber = (value: number) =>
   new Intl.NumberFormat("en-US", {
@@ -60,7 +74,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
   setSelectedSymbolKelly,
   setShowGainersModal
 }) => {
-  const { t } = useTranslation();
+  const t = useTranslation();
   const TABS = [
     { value: "favorites", label: t("markets.favorites"), icon: Star },
     { value: "all", label: t("markets.allMarkets"), icon: BarChart2 },
@@ -153,6 +167,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [pagedData, setSelectedSymbol, setSelectedSymbolElliot, setSelectedSymbolKelly, setShowGainersModal]);
 
+
   /*style={{ display: "none" }}*/
   return (
     <div className="oui-p-6 oui-grid-cols-12 oui-gap-4">
@@ -206,7 +221,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
                   oui-bg-base-7 oui-text-base-contrast-36`} // always inactive style
                 >
                   <PocketKnife className="oui-text-inherit oui-w-4 oui-h-4" />
-                  <span>Gainers/Losers</span>
+                  <span>{t("apolo.smartTrade.gainers")}</span>
                 </button>
 
               </div>
@@ -249,10 +264,10 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
                 onClick={connect}
                 disabled={connecting}
               >
-                {connecting ? "Connecting..." : "Connect Wallet"}
+                {connecting ? "Connecting..." : t("apolo.smartTrade.conect.wallet")}
               </button>
               <p className="oui-text-2xs oui-text-base-contrast-36">
-                ⚠️ Please connect your wallet before starting to trade.
+                ⚠️ {t("apolo.smartTrade.connect.wallet")}
               </p>
             </div>
           ) : (
@@ -262,11 +277,11 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
                   <th className="oui-py-3 oui-px-4">
                     <Star className="oui-w-4 oui-h-4 oui-text-base-contrast-54" />
                   </th>
-                  <th className="oui-py-3 oui-px-4">{t("common.marketPrice") || "Market"}</th>
-                  <th className="oui-py-3 oui-px-4">{t("common.price") || "Price"}</th>
-                  <th className="oui-py-3 oui-px-4">{t("markets.column.24hVolume") || "24h Volume"}</th>
-                  <th className="oui-py-3 oui-px-4">{t("common.leverage") || "Leverage"}</th>
-                  <th className="oui-py-3 oui-px-4">Actions</th>
+                  <th className="oui-py-3 oui-px-4">{t("common.marketPrice")}</th>
+                  <th className="oui-py-3 oui-px-4">{t("common.price")}</th>
+                  <th className="oui-py-3 oui-px-4">{t("markets.column.24hVolume")}</th>
+                  <th className="oui-py-3 oui-px-4">{t("common.leverage")}</th>
+                  <th className="oui-py-3 oui-px-4">{t("apolo.smartTrade.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -335,21 +350,21 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
                             icon={<WandSparkles />}
                             onClick={() => setSelectedSymbol(market.symbol, market.leverage || 100)}
                           >
-                            Analyze
+                            {t("apolo.smartTrade.title") || enTranslations["apolo.smartTrade.title"]}
                           </Button>
                           <Button
                             size="sm"
                             icon={<ChartSpline />}
                             onClick={() => setSelectedSymbolElliot(market.symbol, market.leverage || 100)}
                           >
-                            Elliot Waves
+                            {t("apolo.smartTrade.elliotWaves")}
                           </Button>
                           <Button
                             size="sm"
                             icon={<FileDigit />}
                             onClick={() => setSelectedSymbolKelly(market.symbol, market.leverage || 100)}
                           >
-                            Kelly+Montecarlo
+                            {t("apolo.smartTrade.kelly")}
                           </Button>
                         </div>
                       ) : (
@@ -359,7 +374,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
                           style={{ "--oui-gradient-angle": "45deg" } as React.CSSProperties}
                           onClick={connect} // from useWalletConnector()
                         >
-                          Connect wallet
+                          {t("apolo.smartTrade.connect.wallet", { defaultValue: enTranslations["apolo.smartTrade.connect.wallet"] })}
                         </button>
                       )}
                     </td>
@@ -368,7 +383,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
                 {pagedData.length === 0 && (
                   <tr>
                     <td colSpan={3} className="oui-py-6 oui-px-4 oui-text-center oui-text-base-contrast-54 oui-text-sm">
-                      No results found.
+                      {t("ui.empty.description")}
                     </td>
                   </tr>
                 )}
