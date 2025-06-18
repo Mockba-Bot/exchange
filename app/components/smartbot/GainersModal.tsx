@@ -70,8 +70,18 @@ const GainersModal: FC<AnalyzeModalProps> = ({
   };
 
   return (
+    <>
+    <style>
+        {`
+          @media (max-width: 640px) {
+            .dialog-mobile-max {
+              max-width: 90% !important;
+            }
+          }
+        `}
+      </style>
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="oui-space-y-6 pb-2">
+      <DialogContent className="oui-space-y-6 oui-pb-2 dialog-mobile-max">
         <DialogHeader>
           <DialogTitle className="flex items-center">
             {t("apolo.smarTrade.marketAnalysis.tittle")}
@@ -176,6 +186,7 @@ const GainersModal: FC<AnalyzeModalProps> = ({
         )}
       </DialogContent>
     </Dialog>
+    </>
   );
 };
 

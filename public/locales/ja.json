@@ -641,5 +641,7 @@
   "apolo.smartTrade.telegram.description": "続行するには、Telegramアカウントを接続してください。",
   "apolo.smartTrade.leverage.error": "レバレッジは1〜100の範囲で入力してください。",
   "apolo.smartTrade.freeCollateral.error": "フリー担保は正の数である必要があります。",
-  "apolo.smartTrade.actions": "アクション"
+  "apolo.smartTrade.actions": "アクション",
+  "apolo.smartTrade.loadmore": "さらに読み込む",
+  "apolo.smartTrade.gotoTop": "トップに移動"
 }

@@ -642,5 +642,7 @@
   "apolo.smartTrade.telegram.description": "Please connect your Telegram account to continue.",
   "apolo.smartTrade.leverage.error": "Leverage must be between 1 and",
   "apolo.smartTrade.freeCollateral.error": "Free collateral must be a positive number.",
-  "apolo.smartTrade.actions": "Actions"
+  "apolo.smartTrade.actions": "Actions",
+  "apolo.smartTrade.loadmore": "Load more",
+  "apolo.smartTrade.gotoTop": "Go to top"
 }

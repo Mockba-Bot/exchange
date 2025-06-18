@@ -641,5 +641,7 @@
   "apolo.smartTrade.telegram.description": "Por favor conecta tu cuenta de Telegram para continuar.",
   "apolo.smartTrade.leverage.error": "El apalancamiento debe estar entre 1 y",
   "apolo.smartTrade.freeCollateral.error": "El capital libre debe ser un número positivo.",
-  "apolo.smartTrade.actions": "Acciones"
+  "apolo.smartTrade.actions": "Acciones",
+  "apolo.smartTrade.loadmore": "Cargar más",
+  "apolo.smartTrade.gotoTop": "Ir al inicio"
 }

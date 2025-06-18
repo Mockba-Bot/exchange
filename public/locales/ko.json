@@ -641,5 +641,7 @@
   "apolo.smartTrade.telegram.description": "계속하려면 텔레그램 계정을 연결하세요.",
   "apolo.smartTrade.leverage.error": "레버리지는 1에서 100 사이여야 합니다.",
   "apolo.smartTrade.freeCollateral.error": "프리 담보는 양수여야 합니다.",
-  "apolo.smartTrade.actions": "작업"
+  "apolo.smartTrade.actions": "작업",
+  "apolo.smartTrade.loadmore": "더 많은 로드",
+  "apolo.smartTrade.gotoTop": "맨 위로 이동"
 }

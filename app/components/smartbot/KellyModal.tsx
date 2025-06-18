@@ -99,8 +99,18 @@ const KellyModal: FC<KellyModalProps> = ({
       : symbol?.split("-")[0] ?? "";
 
   return (
+    <>
+    <style>
+        {`
+          @media (max-width: 640px) {
+            .dialog-mobile-max {
+              max-width: 90% !important;
+            }
+          }
+        `}
+      </style>
     <Dialog open={!!symbol} onOpenChange={onClose}>
-      <DialogContent className="oui-space-y-6 pb-2">
+      <DialogContent className="oui-space-y-6 oui-pb-2 dialog-mobile-max">
         <DialogHeader>
           <DialogTitle className="flex items-center">
             <img
@@ -308,6 +318,7 @@ const KellyModal: FC<KellyModalProps> = ({
         )}
       </DialogContent>
     </Dialog>
+    </>
   );
 };
 

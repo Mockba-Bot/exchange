@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { TradingPageProps } from "@orderly.network/trading";
 import { FooterProps, MainNavWidgetProps } from "@orderly.network/ui-scaffold";
 import { type RestrictedInfoOptions } from "@orderly.network/hooks";
@@ -6,6 +6,7 @@ import { AppLogos } from "@orderly.network/react-app";
 import { OrderlyActiveIcon, OrderlyIcon } from "../components/icons/orderly";
 import { useTranslation } from "@orderly.network/i18n";
 import { PathEnum } from "@/constant";
+import { Link } from "@remix-run/react";
 
 export type OrderlyConfig = {
   orderlyAppProvider: {
@@ -23,7 +24,17 @@ export type OrderlyConfig = {
 };
 
 export const useOrderlyConfig = () => {
+  const [value, setValue] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Run only in the browser
+    const stored = localStorage.getItem("orderly_i18nLng");
+    setValue(stored);
+  }, []);
+
   const { t } = useTranslation();
+  const lang = value || "en";
+  const smartbotPath = `/${lang}/smartbot`;
 
   return useMemo<OrderlyConfig>(() => {
     return {
@@ -84,11 +95,13 @@ export const useOrderlyConfig = () => {
           },
           secondary: {
             component: (
-              <img
-                src="/mockba-icon.png"
-                alt=""
-                style={{ height: 32, borderRadius: 8 }} // Example styles
-              />
+              <Link to={smartbotPath}>
+                <img
+                  src="/mockba-icon.png"
+                  alt=""
+                  style={{ height: 32, borderRadius: 8 }} // Example styles
+                />
+              </Link>
             ),
           },
         },
@@ -103,7 +116,7 @@ export const useOrderlyConfig = () => {
           scriptSRC: "/tradingview/charting_library/charting_library.js",
           library_path: "/tradingview/charting_library/",
           customCssUrl: "/tradingview/chart.css"
-          
+
         },
         sharePnLConfig: {
           backgroundImages: [
@@ -122,7 +135,7 @@ export const useOrderlyConfig = () => {
           refLink: "https://orderly.network",
           refSlogan: "Orderly referral",
         },
-        
+
       },
     };
   }, [t]);

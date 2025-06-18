@@ -641,5 +641,7 @@
   "apolo.smartTrade.telegram.description": "请连接您的Telegram账户以继续.",
   "apolo.smartTrade.leverage.error": "杠杆倍数必须大于0",
   "apolo.smartTrade.freeCollateral.error": "自由保证金必须是正数。",
-  "apolo.smartTrade.actions": "操作"
+  "apolo.smartTrade.actions": "操作",
+  "apolo.smartTrade.loadmore": "加载更多",
+  "apolo.smartTrade.gotoTop": "回到顶部"
 }

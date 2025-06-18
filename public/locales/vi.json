@@ -641,5 +641,7 @@
   "apolo.smartTrade.telegram.description": "Vui lòng kết nối tài khoản Telegram của bạn để tiếp tục.",
   "apolo.smartTrade.leverage.error": "Đòn bẩy phải lớn hơn 0 và nhỏ hơn hoặc bằng",
   "apolo.smartTrade.freeCollateral.error": "Tài sản thế chấp miễn phí phải lớn hơn 0 và nhỏ hơn hoặc bằng",
-  "apolo.smartTrade.actions": "Hành động"
+  "apolo.smartTrade.actions": "Hành động",
+  "apolo.smartTrade.loadmore": "Tải thêm",
+  "apolo.smartTrade.gotoTop": "Quay lại đầu trang"
 }

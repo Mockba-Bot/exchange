@@ -6,6 +6,21 @@ import ElliotModal from "@/components/smartbot/ElliotModal";
 import KellyModal from "@/components/smartbot/KellyModal";
 import GainersModal from "@/components/smartbot/GainersModal";
 import { toast, ToastTile } from "@orderly.network/ui";
+import { useTranslation as useOrderlyTranslation } from "@orderly.network/i18n";
+import enTranslationsJson from "../../../public/locales/en.json";
+const enTranslations = enTranslationsJson as Record<string, string>;
+
+const useTranslation = () => {
+  const { t } = useOrderlyTranslation();
+  const currentLang = localStorage.getItem('orderly_i18nLng');
+  
+  return (key: string) => {
+    const orderlyTranslation = t(key);
+    if (orderlyTranslation !== key) return orderlyTranslation;
+    if (currentLang === 'en' && enTranslations[key]) return enTranslations[key];
+    return key;
+  };
+};
 
 const SmartBotMarketsPage = () => {
   const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
@@ -18,6 +33,7 @@ const SmartBotMarketsPage = () => {
   const [showGainersModal, setShowGainersModal] = useState(false);
   // State to manage loading state
   const [loading, setLoading] = useState(false);
+  const t = useTranslation();
   const handleSubmit = async ({
     interval,
     leverage,
@@ -58,8 +74,8 @@ const SmartBotMarketsPage = () => {
       // ✅ Only show the loading toast if fetch succeeded
       toast.loading(
         <ToastTile
-          title="Smart analysis in progress"
-          subtitle="You'll receive the result on Telegram. This may take up to 5 minutes."
+          title={t("apolo.smartTrade.in.progress.tittle")}
+          subtitle={t("apolo.smartTrade.in.progress.subtitle")}
         />,
         { duration: 10000 }
       );
@@ -67,8 +83,8 @@ const SmartBotMarketsPage = () => {
     } catch (error) {
       toast.error(
         <ToastTile
-          title="Error"
-          subtitle="Too many requests. Please wait."
+          title={t("apolo.smartTrade.error.tittle")}
+          subtitle={t("apolo.smartTrade.error.subtitle")}
         />,
         { duration: 5000 }
       );
@@ -111,8 +127,8 @@ const SmartBotMarketsPage = () => {
       // ✅ Only show the loading toast if fetch succeeded
       toast.loading(
         <ToastTile
-          title="Smart analysis in progress"
-          subtitle="You'll receive the result on Telegram. This may take up to 5 minutes."
+          title={t("apolo.smartTrade.in.progress.tittle")}
+          subtitle={t("apolo.smartTrade.in.progress.subtitle")}
         />,
         { duration: 10000 }
       );
@@ -120,8 +136,8 @@ const SmartBotMarketsPage = () => {
     } catch (error) {
       toast.error(
         <ToastTile
-          title="Error"
-          subtitle="Too many requests. Please wait."
+          title={t("apolo.smartTrade.error.tittle")}
+          subtitle={t("apolo.smartTrade.error.subtitle")}
         />,
         { duration: 5000 }
       );
@@ -173,8 +189,8 @@ const SmartBotMarketsPage = () => {
       // ✅ Only show the loading toast if fetch succeeded
       toast.loading(
         <ToastTile
-          title="Smart analysis in progress"
-          subtitle="You'll receive the result on Telegram. This may take up to 5 minutes."
+          title={t("apolo.smartTrade.in.progress.tittle")}
+          subtitle={t("apolo.smartTrade.in.progress.subtitle")}
         />,
         { duration: 10000 }
       );
@@ -182,8 +198,8 @@ const SmartBotMarketsPage = () => {
     } catch (error) {
       toast.error(
         <ToastTile
-          title="Error"
-          subtitle="Too many requests. Please wait."
+          title={t("apolo.smartTrade.error.tittle")}
+          subtitle={t("apolo.smartTrade.error.subtitle")}
         />,
         { duration: 5000 }
       );
@@ -228,14 +244,14 @@ const SmartBotMarketsPage = () => {
 
       toast.loading(
         <ToastTile
-          title="Smart market scan in progress"
-          subtitle="Top 10 assets will be sent to your Telegram in a moment."
+          title={t("apolo.smartTrade.in.progress.tittle")}
+          subtitle={t("apolo.smartTrade.in.progress.subtitle")}
         />,
         { duration: 10000 }
       );
     } catch (error) {
       toast.error(
-        <ToastTile title="Error" subtitle="Too many requests. Please wait." />,
+        <ToastTile title={t("apolo.smartTrade.error.tittle")} subtitle={t("apolo.smartTrade.error.subtitle")} />,
         { duration: 5000 }
       );
     } finally {
