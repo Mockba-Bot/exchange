@@ -33,6 +33,6 @@ COPY --from=builder /app/build/client ./build/client
 
 ENV NODE_ENV=production
 
-EXPOSE 3000
+EXPOSE 3010
 
 CMD ["npm", "run","start"]
