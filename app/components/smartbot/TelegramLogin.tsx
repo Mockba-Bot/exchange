@@ -144,6 +144,16 @@ const TelegramLoginDialog = () => {
   if (isLoading || !showDialog || isLinked) return null;
 
   return (
+    <>
+    <style>
+        {`
+          @media (max-width: 640px) {
+            .dialog-mobile-max {
+              max-width: 90% !important;
+            }
+          }
+        `}
+      </style>
     <Dialog open={showDialog} onOpenChange={() => {}}>
       <DialogContent className="oui-space-y-6 pb-2" hideCloseButton>
         <DialogHeader>
@@ -167,6 +177,7 @@ const TelegramLoginDialog = () => {
         </div>
       </DialogContent>
     </Dialog>
+    </>
   );
 };
 
