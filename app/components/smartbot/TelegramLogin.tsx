@@ -5,11 +5,26 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@orderly.network/ui";
+import { useTranslation as useOrderlyTranslation } from "@orderly.network/i18n";
+import enTranslationsJson from "../../../public/locales/en.json";
+const enTranslations = enTranslationsJson as Record<string, string>;
 
+const useTranslation = () => {
+  const { t } = useOrderlyTranslation();
+  const currentLang = localStorage.getItem('orderly_i18nLng');
+  
+  return (key: string) => {
+    const orderlyTranslation = t(key);
+    if (orderlyTranslation !== key) return orderlyTranslation;
+    if (currentLang === 'en' && enTranslations[key]) return enTranslations[key];
+    return key;
+  };
+};
 const TelegramLoginDialog = () => {
   const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
   const wallet = localStorage.getItem("orderly_mainnet_address") || "0x";
   const language = localStorage.getItem("orderly_i18nLng") || "en";
+  const t = useTranslation(); 
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLinked, setIsLinked] = useState(false);
@@ -155,7 +170,7 @@ const TelegramLoginDialog = () => {
         `}
       </style>
     <Dialog open={showDialog} onOpenChange={() => {}}>
-      <DialogContent className="oui-space-y-6 pb-2" hideCloseButton>
+      <DialogContent className="oui-space-y-6 pb-2 dialog-mobile-max">
         <DialogHeader>
           <DialogTitle className="flex items-center">
             <img
@@ -169,7 +184,7 @@ const TelegramLoginDialog = () => {
         </DialogHeader>
 
         <div className="text-center">
-          <p className="oui-p-4">Please connect your Telegram account to continue.</p>
+          <p className="oui-p-4">{t("apolo.smartTrade.telegram.description")}</p>
           <div
             id="telegram-button-container"
             className="oui-p-4 oui-flex oui-flex-col oui-items-center oui-gap-4"
