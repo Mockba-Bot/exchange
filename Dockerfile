@@ -28,6 +28,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/build/server ./build/server
 COPY --from=builder /app/build/client ./build/client
+COPY --from=builder /app/.env ./.env  # Add this line
 
 
 
