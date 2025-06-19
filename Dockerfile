@@ -1,32 +1,20 @@
-# Stage 1: Build
-FROM node:18-alpine AS build
-
-# Set the working directory
+########################################
+# build stage
+########################################
+FROM node:20-alpine AS build
 WORKDIR /app
-
-# Copy package files first for better caching
 COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code including .env
+RUN npm ci
 COPY . .
+RUN npm run build          # -> remix build
 
-# Build the application
-RUN npm run build
+########################################
+# runtime stage – Node only
+########################################
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=build /app ./
 
-# Stage 2: Serve
-FROM nginx:stable-alpine
-
-# Copy the built files from the build stage
-COPY --from=build /app/dist /usr/share/nginx/html
-
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copy custom nginx configuration if needed
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+ENV NODE_ENV=production
+EXPOSE 3000                # remix-serve listens on 3000 by default
+CMD ["npm","run","start"]  # this runs: remix-serve build
