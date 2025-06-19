@@ -1,30 +1,35 @@
-FROM node:20 as build-stage
+# Stage 1: Build
+FROM node:18-alpine AS build
+
+# Set the working directory
 WORKDIR /app
+
+# Copy package files first for better caching
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
+
+# Copy the rest of the application code including .env
 COPY . .
 
-# setup [ARG] to catch values from workflow
-#ARG VITE_BASE_URL
-# ARG VITE_API_URL
-# ARG VITE_RECAPTCHA_SITE_KEY
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 
-# move values from [ARG] to [ENV]
-#ENV VITE_BASE_URL=$VITE_BASE_URL
-ARG VITE_MOCKBA_API_URL
-ENV VITE_MOCKBA_API_URL=${VITE_MOCKBA_API_URL}
-# ENV VITE_RECAPTCHA_SITE_KEY=$VITE_RECAPTCHA_SITE_KEY
-
+# Build the application
 RUN npm run build
 
-# Stage 2: Serve Vue app with Nginx
-FROM nginx:1.25.1
-# --- still root here ---
-RUN mkdir -p /var/cache/nginx/client_temp \
-    && chown -R 101:101 /var/cache/nginx /var/run /var/log/nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf   # without "user" directive
+# Stage 2: Serve
+FROM nginx:stable-alpine
+
+# Copy the built files from the build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
-USER 101:101
-EXPOSE 8080
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy custom nginx configuration if needed
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
 CMD ["nginx", "-g", "daemon off;"]
