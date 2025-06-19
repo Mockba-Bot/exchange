@@ -4,5 +4,4 @@ node_modules
 /build
 
 .npmrc
-nginx_big.conf
 nginx.conf
