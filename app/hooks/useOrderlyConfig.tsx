@@ -7,6 +7,7 @@ import { OrderlyActiveIcon, OrderlyIcon } from "../components/icons/orderly";
 import { useTranslation } from "@orderly.network/i18n";
 import { PathEnum } from "@/constant";
 import { Link } from "@remix-run/react";
+import { BotMessageSquare } from 'lucide-react';
 
 export type OrderlyConfig = {
   orderlyAppProvider: {
@@ -95,13 +96,16 @@ export const useOrderlyConfig = () => {
           },
           secondary: {
             component: (
-              <Link to={smartbotPath}>
+              <>
+                <Link to={smartbotPath}>
+                  <BotMessageSquare />
+                </Link>
                 <img
                   src="/mockba-icon.png"
                   alt=""
-                  style={{ height: 32, borderRadius: 8 }} // Example styles
+                  style={{ height: 32, borderRadius: 4 }} // Example styles
                 />
-              </Link>
+              </>
             ),
           },
         },
