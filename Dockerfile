@@ -21,7 +21,7 @@ FROM nginx:1.25.1 as prod-stage
 RUN chown -R 101 /etc/nginx; 
 USER 101:101
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY nginx_big.conf /etc/nginx/nginx.conf
+# COPY nginx_big.conf /etc/nginx/nginx.conf
 COPY --from=build-stage /app/build/client /usr/share/nginx/html
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
