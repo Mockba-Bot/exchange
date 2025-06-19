@@ -34,6 +34,7 @@ const TelegramLoginDialog = () => {
     const checkTelegramLink = async () => {
       try {
         const response = await fetch(`${apiUrl}/central/tlogin/by_wallet/${wallet}`);
+        console.log("apiUrl and Wallet Url:", `${apiUrl}/central/tlogin/by_wallet/${wallet}`);
         const data = await response.json();
         if (response.ok) {
           // console.log("Telegram link check response:", response);
