@@ -1,6 +1,10 @@
 # Base image
 FROM node:20-slim AS base
 
+# Accept API URL at build time
+ARG VITE_MOCKBA_API_URL
+ENV VITE_MOCKBA_API_URL=${VITE_MOCKBA_API_URL}
+
 # Dependencies layer: install all deps (dev + prod)
 FROM base AS deps
 WORKDIR /app
