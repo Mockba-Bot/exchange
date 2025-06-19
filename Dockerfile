@@ -1,39 +1,36 @@
-# Base layer using a lightweight Node.js 20 image
+# Base image
 FROM node:20-slim AS base
 
-# Dependencies layer: installs all dependencies (including devDependencies)
+# Step 1: Install all dependencies including devDependencies
 FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Production dependencies layer:
-# Copies only the needed dependencies and prunes devDependencies
+# Step 2: Build the Remix app with all dependencies available
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+# Step 3: Prepare only production dependencies for runtime
 FROM base AS production-deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 COPY --from=deps /app/node_modules ./node_modules
 RUN npm prune --omit=dev
 
-# Build layer: compiles the Remix app using only production dependencies
-FROM base AS builder
-WORKDIR /app
-COPY --from=production-deps /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
-
-# Final runtime layer: minimal and clean
+# Step 4: Final runtime container
 FROM base AS runtime
 WORKDIR /app
 
-# Copy only necessary files for running the app
+# Use pruned production-only dependencies
 COPY --from=production-deps /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/build/server ./build/server
 COPY --from=builder /app/build/client ./build/client
 
-# Expose the port Remix uses by default
 EXPOSE 3000
 
-# Start the Remix app (runs the production server)
 CMD ["npm", "run", "start"]
