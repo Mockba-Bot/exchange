@@ -23,5 +23,8 @@ USER 101:101
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 # COPY nginx_big.conf /etc/nginx/nginx.conf
 COPY --from=build-stage /app/build/client /usr/share/nginx/html
+RUN mkdir -p /var/cache/nginx/client_temp && \
+    chmod -R 777 /var/cache/nginx
+RUN mkdir -p /tmp/nginx_client_temp && chmod -R 777 /tmp/nginx_client_temp    
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
