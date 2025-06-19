@@ -1,38 +1,27 @@
-# https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
-FROM node:20-slim AS base
-
-FROM base AS deps
+FROM node:20 as build-stage
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
+COPY . .
 
-# TODO fix: use this layer will cause "Cannot find package buffer-polyfill"
-# Setup production node_modules
-# FROM base as production-deps
-# WORKDIR /app
-# COPY --from=deps /app/node_modules ./node_modules
-# COPY package.json package-lock.json ./
-# RUN npm prune --omit=dev
+# setup [ARG] to catch values from workflow
+#ARG VITE_BASE_URL
+ARG VITE_API_URL
+# ARG VITE_RECAPTCHA_SITE_KEY
 
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-ARG VITE_MOCKBA_API_URL
-ENV VITE_MOCKBA_API_URL=$VITE_MOCKBA_API_URL
+# move values from [ARG] to [ENV]
+#ENV VITE_BASE_URL $VITE_BASE_URL
+ENV VITE_API_URL $VITE_API_URL
+# ENV VITE_RECAPTCHA_SITE_KEY $VITE_RECAPTCHA_SITE_KEY
+
 RUN npm run build
 
-FROM base AS runtime
-WORKDIR /app
-
-# COPY --from=production-deps /app/node_modules ./node_modules
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/build/server ./build/server
-COPY --from=builder /app/build/client ./build/client
-
-
-ENV NODE_ENV=production
-
-EXPOSE 3010
-
-CMD ["npm", "run","start"]
+# Stage 2: Serve Vue app with Nginx
+FROM nginx:1.25.1 as prod-stage
+RUN chown -R 101 /etc/nginx; 
+USER 101:101
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx_big.conf /etc/nginx/nginx.conf
+COPY --from=build-stage /app/build/client /usr/share/nginx/html
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]
