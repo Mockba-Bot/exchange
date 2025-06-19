@@ -10,21 +10,23 @@ COPY . .
 # ARG VITE_RECAPTCHA_SITE_KEY
 
 # move values from [ARG] to [ENV]
-#ENV VITE_BASE_URL $VITE_BASE_URL
-ENV VITE_MOCKBA_API_URL $VITE_MOCKBA_API_URL
-# ENV VITE_RECAPTCHA_SITE_KEY $VITE_RECAPTCHA_SITE_KEY
+#ENV VITE_BASE_URL=$VITE_BASE_URL
+ARG VITE_MOCKBA_API_URL
+ENV VITE_MOCKBA_API_URL=${VITE_MOCKBA_API_URL}
+# ENV VITE_RECAPTCHA_SITE_KEY=$VITE_RECAPTCHA_SITE_KEY
 
 RUN npm run build
 
 # Stage 2: Serve Vue app with Nginx
 FROM nginx:1.25.1 as prod-stage
+RUN chown -R 101 /etc/nginx; \
+    mkdir -p /var/cache/nginx/client_temp && \
+    chmod -R 777 /var/cache/nginx
+    
 RUN chown -R 101 /etc/nginx; 
 USER 101:101
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 # COPY nginx_big.conf /etc/nginx/nginx.conf
 COPY --from=build-stage /app/build/client /usr/share/nginx/html
-RUN mkdir -p /var/cache/nginx/client_temp && \
-    chmod -R 777 /var/cache/nginx
-RUN mkdir -p /tmp/nginx_client_temp && chmod -R 777 /tmp/nginx_client_temp    
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
