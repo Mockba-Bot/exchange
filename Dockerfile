@@ -17,7 +17,8 @@ RUN npm install
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+ARG VITE_MOCKBA_API_URL
+ENV VITE_MOCKBA_API_URL=$VITE_MOCKBA_API_URL
 RUN npm run build
 
 FROM base AS runtime
@@ -30,9 +31,8 @@ COPY --from=builder /app/build/server ./build/server
 COPY --from=builder /app/build/client ./build/client
 
 
-
 ENV NODE_ENV=production
 
-EXPOSE 3000
+EXPOSE 3010
 
 CMD ["npm", "run","start"]
