@@ -3,6 +3,7 @@ FROM node:20-slim AS base
 ARG VITE_MOCKBA_API_URL
 ENV VITE_MOCKBA_API_URL=${VITE_MOCKBA_API_URL}
 
+# Base image setup
 FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
