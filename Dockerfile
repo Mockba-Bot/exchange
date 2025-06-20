@@ -11,6 +11,7 @@ RUN npm install
 FROM base AS builder
 WORKDIR /app
 
+# Copy the package.json and package-lock.json first to leverage Docker cache
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
