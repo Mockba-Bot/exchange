@@ -17,6 +17,7 @@ COPY . .
 # ⬇️ Write the env variable to .env.production so Vite will read it
 RUN echo "VITE_MOCKBA_API_URL=$VITE_MOCKBA_API_URL" > .env.production
 
+# Build it
 RUN npm run build
 
 FROM base AS runtime
