@@ -12,7 +12,7 @@ const enTranslations = enTranslationsJson as Record<string, string>;
 const useTranslation = () => {
   const { t } = useOrderlyTranslation();
   const currentLang = localStorage.getItem('orderly_i18nLng');
-  
+
   return (key: string) => {
     const orderlyTranslation = t(key);
     if (orderlyTranslation !== key) return orderlyTranslation;
@@ -24,7 +24,7 @@ const TelegramLoginDialog = () => {
   const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
   const wallet = localStorage.getItem("orderly_mainnet_address") || "0x";
   const language = localStorage.getItem("orderly_i18nLng") || "en";
-  const t = useTranslation(); 
+  const t = useTranslation();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLinked, setIsLinked] = useState(false);
@@ -33,35 +33,38 @@ const TelegramLoginDialog = () => {
   useEffect(() => {
     const checkTelegramLink = async () => {
       try {
-        const response = await fetch(`${apiUrl}/central/tlogin/by_wallet/${wallet}`);
+        const token = localStorage.getItem("token");
+        const exp = Number(localStorage.getItem("token_exp") || "0");
 
+        const now = Math.floor(Date.now() / 1000);
+        if (token && exp > now) {
+          setIsLinked(true);
+          setShowDialog(false);
+          return;
+        }
+
+        // Otherwise check if Telegram link exists
+        const response = await fetch(`${apiUrl}/central/tlogin/by_wallet/${wallet}`);
         const data = await response.json();
-        if (response.ok) {
-          // console.log("Telegram link check response:", response);
-          if (data.data && data.data.token) {
-            localStorage.setItem("token", data.data.token);
-            setIsLinked(true);
-            setShowDialog(false);
-          } else {
-            setIsLinked(false);
-            setShowDialog(true);
-          }
-        } else if (response.status === 404) {
-          setIsLinked(false);
-          setShowDialog(true);
+
+        if (response.ok && data.data?.token) {
+          localStorage.setItem("token", data.data.token);
+          localStorage.setItem("token_exp", data.data.expires_at.toString()); // ⬅️ Backend should send it
+          setIsLinked(true);
+          setShowDialog(false);
         } else {
-          console.error("Unexpected error:", response.status);
           setIsLinked(false);
           setShowDialog(true);
         }
       } catch (error) {
-        console.error("Network error:", error);
+        console.error("Token check error:", error);
         setIsLinked(false);
         setShowDialog(true);
       } finally {
         setIsLoading(false);
       }
     };
+
 
     checkTelegramLink();
 
@@ -103,7 +106,7 @@ const TelegramLoginDialog = () => {
 
         if (!res.ok) throw new Error("TLogin failed");
 
-        
+
         const result = await res.json();
         setIsLinked(true);
         setShowDialog(false);
@@ -161,7 +164,7 @@ const TelegramLoginDialog = () => {
 
   return (
     <>
-    <style>
+      <style>
         {`
           @media (max-width: 640px) {
             .dialog-mobile-max {
@@ -170,29 +173,29 @@ const TelegramLoginDialog = () => {
           }
         `}
       </style>
-    <Dialog open={showDialog} onOpenChange={() => {}}>
-      <DialogContent className="oui-space-y-6 pb-2 dialog-mobile-max">
-        <DialogHeader>
-          <DialogTitle className="flex items-center">
-            <img
-              src="https://telegram.org/img/t_logo.png"
-              alt="Telegram"
-              className="oui-h-5 oui-w-5"
-              style={{ marginRight: 8 }}
-            />
-            Connect Telegram Account
-          </DialogTitle>
-        </DialogHeader>
+      <Dialog open={showDialog} onOpenChange={() => { }}>
+        <DialogContent className="oui-space-y-6 pb-2 dialog-mobile-max">
+          <DialogHeader>
+            <DialogTitle className="flex items-center">
+              <img
+                src="https://telegram.org/img/t_logo.png"
+                alt="Telegram"
+                className="oui-h-5 oui-w-5"
+                style={{ marginRight: 8 }}
+              />
+              Connect Telegram Account
+            </DialogTitle>
+          </DialogHeader>
 
-        <div className="text-center">
-          <p className="oui-p-4">{t("apolo.smartTrade.telegram.description")}</p>
-          <div
-            id="telegram-button-container"
-            className="oui-p-4 oui-flex oui-flex-col oui-items-center oui-gap-4"
-          />
-        </div>
-      </DialogContent>
-    </Dialog>
+          <div className="text-center">
+            <p className="oui-p-4">{t("apolo.smartTrade.telegram.description")}</p>
+            <div
+              id="telegram-button-container"
+              className="oui-p-4 oui-flex oui-flex-col oui-items-center oui-gap-4"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

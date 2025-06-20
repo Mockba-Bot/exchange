@@ -34,6 +34,13 @@ const SmartBotMarketsPage = () => {
   // State to manage loading state
   const [loading, setLoading] = useState(false);
   const t = useTranslation();
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    return {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    };
+  };
   const handleSubmit = async ({
     interval,
     leverage,
@@ -62,9 +69,7 @@ const SmartBotMarketsPage = () => {
 
       const res = await fetch(`${apiUrl}/trading/analyze_asset`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
@@ -115,9 +120,7 @@ const SmartBotMarketsPage = () => {
 
       const res = await fetch(`${apiUrl}/trading/elliot_waves/analyze_intervals`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
@@ -177,9 +180,7 @@ const SmartBotMarketsPage = () => {
 
       const res = await fetch(`${apiUrl}/trading/analyze_probability_asset`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
@@ -234,9 +235,7 @@ const SmartBotMarketsPage = () => {
 
       const res = await fetch(`${apiUrl}/trading/gainers_analysis`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(payload),
       });
 
