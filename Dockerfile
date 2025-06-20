@@ -1,5 +1,6 @@
 FROM node:20-slim AS base
 
+# Args for vite
 ARG VITE_MOCKBA_API_URL
 ENV VITE_MOCKBA_API_URL=${VITE_MOCKBA_API_URL}
 
