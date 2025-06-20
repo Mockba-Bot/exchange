@@ -26,6 +26,8 @@ COPY --from=builder /app/package.json ./
 COPY --from=builder /app/build/server ./build/server
 COPY --from=builder /app/build/client ./build/client
 
+
 EXPOSE 3000
 
+# Use the production build of the server
 CMD ["npm", "run", "start"]
