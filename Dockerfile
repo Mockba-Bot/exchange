@@ -10,11 +10,14 @@ RUN npm install
 
 FROM base AS builder
 WORKDIR /app
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# 👇 Pass it inline so Vite sees it
-RUN VITE_MOCKBA_API_URL=$VITE_MOCKBA_API_URL npm run build
+# ⬇️ Write the env variable to .env.production so Vite will read it
+RUN echo "VITE_MOCKBA_API_URL=$VITE_MOCKBA_API_URL" > .env.production
+
+RUN npm run build
 
 FROM base AS runtime
 WORKDIR /app
@@ -24,4 +27,5 @@ COPY --from=builder /app/build/server ./build/server
 COPY --from=builder /app/build/client ./build/client
 
 EXPOSE 3000
+
 CMD ["npm", "run", "start"]
