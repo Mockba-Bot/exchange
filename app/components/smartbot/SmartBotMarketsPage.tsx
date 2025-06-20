@@ -53,8 +53,9 @@ const SmartBotMarketsPage = () => {
     try {
       setLoading(true);
       setShowModal(false);
-
-      const telegramUser = localStorage.getItem("token");
+ 
+      const storedUser = localStorage.getItem("telegram_user");
+      const telegramUser = storedUser ? JSON.parse(storedUser).telegram_id : null;
       const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
       const targetLang = localStorage.getItem("orderly_i18nLng") || "en";
 
@@ -107,7 +108,8 @@ const SmartBotMarketsPage = () => {
       setLoading(true);
       setShowElliotModal(false);
 
-      const telegramUser = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("telegram_user");
+      const telegramUser = storedUser ? JSON.parse(storedUser).telegram_id : null;
       const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
       const targetLang = localStorage.getItem("orderly_i18nLng") || "en";
 
@@ -164,7 +166,8 @@ const SmartBotMarketsPage = () => {
       setLoading(true);
       setShowKellyModal(false);
 
-      const telegramUser = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("telegram_user");
+      const telegramUser = storedUser ? JSON.parse(storedUser).telegram_id : null;
       const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
       const targetLang = localStorage.getItem("orderly_i18nLng") || "en";
 
@@ -220,7 +223,8 @@ const SmartBotMarketsPage = () => {
       setLoading(true);
       setShowGainersModal(false);
 
-      const telegramUser = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("telegram_user");
+      const telegramUser = storedUser ? JSON.parse(storedUser).telegram_id : null;
       const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
       const targetLang = localStorage.getItem("orderly_i18nLng") || "en";
 
