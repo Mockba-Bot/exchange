@@ -92,7 +92,7 @@ const TelegramLoginDialog = () => {
 
       try {
         const tloginPayload = {
-          token: parseInt(user.id),
+          token: Number(user.id),
           wallet_address: wallet,
           want_signal: true,
           language,
