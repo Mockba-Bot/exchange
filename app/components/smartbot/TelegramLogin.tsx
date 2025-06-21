@@ -45,27 +45,34 @@ const TelegramLoginDialog = () => {
 
         // Otherwise check if Telegram link exists
         const response = await fetch(`${apiUrl}/central/tlogin/by_wallet/${wallet}`);
-        const data = await response.json();
 
-        if (response.ok && data.data?.token) {
+        if (response.ok) {
+          const data = await response.json();
           localStorage.setItem("token", data.data.token);
-          localStorage.setItem("token_exp", data.data.expires_at.toString()); // ⬅️ Backend should send it
+          localStorage.setItem("token_exp", data.data.expires_at.toString());
           setIsLinked(true);
           setShowDialog(false);
+        } else if (response.status === 404) {
+          // ✅ Wallet not found — proceed to show Telegram login
+          setIsLinked(false);
+          setShowDialog(true);
         } else {
+          // 🔥 Handle other errors
+          const errText = await response.text();
+          console.error("Unexpected error checking wallet:", errText);
           setIsLinked(false);
           setShowDialog(true);
         }
+
       } catch (error) {
-        console.error("Token check error:", error);
+        console.error("Error checking Telegram link:", error);
         setIsLinked(false);
         setShowDialog(true);
       } finally {
         setIsLoading(false);
       }
     };
-
-
+    // Start checking Telegram link status
     checkTelegramLink();
 
     (window as any).onTelegramAuth = async function (user: {
