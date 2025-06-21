@@ -89,8 +89,8 @@ export const useOrderlyConfig = () => {
           main: {
             component: (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, marginLeft: 6, marginTop: 2 }}>
-                <img src="/mockba-icon.png" alt="" style={{ height: 28 }} />
-                <span style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}>Apolo Futures</span>
+                <img src="/Isotipo.png" alt="" style={{ height: 28 }} />
+                <span style={{ color: 'white', fontSize: 13, fontWeight: 'bold' }}>Apolo Dex</span>
               </div>
             ),
           },
@@ -101,9 +101,9 @@ export const useOrderlyConfig = () => {
                   <BotMessageSquare />
                 </Link>
                 <img
-                  src="/mockba-icon.png"
+                  src="/Isotipo.png"
                   alt=""
-                  style={{ height: 32, borderRadius: 4 }} // Example styles
+                  style={{ height: 35, borderRadius: 4 }} // Example styles
                 />
               </>
             ),
