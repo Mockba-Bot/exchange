@@ -50,7 +50,7 @@ const OrderlyProvider: FC<{ children: ReactNode }> = ({ children }) => {
                 id: "0xa4b1", // Arbitrum One
                 token: "ETH",
                 label: "Arbitrum",
-                rpcUrl: "https://arb1.arbitrum.io/rpc"
+                rpcUrl: "https://1rpc.io/arb"
               },
               {
                 id: "0xa", // Optimism
