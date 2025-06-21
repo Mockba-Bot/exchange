@@ -181,7 +181,7 @@ const MobileMarketTable: FC<MobileMarketTableProps> = ({
           className="oui-inline-flex oui-items-center"
         >
           <img
-            src="/mockba-icon.png"
+            src="/Isotipo.png"
             alt="Back"
             style={{ height: 32, borderRadius: 8 }}
           />
