@@ -64,6 +64,10 @@ const TelegramLoginDialog = () => {
           setShowDialog(true);
         }
 
+        if(!localStorage.getItem("telegram_user")) {
+          setShowDialog(true);
+        }
+
       } catch (error) {
         console.error("Error checking Telegram link:", error);
         setIsLinked(false);

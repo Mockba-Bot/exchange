@@ -90,7 +90,7 @@ const SmartBotMarketsPage = () => {
       toast.error(
         <ToastTile
           title={t("apolo.smartTrade.error.tittle")}
-          subtitle={t("apolo.smartTrade.error.subtitle")}
+          subtitle={t("apolo.smartTrade.error.subtittle")}
         />,
         { duration: 5000 }
       );
@@ -142,7 +142,7 @@ const SmartBotMarketsPage = () => {
       toast.error(
         <ToastTile
           title={t("apolo.smartTrade.error.tittle")}
-          subtitle={t("apolo.smartTrade.error.subtitle")}
+          subtitle={t("apolo.smartTrade.error.subtittle")}
         />,
         { duration: 5000 }
       );
@@ -203,7 +203,7 @@ const SmartBotMarketsPage = () => {
       toast.error(
         <ToastTile
           title={t("apolo.smartTrade.error.tittle")}
-          subtitle={t("apolo.smartTrade.error.subtitle")}
+          subtitle={t("apolo.smartTrade.error.subtittle")}
         />,
         { duration: 5000 }
       );
@@ -254,7 +254,7 @@ const SmartBotMarketsPage = () => {
       );
     } catch (error) {
       toast.error(
-        <ToastTile title={t("apolo.smartTrade.error.tittle")} subtitle={t("apolo.smartTrade.error.subtitle")} />,
+        <ToastTile title={t("apolo.smartTrade.error.tittle")} subtitle={t("apolo.smartTrade.error.subtittle")} />,
         { duration: 5000 }
       );
     } finally {
