@@ -9,7 +9,7 @@ import { Button, Card, usePagination } from "@orderly.network/ui";
 import { useTranslation as useOrderlyTranslation } from "@orderly.network/i18n";
 import enTranslationsJson from "../../../public/locales/en.json";
 const enTranslations = enTranslationsJson as Record<string, string>;
-import TelegramLogin from "@/components/smartbot/TelegramLogin"; // ✅ Add import
+import TelegramLogin from "@/components/smartbot/TelegramLogin";
 import {
   Star,
   BarChart2,
@@ -21,26 +21,24 @@ import {
   PocketKnife
 } from "lucide-react";
 
+// ✅ Static list for compile-time type
+const STATIC_TABS = [
+  { value: "favorites", icon: Star },
+  { value: "all", icon: BarChart2 },
+  { value: "new", icon: Lightbulb },
+] as const;
 
-
-interface CustomMarketTableProps {
-  setSelectedSymbol: (symbol: string, leverage: number) => void;
-  setSelectedSymbolElliot: (symbol: string, leverage: number) => void;
-  setSelectedSymbolKelly: (symbol: string, leverage: number) => void;
-  setShowGainersModal: (show: boolean) => void;
-}
-
-type TabType = typeof TABS[number]["value"];
+type TabType = typeof STATIC_TABS[number]["value"];
 const PAGE_SIZE = 10;
 
 const useTranslation = () => {
   const { t } = useOrderlyTranslation();
-  const currentLang = localStorage.getItem('orderly_i18nLng');
-  
+  const currentLang = localStorage.getItem("orderly_i18nLng");
+
   return (key: string) => {
     const orderlyTranslation = t(key);
     if (orderlyTranslation !== key) return orderlyTranslation;
-    if (currentLang === 'en' && enTranslations[key]) return enTranslations[key];
+    if (currentLang === "en" && enTranslations[key]) return enTranslations[key];
     return key;
   };
 };
@@ -60,31 +58,31 @@ const formatVolume = (value: number) =>
     maximumFractionDigits: 1,
   }).format(value);
 
-
 interface CustomMarketTableProps {
   setSelectedSymbol: (symbol: string, maxLeverage: number) => void;
   setSelectedSymbolElliot: (symbol: string, maxLeverage: number) => void;
   setSelectedSymbolKelly: (symbol: string, maxLeverage: number) => void;
-  setShowGainersModal: (show: boolean) => void; // Optional prop for Gainers modal
+  setShowGainersModal: (show: boolean) => void;
 }
 
 const CustomMarketTable: FC<CustomMarketTableProps> = ({
   setSelectedSymbol,
   setSelectedSymbolElliot,
   setSelectedSymbolKelly,
-  setShowGainersModal
+  setShowGainersModal,
 }) => {
   const t = useTranslation();
-  const TABS = [
-    { value: "favorites", label: t("markets.favorites"), icon: Star },
-    { value: "all", label: t("markets.allMarkets"), icon: BarChart2 },
-    { value: "new", label: t("markets.newListings"), icon: Lightbulb },
-  ] as const;
+
+  // ✅ Runtime mapping for translated tab labels
+  const TABS = STATIC_TABS.map((tab) => ({
+    ...tab,
+    label: t(`markets.${tab.value === "all" ? "allMarkets" : tab.value}`),
+  }));
+
   const [tab, setTab] = useState<TabType>("all");
   const [search, setSearch] = useState("");
   const rowRefs = useRef<(HTMLTableRowElement | null)[]>([]);
 
-  // --- Add this state for connection ---
   const [connected, setConnected] = useState(
     !!localStorage.getItem("orderly_mainnet_address")
   );
@@ -96,7 +94,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
   const { wallet, connecting, connect } = useWalletConnector();
   const isConnected = !!wallet;
 
-  const toggleFavorite = () => { };
+  const toggleFavorite = () => {};
 
   const data = useMemo(() => {
     let source: any[] = [];
@@ -109,7 +107,9 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
     }
 
     return source
-      .filter((m: any) => m.symbol?.toLowerCase().includes(search.toLowerCase()))
+      .filter((m: any) =>
+        m.symbol?.toLowerCase().includes(search.toLowerCase())
+      )
       .sort((a, b) => (b["24h_amount"] || 0) - (a["24h_amount"] || 0));
   }, [tab, markets, favorites, newListing, search]);
 
@@ -124,18 +124,12 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
     return data.slice(start, start + pagination.pageSize);
   }, [data, pagination.page, pagination.pageSize]);
 
-  // --- Add this effect to auto-detect changes in localStorage ---
   useEffect(() => {
     const checkConnection = () => {
       setConnected(!!localStorage.getItem("orderly_mainnet_address"));
     };
-
-    // Listen for storage changes (from other tabs/windows)
     window.addEventListener("storage", checkConnection);
-
-    // Optionally, poll every second in this tab as well
     const interval = setInterval(checkConnection, 1000);
-
     return () => {
       window.removeEventListener("storage", checkConnection);
       clearInterval(interval);
@@ -151,11 +145,14 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
         rowRefs.current[rowIndex + 1]?.focus();
       } else if (e.key === "ArrowUp" && rowIndex > 0) {
         rowRefs.current[rowIndex - 1]?.focus();
-      } else if (e.key === "Enter" && focused instanceof HTMLTableRowElement) {
+      } else if (
+        e.key === "Enter" &&
+        focused instanceof HTMLTableRowElement
+      ) {
         const symbol = focused.dataset.symbol;
         const market = pagedData.find((m) => m.symbol === symbol);
         if (symbol && market) {
-          const leverage = market.leverage || 100; // default fallback
+          const leverage = market.leverage || 100;
           setSelectedSymbol(symbol, leverage);
           setSelectedSymbolElliot(symbol, leverage);
           setSelectedSymbolKelly(symbol, leverage);
