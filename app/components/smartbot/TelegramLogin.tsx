@@ -48,6 +48,16 @@ const TelegramLoginDialog = () => {
 
         if (response.ok) {
           const data = await response.json();
+          const userPayload = {
+            telegram_id: data.data.telegram_id,
+            first_name: "",
+            last_name:  "",
+            username:  "",
+            photo_url:  "",
+            auth_date: "",
+            hash: "",
+          };
+          localStorage.setItem("telegram_user", JSON.stringify(userPayload));
           localStorage.setItem("token", data.data.token);
           localStorage.setItem("token_exp", data.data.expires_at.toString());
           setIsLinked(true);
@@ -64,9 +74,6 @@ const TelegramLoginDialog = () => {
           setShowDialog(true);
         }
 
-        if(!localStorage.getItem("telegram_user")) {
-          setShowDialog(true);
-        }
 
       } catch (error) {
         console.error("Error checking Telegram link:", error);
