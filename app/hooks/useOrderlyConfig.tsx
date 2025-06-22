@@ -33,9 +33,10 @@ export const useOrderlyConfig = () => {
     setValue(stored);
   }, []);
 
-  const { t } = useTranslation();
-  const lang = value || "en";
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const smartbotPath = `/${lang}/smartbot`;
+
 
   return useMemo<OrderlyConfig>(() => {
     return {
