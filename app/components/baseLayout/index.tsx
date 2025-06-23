@@ -36,12 +36,11 @@ export const BaseLayout: FC<BaseLayoutProps> = ({ children, initialMenu, classNa
         <div className="oui-relative oui-flex-1 oui-overflow-y-auto oui-pb-16">
           {children}
         </div>
-
-        {/* Fixed footer stays in view */}
+      </Scaffold>
+       {/* Fixed footer stays in view */}
         {isMobile && (
             <MobileFooter />
         )}
-      </Scaffold>
       
     </div>
   );
