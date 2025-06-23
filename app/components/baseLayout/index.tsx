@@ -32,19 +32,17 @@ export const BaseLayout: FC<BaseLayoutProps> = ({ children, initialMenu, classNa
           content: "oui-h-full oui-flex oui-flex-col",
         }}
       >
-        <div className="oui-relative oui-h-full oui-flex oui-flex-col">
-          {/* SCROLLABLE AREA */}
-          <div className="oui-flex-1 oui-overflow-y-auto oui-pb-16">
-            {children}
-          </div>
+         {/* Main content area with padding to avoid overlapping footer */}
+        <div className="oui-relative oui-flex-1 oui-overflow-y-auto oui-pb-16">
+          {children}
         </div>
+
         {/* Fixed footer stays in view */}
         {isMobile && (
-          <div className="fixed bottom-0 left-0 right-0 z-50">
             <MobileFooter />
-          </div>
         )}
       </Scaffold>
+      
     </div>
   );
 };

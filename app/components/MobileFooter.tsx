@@ -65,8 +65,9 @@ export function MobileFooter() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50
-                oui-h-16 oui-bg-base-7 oui-border-t oui-border-base-4
-                oui-flex oui-justify-evenly oui-items-center px-2">
+             min-h-16 oui-bg-base-7 oui-border-t oui-border-base-4
+             oui-flex oui-justify-evenly oui-items-center px-2
+             pb-[calc(env(safe-area-inset-bottom)+8px)]">
       {menus.map((menu) => {
         const isRoot = menu.href === PathEnum.Root;
 
@@ -87,7 +88,7 @@ export function MobileFooter() {
             key={menu.href}
             to={fullPath}
             className={`oui-flex oui-h-16 oui-flex-col oui-items-center oui-justify-center
-                        oui-text-2xs oui-font-bold oui-gap-1 oui-flex-shrink-0 oui-basis-1/5 oui-pt-2 oui-pb-1
+                        oui-text-2xs oui-font-bold oui-gap-1 oui-flex-shrink-0 oui-basis-1/5 oui-pt-2 oui-pb-9
                         oui-cursor-pointer
                         ${isActive ? "oui-text-white" : "oui-text-base-contrast-36 hover:oui-text-white"}`}
           >
