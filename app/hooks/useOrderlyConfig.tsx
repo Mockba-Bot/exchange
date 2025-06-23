@@ -89,9 +89,9 @@ export const useOrderlyConfig = () => {
         appIcons: {
           main: {
             component: (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, marginLeft: 6, marginTop: 2 }}>
-                <img src="/Isotipo.png" alt="" style={{ height: 28 }} />
-                <span style={{ color: 'white', fontSize: 13, fontWeight: 'bold' }}>Apolo Dex</span>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, marginLeft: 6 }}>
+                <img src="/apolo-dex-icon.png" alt="" style={{ height: 40 }} />
+
               </div>
             ),
           },
