@@ -167,32 +167,12 @@ const MobileMarketTable: FC<MobileMarketTableProps> = ({
   /* ----------------------------------------------------------------------- */
 
   return (
-    <div className="oui-pb-20"> {/* Add bottom padding for navbar */}
-      {/* ----------------------------- NAVBAR ----------------------------- */}
-      <header className="oui-flex oui-items-center oui-justify-between oui-h-12 oui-px-4 oui-bg-base-7 oui-border-b oui-border-base-4">
-        {/* left-side title (optional) */}
-        <h1 className="oui-text-white oui-text-sm oui-font-semibold">
-          {t("common.smartBot")}
-        </h1>
-
-        {/* right-side icon link */}
-        <button
-          onClick={() => navigate(-1)}      // ←  one step back in history
-          className="oui-inline-flex oui-items-center"
-        >
-          <img
-            src="/Isotipo.png"
-            alt="Back"
-            style={{ height: 32, borderRadius: 8 }}
-          />
-        </button>
-      </header>
-
+    <div>
       <Card className="oui-rounded-xl oui-bg-base-7 oui-border oui-border-base-4 oui-overflow-hidden">
         {/* ---------------- header: gainers + search + top ----------------- */}
         {isConnected && (
-          <div className="oui-flex oui-flex-col oui-gap-3 oui-p-4">
-            <div className="oui-flex oui-gap-10 oui-items-center oui-justify-between">
+          <div className="oui-flex oui-flex-col oui-gap-3 oui-pb-4 oui-px-4">
+            <div className="oui-flex oui-gap-10 oui-items-center oui-justify-between" style={{ marginTop: "-1.5rem" }}>
               {/* gainers */}
               <Button
                 type="button"

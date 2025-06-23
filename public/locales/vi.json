@@ -636,7 +636,7 @@
   "apolo.smartTrade.select": "Chọn loại",
   "apolo.smartTrade.gainers.select": "Tăng mạnh",
   "apolo.smartTrade.losers.select": "Giảm mạnh",
-  "apolo.smartTrade.smartanalysis": "Phân tích Thông minh",
+  "apolo.smartTrade.smartanalysis": "Thông minh",
   "apolo.smartTrade.telegram": "Kết nối tài khoản Telegram",
   "apolo.smartTrade.telegram.description": "Vui lòng kết nối tài khoản Telegram của bạn để tiếp tục.",
   "apolo.smartTrade.leverage.error": "Đòn bẩy phải lớn hơn 0 và nhỏ hơn hoặc bằng",

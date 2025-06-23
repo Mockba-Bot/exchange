@@ -109,8 +109,8 @@ const OrderlyProvider: FC<{ children: ReactNode }> = ({ children }) => {
             ],
 
             appMetadata: {
-              name: "Apolo Pay",
-              description: "Connect your wallet to trade with Orderly",
+              name: "Apolo Dex",
+              description: "Connect your wallet to trade with Apolo Dex",
               icon: "https://glogaldv.nyc3.cdn.digitaloceanspaces.com/ApoloDex/logo.png" // or replace with a valid icon URL
             }
           }

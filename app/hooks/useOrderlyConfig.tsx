@@ -6,8 +6,8 @@ import { AppLogos } from "@orderly.network/react-app";
 import { OrderlyActiveIcon, OrderlyIcon } from "../components/icons/orderly";
 import { useTranslation } from "@orderly.network/i18n";
 import { PathEnum } from "@/constant";
-import { Link } from "@remix-run/react";
-import { BotMessageSquare } from 'lucide-react';
+// import { Link } from "@remix-run/react";
+// import { BotMessageSquare } from 'lucide-react';
 
 export type OrderlyConfig = {
   orderlyAppProvider: {
@@ -34,8 +34,8 @@ export const useOrderlyConfig = () => {
   }, []);
 
   const { t, i18n } = useTranslation();
-  const lang = i18n.language;
-  const smartbotPath = `/${lang}/smartbot`;
+  //const lang = i18n.language;
+  // const smartbotPath = `/${lang}/smartbot`;
 
 
   return useMemo<OrderlyConfig>(() => {
@@ -89,26 +89,25 @@ export const useOrderlyConfig = () => {
         appIcons: {
           main: {
             component: (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, marginLeft: 6 }}>
-                <img src="/apolo-dex-icon.png" alt="" style={{ height: 40 }} />
-
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: -20, marginRight: -30 }}>
+                <img src="/apolo-dex-icon.svg" alt="" style={{ height: 100, width: 'auto', maxWidth: '100%', margin: '0 auto' }} />
               </div>
             ),
           },
-          secondary: {
-            component: (
-              <>
-                <Link to={smartbotPath}>
-                  <BotMessageSquare />
-                </Link>
-                <img
-                  src="/Isotipo.png"
-                  alt=""
-                  style={{ height: 35, borderRadius: 4 }} // Example styles
-                />
-              </>
-            ),
-          },
+          // secondary: {
+          //   component: (
+          //     <>
+          //       <Link to={smartbotPath}>
+          //         <BotMessageSquare />
+          //       </Link>
+          //       <img
+          //         src="/Isotipo.png"
+          //         alt=""
+          //         style={{ height: 35, borderRadius: 4 }} // Example styles
+          //       />
+          //     </>
+          //   ),
+          // },
         },
         restrictedInfo: {
           enableDefault: true,
