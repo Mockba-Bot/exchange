@@ -38,9 +38,13 @@ export const BaseLayout: FC<BaseLayoutProps> = ({ children, initialMenu, classNa
             {children}
           </div>
         </div>
+        {/* Fixed footer stays in view */}
+        {isMobile && (
+          <div className="fixed bottom-0 left-0 right-0 z-50">
+            <MobileFooter />
+          </div>
+        )}
       </Scaffold>
-      {/* FIXED FOOTER */}
-      {isMobile && <MobileFooter />}
     </div>
   );
 };
