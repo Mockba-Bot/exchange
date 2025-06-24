@@ -89,7 +89,7 @@ export function MobileFooter() {
             key={menu.href}
             to={fullPath}
             className={`oui-flex oui-h-16 oui-flex-col oui-items-center oui-justify-center
-                        oui-text-2xs oui-font-bold oui-gap-1 oui-flex-shrink-0 oui-basis-1/5 oui-pt-4 oui-pb-2
+                        oui-text-2xs oui-font-bold oui-gap-1 oui-flex-shrink-0 oui-basis-1/5 oui-pt-3 oui-pb-2
                         oui-cursor-pointer
                         ${isActive ? "oui-text-white" : "oui-text-base-contrast-36 hover:oui-text-white"}`}
           >
