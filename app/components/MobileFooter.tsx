@@ -6,23 +6,30 @@ import {
   User,
   ChartNoAxesCombined,
   ChartCandlestick,
-  Award,
 } from "lucide-react";
 import { useTranslation } from "@orderly.network/i18n";
 import { PathEnum } from "@/constant";
 
 // Icon mapping for each route
-const iconMap: Record<string, JSX.Element> = {
-  [PathEnum.SmartBot]: <BotMessageSquare className="oui-w-6 oui-h-6" />,
-  [PathEnum.Root]: <ChartCandlestick className="oui-w-6 oui-h-6" />,
-  [PathEnum.Portfolio]: <User className="oui-w-6 oui-h-6" />,
-  [PathEnum.Markets]: <ChartNoAxesCombined className="oui-w-6 oui-h-6" />,
+const iconMap: Record<string, (isActive: boolean) => JSX.Element> = {
+  [PathEnum.SmartBot]: (isActive) => (
+    <BotMessageSquare className={`oui-w-6 oui-h-6 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
+  ),
+  [PathEnum.Root]: (isActive) => (
+    <ChartCandlestick className={`oui-w-6 oui-h-6 ${isActive ? "oui-text-primary-darken" : "oui-text-base-foreground"}`} />
+  ),
+  [PathEnum.Portfolio]: (isActive) => (
+    <User className={`oui-w-6 oui-h-6 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
+  ),
+  [PathEnum.Markets]: (isActive) => (
+    <ChartNoAxesCombined className={`oui-w-6 oui-h-6 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
+  ),
 };
+
 
 export function MobileFooter() {
   const isMobile = useIsMobile();
   const { t, i18n } = useTranslation();
-  const { scaffold } = useOrderlyConfig();
   const location = useLocation();
 
   if (!isMobile) return null;
@@ -86,7 +93,7 @@ export function MobileFooter() {
                         oui-cursor-pointer
                         ${isActive ? "oui-text-white" : "oui-text-base-contrast-36 hover:oui-text-white"}`}
           >
-            {iconMap[menu.href] || <div className="oui-w-5 oui-h-5" />}
+            {iconMap[menu.href]?.(isActive) || <div className="oui-w-6 oui-h-6" />}
             <span className="oui-font-bold">{menu.name}</span>
           </Link>
         );
