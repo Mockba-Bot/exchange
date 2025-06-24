@@ -166,7 +166,7 @@ const MobileMarketTable: FC<MobileMarketTableProps> = ({
         {/* ---------------- header: gainers + search + top ----------------- */}
         {isConnected && (
           <div className="oui-flex oui-flex-col oui-gap-3 oui-pb-4 oui-px-4">
-            <div className="oui-flex oui-gap-10 oui-items-center oui-justify-between" style={{ marginTop: "-1.5rem" }}>
+            <div className="oui-flex oui-gap-10 oui-items-center oui-justify-between">
               {/* gainers */}
               <Button
                 type="button"

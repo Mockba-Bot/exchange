@@ -13,16 +13,16 @@ import { PathEnum } from "@/constant";
 // Icon mapping for each route
 const iconMap: Record<string, (isActive: boolean) => JSX.Element> = {
   [PathEnum.SmartBot]: (isActive) => (
-    <BotMessageSquare className={`oui-w-6 oui-h-6 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
+    <BotMessageSquare className={`oui-w-5 oui-h-5 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
   ),
   [PathEnum.Root]: (isActive) => (
-    <ChartCandlestick className={`oui-w-6 oui-h-6 ${isActive ? "oui-text-primary-darken" : "oui-text-base-foreground"}`} />
+    <ChartCandlestick className={`oui-w-5 oui-h-5 ${isActive ? "oui-text-primary-darken" : "oui-text-base-foreground"}`} />
   ),
   [PathEnum.Portfolio]: (isActive) => (
-    <User className={`oui-w-6 oui-h-6 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
+    <User className={`oui-w-5 oui-h-5 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
   ),
   [PathEnum.Markets]: (isActive) => (
-    <ChartNoAxesCombined className={`oui-w-6 oui-h-6 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
+    <ChartNoAxesCombined className={`oui-w-5 oui-h-5 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
   ),
 };
 
