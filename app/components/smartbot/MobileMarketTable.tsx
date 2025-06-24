@@ -205,9 +205,9 @@ const MobileMarketTable: FC<MobileMarketTableProps> = ({
 
             </div>
 
-            <div className="flex oui-justify-center">
+            {/* <div className="flex oui-justify-center">
               <TelegramLogin />
-            </div>
+            </div> */}
 
             {/* search */}
             <div className="oui-flex oui-items-center oui-bg-base-6 oui-rounded oui-h-9 oui-pl-3 oui-pr-1">
