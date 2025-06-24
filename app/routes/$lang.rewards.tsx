@@ -4,6 +4,7 @@ import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
 import { useNav } from "@/hooks/useNav";
 import { PathEnum } from "@/constant";
 import { usePathWithoutLang } from "@/hooks/usePathWithoutLang";
+import { Dashboard, ReferralProvider } from "@orderly.network/affiliate";
 
 export default function TradingRewardsLayout() {
   const config = useOrderlyConfig();
@@ -25,6 +26,7 @@ export default function TradingRewardsLayout() {
         current: path,
       }}
     >
+      <Dashboard.AffiliatePage />
       <Outlet />
     </TradingRewardsLayoutWidget>
   );
