@@ -206,7 +206,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
                 <p className="oui-text-xs oui-text-danger mt-1">
                   {leverage === "" || isNaN(Number(leverage))
                     ? t("apolo.smartTrade.required")
-                    : t("apolo.smartTrade.leverage.error")}
+                    : `${t("apolo.smartTrade.leverage.error")} ${maxLeverage_}`}
                 </p>
               )}
             </div>

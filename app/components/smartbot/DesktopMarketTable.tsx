@@ -25,7 +25,7 @@ import {
 const STATIC_TABS = [
   { value: "favorites", icon: Star },
   { value: "all", icon: BarChart2 },
-  { value: "new", icon: Lightbulb },
+  { value: "newListings", icon: Lightbulb },
 ] as const;
 
 type TabType = typeof STATIC_TABS[number]["value"];
