@@ -64,10 +64,8 @@ export function MobileFooter() {
   const cleanPath = (path: string) => path.replace(/\/+$/, "");
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50
-                min-h-16 oui-bg-base-7 oui-border-t oui-border-base-4
-                oui-flex oui-justify-evenly oui-items-center px-2
-                pb-[calc(env(safe-area-inset-bottom)+8px)]">
+     <nav className="min-h-16 oui-bg-base-7 oui-border-t oui-border-base-4
+                   oui-flex oui-justify-evenly oui-items-center px-2">
       {menus.map((menu) => {
         const isRoot = menu.href === PathEnum.Root;
 
