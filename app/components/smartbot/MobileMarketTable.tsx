@@ -337,7 +337,7 @@ const MobileMarketTable: FC<MobileMarketTableProps> = ({
             {/* ------------- manual “Load more” fallback ------------- */}
             {pagination.page <
               Math.ceil(filteredData.length / pagination.pageSize) && (
-                <div className="oui-flex oui-justify-center oui-py-3">
+                <div className="oui-flex oui-justify-center oui-py-3 oui-mb-4">
                   <Button
                     size="sm"
                     onClick={() => pagination.setPage(pagination.page + 1)}

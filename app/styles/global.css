@@ -1,3 +1,8 @@
-  .price-axis-container {
+  /* .price-axis-container {
     border: 2px solid red !important;
-  }
+  } */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}

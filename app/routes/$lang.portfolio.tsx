@@ -7,12 +7,14 @@ import {
 import { useNav } from "@/hooks/useNav";
 import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
 import { usePathWithoutLang } from "@/hooks/usePathWithoutLang";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import { MobileFooter } from "@/components/MobileFooter";
 import { PathEnum } from "@/constant";
 
 export default function PortfolioLayout() {
   const config = useOrderlyConfig();
   const path = usePathWithoutLang();
-
+  const isMobile = useIsMobile();
   const { onRouteChange } = useNav();
 
   const currentPath = useMemo(() => {
@@ -25,20 +27,28 @@ export default function PortfolioLayout() {
   }, [path]);
 
   return (
-    <PortfolioLayoutWidget
-      footerProps={config.scaffold.footerProps}
-      mainNavProps={{
-        ...config.scaffold.mainNavProps,
-        initialMenu: PathEnum.Portfolio,
-      }}
-      routerAdapter={{
-        onRouteChange,
-      }}
-      leftSideProps={{
-        current: currentPath,
-      }}
-    >
-      <Outlet />
-    </PortfolioLayoutWidget>
+    <div className="oui-h-full oui-flex oui-flex-col">
+      <PortfolioLayoutWidget
+        footerProps={config.scaffold.footerProps}
+        mainNavProps={{
+          ...config.scaffold.mainNavProps,
+          initialMenu: PathEnum.Portfolio,
+        }}
+        routerAdapter={{
+          onRouteChange,
+        }}
+        leftSideProps={{
+          current: currentPath,
+        }}
+      >
+        <div className="oui-flex-1 oui-overflow-y-auto pb-[calc(64px+env(safe-area-inset-bottom,0px))]">
+          <Outlet />
+        </div>
+      </PortfolioLayoutWidget>
+
+      <div className="oui-bottom-0 oui-w-full oui-fixed">
+        {isMobile && <MobileFooter />}
+      </div>
+    </div>
   );
 }
