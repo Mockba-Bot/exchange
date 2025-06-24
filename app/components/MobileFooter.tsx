@@ -12,11 +12,11 @@ import { PathEnum } from "@/constant";
 
 // Icon mapping for each route
 const iconMap: Record<string, (isActive: boolean) => JSX.Element> = {
-  [PathEnum.SmartBot]: (isActive) => (
-    <BotMessageSquare className={`oui-w-5 oui-h-5 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
-  ),
   [PathEnum.Root]: (isActive) => (
     <ChartCandlestick className={`oui-w-5 oui-h-5 ${isActive ? "oui-text-primary-darken" : "oui-text-base-foreground"}`} />
+  ),
+  [PathEnum.SmartBot]: (isActive) => (
+    <BotMessageSquare className={`oui-w-5 oui-h-5 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
   ),
   [PathEnum.Portfolio]: (isActive) => (
     <User className={`oui-w-5 oui-h-5 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
@@ -39,8 +39,8 @@ export function MobileFooter() {
 
   // Explicitly define the ordered paths we want in the footer
   const orderedHrefs = [
-    PathEnum.SmartBot,
     PathEnum.Root,
+    PathEnum.SmartBot,
     PathEnum.Portfolio,
     PathEnum.Markets,
   ];
