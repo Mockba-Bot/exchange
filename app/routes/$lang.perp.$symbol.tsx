@@ -109,7 +109,7 @@ export default function PerpPage() {
 
   return (
     <div
-      ref={chartContainerRef}
+      ref={chartContainerRef} style={isMobile ? { paddingBottom: "80px" } : undefined}
     >
       <TradingPage
         symbol={symbol}

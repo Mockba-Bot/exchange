@@ -7,11 +7,17 @@ export default function PerpLayout() {
   const isMobile = useIsMobile(); // ✅
   return (
     <BaseLayout>
-      <Outlet />
-      {/* ✅ Add MobileFooter explicitly */}
-      <div className="oui-bottom-0 oui-w-full oui-fixed">
-        {isMobile && <MobileFooter />}
+      <div className="oui-flex oui-flex-col oui-h-screen">
+        <div className="oui-flex-1 oui-overflow-auto">
+          <Outlet />
+        </div>
+        {isMobile && (
+          <div className="oui-fixed oui-bottom-0 oui-w-full oui-z-50">
+            <MobileFooter />
+          </div>
+        )}
       </div>
     </BaseLayout>
+
   );
 }
