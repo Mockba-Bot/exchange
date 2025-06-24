@@ -3,30 +3,16 @@ import { useState, useEffect } from "react";
 const MOBILE_BREAKPOINT = 768;
 
 export function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-
-    const width = window.innerWidth;
-    const isUserAgentMobile =
-      /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
-        navigator.userAgent
-      );
-
-    return width < MOBILE_BREAKPOINT || isUserAgentMobile;
-  });
+  const [isMobile, setIsMobile] = useState<boolean>(
+    typeof window !== "undefined" && window.innerWidth < MOBILE_BREAKPOINT
+  );
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth;
-      const isUserAgentMobile =
-        /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
-          navigator.userAgent
-        );
-
-      setIsMobile(width < MOBILE_BREAKPOINT || isUserAgentMobile);
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
     };
 
-    handleResize();
+    handleResize(); // Run on mount
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
