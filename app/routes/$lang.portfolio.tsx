@@ -41,7 +41,10 @@ export default function PortfolioLayout() {
           current: currentPath,
         }}
       >
-        <div className="oui-flex-1 oui-overflow-y-auto pb-[calc(64px+env(safe-area-inset-bottom,0px))]">
+        <div
+        className="oui-flex-1 oui-overflow-y-auto"
+        style={{ paddingBottom: "calc(64px + env(safe-area-inset-bottom, 0px))" }}
+      >
           <Outlet />
         </div>
       </PortfolioLayoutWidget>

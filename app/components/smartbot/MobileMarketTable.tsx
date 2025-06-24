@@ -43,12 +43,6 @@ const useTranslation = () => {
   };
 };
 
-const formatNumber = (v: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 2,
-  }).format(v);
 
 const formatVolume = (v: number) =>
   new Intl.NumberFormat("en-US", {
@@ -337,7 +331,7 @@ const MobileMarketTable: FC<MobileMarketTableProps> = ({
             {/* ------------- manual “Load more” fallback ------------- */}
             {pagination.page <
               Math.ceil(filteredData.length / pagination.pageSize) && (
-                <div className="oui-flex oui-justify-center oui-py-3 oui-mb-4">
+                <div className="oui-flex oui-justify-center oui-py-3 oui-mb-10">
                   <Button
                     size="sm"
                     onClick={() => pagination.setPage(pagination.page + 1)}

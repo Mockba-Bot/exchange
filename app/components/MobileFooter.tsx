@@ -13,11 +13,10 @@ import { PathEnum } from "@/constant";
 
 // Icon mapping for each route
 const iconMap: Record<string, JSX.Element> = {
-  [PathEnum.SmartBot]: <BotMessageSquare className="oui-w-5 oui-h-5" />,
-  [PathEnum.Root]: <ChartCandlestick className="oui-w-5 oui-h-5" />,
-  [PathEnum.Portfolio]: <User className="oui-w-5 oui-h-5" />,
-  [PathEnum.Markets]: <ChartNoAxesCombined className="oui-w-5 oui-h-5" />,
-  [PathEnum.Leaderboard]: <Award className="oui-w-5 oui-h-5" />,
+  [PathEnum.SmartBot]: <BotMessageSquare className="oui-w-6 oui-h-6" />,
+  [PathEnum.Root]: <ChartCandlestick className="oui-w-6 oui-h-6" />,
+  [PathEnum.Portfolio]: <User className="oui-w-6 oui-h-6" />,
+  [PathEnum.Markets]: <ChartNoAxesCombined className="oui-w-6 oui-h-6" />,
 };
 
 export function MobileFooter() {
@@ -37,7 +36,6 @@ export function MobileFooter() {
     PathEnum.Root,
     PathEnum.Portfolio,
     PathEnum.Markets,
-    PathEnum.Leaderboard,
   ];
 
   // Safely map and filter menu items with fallbacks for translations
@@ -52,8 +50,6 @@ export function MobileFooter() {
           return { name: t("common.portfolio") || "Portfolio", href };
         case PathEnum.Markets:
           return { name: t("common.markets") || "Markets", href };
-        case PathEnum.Leaderboard:
-          return { name: t("tradingLeaderboard.leaderboard") || "Leaderboard", href };
         default:
           return null;
       }
@@ -64,7 +60,7 @@ export function MobileFooter() {
   const cleanPath = (path: string) => path.replace(/\/+$/, "");
 
   return (
-     <nav className="min-h-16 oui-bg-base-7 oui-border-t oui-border-base-4
+     <nav className="min-h-16 oui-bg-base-10 oui-border-t oui-border-base-4
                    oui-flex oui-justify-evenly oui-items-center px-2">
       {menus.map((menu) => {
         const isRoot = menu.href === PathEnum.Root;
@@ -86,7 +82,7 @@ export function MobileFooter() {
             key={menu.href}
             to={fullPath}
             className={`oui-flex oui-h-16 oui-flex-col oui-items-center oui-justify-center
-                        oui-text-2xs oui-font-bold oui-gap-1 oui-flex-shrink-0 oui-basis-1/5 oui-pt-2
+                        oui-text-2xs oui-font-bold oui-gap-1 oui-flex-shrink-0 oui-basis-1/5 oui-pt-4 oui-pb-2
                         oui-cursor-pointer
                         ${isActive ? "oui-text-white" : "oui-text-base-contrast-36 hover:oui-text-white"}`}
           >
