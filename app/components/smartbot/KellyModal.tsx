@@ -299,7 +299,7 @@ const KellyModal: FC<KellyModalProps> = ({
               {/* Submit Button */}
               <div className="oui-flex oui-justify-end oui-gap-2 oui-pt-2 oui-pb-4">
                 <ThrottledButton
-                  throttleDuration={10000}
+                  throttleDuration={12000}
                   size="md"
                   icon={<Bot />}
                   type="submit"
