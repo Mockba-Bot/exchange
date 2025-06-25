@@ -94,7 +94,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
   const { wallet, connecting, connect } = useWalletConnector();
   const isConnected = !!wallet;
 
-  const toggleFavorite = () => {};
+  const toggleFavorite = () => { };
 
   const data = useMemo(() => {
     let source: any[] = [];
@@ -124,6 +124,59 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
     return data.slice(start, start + pagination.pageSize);
   }, [data, pagination.page, pagination.pageSize]);
 
+  /*------------------------------Check token----------------------------*/
+  useEffect(() => {
+    console.log("📌 [useEffect] Starting Telegram auto-link logic");
+
+    const wallet = localStorage.getItem("orderly_mainnet_address");
+    const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
+
+    // console.log("🔍 wallet:", wallet);
+    // console.log("🔍 apiUrl:", apiUrl);
+
+    if (!wallet || !apiUrl) {
+      console.warn("⛔ Missing wallet or apiUrl. Skipping fetch.");
+      return;
+    }
+
+    const tryAutoLinkTelegram = async () => {
+      // console.log("🚀 Calling Telegram auto-link API...");
+
+      try {
+        const response = await fetch(`${apiUrl}/central/tlogin/by_wallet/${wallet}`);
+        console.log("[✅ Telegram auto-link response]", response);
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("✅ Telegram data:", data);
+
+          const userPayload = {
+            telegram_id: data.data.telegram_id,
+            first_name: "",
+            last_name: "",
+            username: "",
+            photo_url: "",
+            auth_date: "",
+            hash: "",
+          };
+
+          localStorage.setItem("telegram_user", JSON.stringify(userPayload));
+          localStorage.setItem("token", data.data.token);
+          localStorage.setItem("token_exp", data.data.expires_at.toString());
+
+          window.dispatchEvent(new CustomEvent("telegram-auth", { detail: data }));
+        } else {
+          console.warn("❌ Telegram auto-link failed with status:", response.status);
+        }
+      } catch (err) {
+        console.error("🔥 Telegram auto-link error", err);
+      }
+    };
+
+    tryAutoLinkTelegram();
+  }, []);
+
+  /*------------------------------Check token----------------------------*/
   useEffect(() => {
     const checkConnection = () => {
       setConnected(!!localStorage.getItem("orderly_mainnet_address"));

@@ -31,60 +31,60 @@ const TelegramLoginDialog = () => {
   const [showDialog, setShowDialog] = useState(false);
 
   useEffect(() => {
-    const checkTelegramLink = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const exp = Number(localStorage.getItem("token_exp") || "0");
+    // const checkTelegramLink = async () => {
+    //   try {
+    //     const token = localStorage.getItem("token");
+    //     const exp = Number(localStorage.getItem("token_exp") || "0");
 
-        const now = Math.floor(Date.now() / 1000);
-        if (token && exp > now) {
-          setIsLinked(true);
-          setShowDialog(false);
-          return;
-        }
+    //     const now = Math.floor(Date.now() / 1000);
+    //     if (token && exp > now) {
+    //       setIsLinked(true);
+    //       setShowDialog(false);
+    //       return;
+    //     }
 
-        // Otherwise check if Telegram link exists
-        const response = await fetch(`${apiUrl}/central/tlogin/by_wallet/${wallet}`);
+    //     // Otherwise check if Telegram link exists
+    //     const response = await fetch(`${apiUrl}/central/tlogin/by_wallet/${wallet}`);
 
-        if (response.ok) {
-          const data = await response.json();
-          const userPayload = {
-            telegram_id: data.data.telegram_id,
-            first_name: "",
-            last_name:  "",
-            username:  "",
-            photo_url:  "",
-            auth_date: "",
-            hash: "",
-          };
-          localStorage.setItem("telegram_user", JSON.stringify(userPayload));
-          localStorage.setItem("token", data.data.token);
-          localStorage.setItem("token_exp", data.data.expires_at.toString());
-          setIsLinked(true);
-          setShowDialog(false);
-        } else if (response.status === 404) {
-          // ✅ Wallet not found — proceed to show Telegram login
-          setIsLinked(false);
-          setShowDialog(true);
-        } else {
-          // 🔥 Handle other errors
-          const errText = await response.text();
-          console.error("Unexpected error checking wallet:", errText);
-          setIsLinked(false);
-          setShowDialog(true);
-        }
+    //     if (response.ok) {
+    //       const data = await response.json();
+    //       const userPayload = {
+    //         telegram_id: data.data.telegram_id,
+    //         first_name: "",
+    //         last_name:  "",
+    //         username:  "",
+    //         photo_url:  "",
+    //         auth_date: "",
+    //         hash: "",
+    //       };
+    //       localStorage.setItem("telegram_user", JSON.stringify(userPayload));
+    //       localStorage.setItem("token", data.data.token);
+    //       localStorage.setItem("token_exp", data.data.expires_at.toString());
+    //       setIsLinked(true);
+    //       setShowDialog(false);
+    //     } else if (response.status === 404) {
+    //       // ✅ Wallet not found — proceed to show Telegram login
+    //       setIsLinked(false);
+    //       setShowDialog(true);
+    //     } else {
+    //       // 🔥 Handle other errors
+    //       const errText = await response.text();
+    //       console.error("Unexpected error checking wallet:", errText);
+    //       setIsLinked(false);
+    //       setShowDialog(true);
+    //     }
 
 
-      } catch (error) {
-        console.error("Error checking Telegram link:", error);
-        setIsLinked(false);
-        setShowDialog(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    // Start checking Telegram link status
-    checkTelegramLink();
+    //   } catch (error) {
+    //     console.error("Error checking Telegram link:", error);
+    //     setIsLinked(false);
+    //     setShowDialog(true);
+    //   } finally {
+    //     setIsLoading(false);
+    //   }
+    // };
+    // // Start checking Telegram link status
+    // checkTelegramLink();
 
     (window as any).onTelegramAuth = async function (user: {
       id: number;
