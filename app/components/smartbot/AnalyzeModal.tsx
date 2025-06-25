@@ -245,7 +245,7 @@ const AnalyzeModal: FC<AnalyzeModalProps> = ({
             {/* Submit Button */}
             <div className="oui-flex oui-justify-end oui-gap-2 oui-pt-2 oui-pb-4">
               <ThrottledButton
-                throttleDuration={12000}
+                throttleDuration={10000}
                 size="md"
                 icon={<Bot />}
                 type="submit"
