@@ -31,6 +31,16 @@ const AnalyzeInProgressModal: FC<Props> = ({ open }) => {
   const t = useTranslation();
 
   return (
+    <>
+    <style>
+        {`
+          @media (max-width: 640px) {
+            .dialog-mobile-max {
+              max-width: 90% !important;
+            }
+          }
+        `}
+      </style>
     <Dialog open={open}>
       <DialogContent className="oui-space-y-6 oui-pb-4 dialog-mobile-max">
         <DialogHeader>
@@ -44,6 +54,7 @@ const AnalyzeInProgressModal: FC<Props> = ({ open }) => {
         </div>
       </DialogContent>
     </Dialog>
+    </>
   );
 };
 
