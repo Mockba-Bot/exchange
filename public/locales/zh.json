@@ -629,7 +629,7 @@
   "apolo.smartTrade.in.progress.tittle": "智能分析进行中",
   "apolo.smartTrade.in.progress.subtitle": "您将在 Telegram 上收到结果。可能需要最多 5 分钟。",
   "apolo.smartTrade.error.tittle": "错误",
-  "apolo.smartTrade.error.subtittle": "请求过多，请稍后重试。",
+  "apolo.smartTrade.error.subtittle": "分析执行时出错。请稍后再试。",
   "apolo.smarTrade.marketAnalysis.tittle": "市场信号分析",
   "apolo.smartTrade.close": "关闭",
   "apolo.smartTrade.required": "此字段为必填项。",
@@ -643,5 +643,7 @@
   "apolo.smartTrade.freeCollateral.error": "自由保证金必须是正数。",
   "apolo.smartTrade.actions": "操作",
   "apolo.smartTrade.loadmore": "加载更多",
-  "apolo.smartTrade.gotoTop": "回到顶部"
+  "apolo.smartTrade.gotoTop": "回到顶部",
+  "apolo.smartTrade.success.title": "分析已开始",
+  "apolo.smartTrade.success.subtitle": "您将很快在Telegram上收到通知。"
 }

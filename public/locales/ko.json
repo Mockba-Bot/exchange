@@ -629,7 +629,7 @@
   "apolo.smartTrade.in.progress.tittle": "스마트 분석 진행 중",
   "apolo.smartTrade.in.progress.subtitle": "Telegram에서 결과를 받게 됩니다. 최대 5분 정도 걸릴 수 있습니다.",
   "apolo.smartTrade.error.tittle": "오류",
-  "apolo.smartTrade.error.subtittle": "요청이 너무 많습니다. 잠시만 기다려 주세요.",
+  "apolo.smartTrade.error.subtittle": "분석 실행 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.",
   "apolo.smarTrade.marketAnalysis.tittle": "시장 신호 분석",
   "apolo.smartTrade.close": "닫기",
   "apolo.smartTrade.required": "이 항목은 필수입니다.",
@@ -643,5 +643,7 @@
   "apolo.smartTrade.freeCollateral.error": "프리 담보는 양수여야 합니다.",
   "apolo.smartTrade.actions": "작업",
   "apolo.smartTrade.loadmore": "더 많은 로드",
-  "apolo.smartTrade.gotoTop": "맨 위로 이동"
+  "apolo.smartTrade.gotoTop": "맨 위로 이동",
+  "apolo.smartTrade.success.title": "분석 시작됨",
+  "apolo.smartTrade.success.subtitle": "곧 Telegram에서 알림을 받게 됩니다."
 }

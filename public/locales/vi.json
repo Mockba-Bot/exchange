@@ -629,7 +629,7 @@
   "apolo.smartTrade.in.progress.tittle": "Đang tiến hành phân tích thông minh",
   "apolo.smartTrade.in.progress.subtitle": "Bạn sẽ nhận kết quả trên Telegram. Có thể mất đến 5 phút.",
   "apolo.smartTrade.error.tittle": "Lỗi.",
-  "apolo.smartTrade.error.subtittle": "Quá nhiều yêu cầu. Vui lòng chờ.",
+  "apolo.smartTrade.error.subtittle": "Lỗi khi thực hiện phân tích. Vui lòng thử lại sau.",
   "apolo.smarTrade.marketAnalysis.tittle": "Phân tích Tín hiệu Thị trường",
   "apolo.smartTrade.close": "Đóng",
   "apolo.smartTrade.required": "Trường này là bắt buộc.",
@@ -643,5 +643,7 @@
   "apolo.smartTrade.freeCollateral.error": "Tài sản thế chấp miễn phí phải lớn hơn 0 và nhỏ hơn hoặc bằng",
   "apolo.smartTrade.actions": "Hành động",
   "apolo.smartTrade.loadmore": "Tải thêm",
-  "apolo.smartTrade.gotoTop": "Quay lại đầu trang"
+  "apolo.smartTrade.gotoTop": "Quay lại đầu trang",
+  "apolo.smartTrade.success.title": "Phân tích đã bắt đầu",
+  "apolo.smartTrade.success.subtitle": "Bạn sẽ nhận được thông báo trên Telegram sớm."
 }

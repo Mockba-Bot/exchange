@@ -126,7 +126,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
 
   /*------------------------------Check token----------------------------*/
   useEffect(() => {
-    console.log("📌 [useEffect] Starting Telegram auto-link logic");
+    // console.log("📌 [useEffect] Starting Telegram auto-link logic");
 
     const wallet = localStorage.getItem("orderly_mainnet_address");
     const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
@@ -144,7 +144,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
 
       try {
         const response = await fetch(`${apiUrl}/central/tlogin/by_wallet/${wallet}`);
-        console.log("[✅ Telegram auto-link response]", response);
+        // console.log("[✅ Telegram auto-link response]", response);
 
         if (response.ok) {
           const data = await response.json();
@@ -230,9 +230,9 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
                 aria-orientation="horizontal"
                 data-orientation="horizontal"
               >
-                <div className="flex oui-justify-center">
+                {/* <div className="flex oui-justify-center">
                   <TelegramLogin />
-                </div>
+                </div> */}
                 {TABS.map((tabItem) => {
                   const isActive = tab === tabItem.value;
                   return (

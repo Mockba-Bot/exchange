@@ -629,7 +629,7 @@
   "apolo.smartTrade.in.progress.tittle": "Análisis inteligente en progreso",
   "apolo.smartTrade.in.progress.subtitle": "Recibirás el resultado por Telegram. Esto puede tardar hasta 5 minutos.",
   "apolo.smartTrade.error.tittle": "Error.",
-  "apolo.smartTrade.error.subtittle": "Demasiadas solicitudes. Por favor espera.",
+  "apolo.smartTrade.error.subtittle": "Error al ejecutar el análisis. Por favor, inténtalo de nuevo más tarde.",
   "apolo.smarTrade.marketAnalysis.tittle": "Análisis de Señales del Mercado",
   "apolo.smartTrade.close": "Cerrar",
   "apolo.smartTrade.required": "Este campo es obligatorio.",
@@ -643,5 +643,7 @@
   "apolo.smartTrade.freeCollateral.error": "El capital libre debe ser un número positivo.",
   "apolo.smartTrade.actions": "Acciones",
   "apolo.smartTrade.loadmore": "Cargar más",
-  "apolo.smartTrade.gotoTop": "Ir al inicio"
+  "apolo.smartTrade.gotoTop": "Ir al inicio",
+  "apolo.smartTrade.success.title": "Análisis iniciado",
+  "apolo.smartTrade.success.subtitle": "Recibirás una notificación en Telegram pronto."
 }

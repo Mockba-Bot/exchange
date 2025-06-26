@@ -629,7 +629,7 @@
   "apolo.smartTrade.in.progress.tittle": "スマート分析を実行中",
   "apolo.smartTrade.in.progress.subtitle": "結果はTelegramで受け取ります。最大5分かかる場合があります。",
   "apolo.smartTrade.error.tittle": "エラー",
-  "apolo.smartTrade.error.subtittle": "リクエストが多すぎます。しばらくお待ちください。",
+  "apolo.smartTrade.error.subtittle": "分析の実行中にエラーが発生しました。後でもう一度お試しください。",
   "apolo.smarTrade.marketAnalysis.tittle": "市場シグナル分析",
   "apolo.smartTrade.close": "閉じる",
   "apolo.smartTrade.required": "この項目は必須です。",
@@ -643,5 +643,7 @@
   "apolo.smartTrade.freeCollateral.error": "フリー担保は正の数である必要があります。",
   "apolo.smartTrade.actions": "アクション",
   "apolo.smartTrade.loadmore": "さらに読み込む",
-  "apolo.smartTrade.gotoTop": "トップに移動"
+  "apolo.smartTrade.gotoTop": "トップに移動",
+  "apolo.smartTrade.success.title": "分析が開始されました",
+  "apolo.smartTrade.success.subtitle": "Telegramで通知が届きます"
 }
