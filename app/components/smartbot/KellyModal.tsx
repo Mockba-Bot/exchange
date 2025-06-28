@@ -237,12 +237,8 @@ const KellyModal: FC<KellyModalProps> = ({
                   value={freeCollateral}
                   onChange={(e) => {
                     // Remove non-digit characters
-                    let val = e.target.value;
-                    // Prevent multiple leading zeros, but allow a single "0"
-                    if (val.length > 1) {
-                      val = val.replace(/^0+/, "");
-                    }
-                    setFreeCollateral(val);
+                    const val = e.target.value;
+                    setFreeCollateral(val); // just set it, don't mutate or clean here
                   }}
                   onKeyUp={() => {
                     const isValid = Number(freeCollateral) >= 0;
