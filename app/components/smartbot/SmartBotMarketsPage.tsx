@@ -149,7 +149,7 @@ const SmartBotMarketsPage = () => {
         feature: indicator,
         leverage: Number(leverage),
         target_lang: targetLang,
-        freeCollateral: Number(freeCollateral),
+        free_collateral: Number(freeCollateral),
       };
 
       const res = await fetch(`${apiUrl}/trading/analyze_probability_asset`, {
