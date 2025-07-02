@@ -6,6 +6,7 @@ export enum PathEnum {
   Positions = "/portfolio/positions",
   Orders = "/portfolio/orders",
   FeeTier = "/portfolio/fee",
+  Asset = "/portfolio/assets",
   ApiKey = "/portfolio/api-key",
   Setting = "/portfolio/setting",
   History = "/portfolio/history",
