@@ -36,6 +36,8 @@ const SmartBotMarketsPage = () => {
   const [showProgressModal, setShowProgressModal] = useState(false);
   const [showAnalysisResultModal, setShowAnalysisResultModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [analysisResultMessage, setAnalysisResultMessage] = useState<string | null>(null);
+
   const t = useTranslation();
 
   const getAuthHeaders = () => {
@@ -80,9 +82,15 @@ const SmartBotMarketsPage = () => {
 
       if (!res.ok) throw new Error("Failed");
 
-      toast.success(
-        <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
-      );
+      const data = await res.json();
+
+      // Save message and open result modal
+      setAnalysisResultMessage(data.result); // this is your detailed report
+      setShowAnalysisResultModal(true);
+
+      // toast.success(
+      //   <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
+      // );
     } catch (error) {
       hideProgress();
       toast.error(
@@ -121,9 +129,15 @@ const SmartBotMarketsPage = () => {
 
       if (!res.ok) throw new Error("Failed");
 
-      toast.success(
-        <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
-      );
+      const data = await res.json();
+
+      // Save message and open result modal
+      setAnalysisResultMessage(data.result); // this is your detailed report
+      setShowAnalysisResultModal(true);
+
+      // toast.success(
+      //   <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
+      // );
     } catch (error) {
       hideProgress();
       toast.error(
@@ -165,9 +179,15 @@ const SmartBotMarketsPage = () => {
 
       if (!res.ok) throw new Error("Failed");
 
-      toast.success(
-        <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
-      );
+      const data = await res.json();
+
+      // Save message and open result modal
+      setAnalysisResultMessage(data.result); // this is your detailed report
+      setShowAnalysisResultModal(true);
+
+      // toast.success(
+      //   <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
+      // );
     } catch (error) {
       hideProgress();
       toast.error(
@@ -208,9 +228,15 @@ const SmartBotMarketsPage = () => {
 
       if (!res.ok) throw new Error("Failed");
 
-      toast.success(
-        <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
-      );
+      const data = await res.json();
+
+      // Save message and open result modal
+      setAnalysisResultMessage(data.result); // this is your detailed report
+      setShowAnalysisResultModal(true);
+
+      // toast.success(
+      //   <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
+      // );
     } catch (error) {
       hideProgress();
       toast.error(
@@ -285,22 +311,19 @@ const SmartBotMarketsPage = () => {
         />
       )}
 
-      <AnalyzeInProgressModal  open={showProgressModal} />
-      {/* TEST BUTTON 
-    <Button
-      onClick={() => setShowAnalysisResultModal(true)}
-      variant="contained"
-      color="primary"
-      className="oui-mt-4 oui-ml-4"
-    >
-      Open Analysis Result Modal (Test)
-    </Button>
-      <AnalysisResultModal
-        open={showAnalysisResultModal}
-        onClose={() => setShowAnalysisResultModal(false)}
-        message={"🚀 PERP_ETH_USDC 15m Trading Signal  \n💰 Free Collateral: $400.00 | ⚖️ Leverage: 30x  \n💵 Current Price: $2,519.35 (±2.46% 24h)  \n\n🧭 TREND SUMMARY  \n- Market is TRENDING UP  \n- Key levels: 🛡️ Support $2,477.18 | 🚀 Resistance $2,520.57  \n- Volume: 📊 ABOVE average  \n- Funding: 💸 FAVORABLE -0.03%  \n\n🎯 TRADING OPPORTUNITIES  \n🟢 LONG:  \n- 0.3%: 38.4% prob | 0.01x size  \n- 0.5%: 22.2% prob | 0.01x size  \n- 1.0%: 6.3% prob | 0.01x size  \n- 1.5%: 2.5% prob | 0.01x size  \n🔴 SHORT:  \n- 0.3%: 29.7% prob | 0.01x size  \n- 0.5%: 17.6% prob | 0.01x size  \n- 1.0%: 5.5% prob | 0.01x size  \n- 1.5%: 2.6% prob | 0.01x size  \n\n🧠 STRATEGY  \nPreferred Direction: HOLD 🦉  \nBest Setup: HOLD at $2,519.35 – $2,526.91  \nTake Profit: 0.3% | Stop Loss: 1.0%  \n\n⚠️ RISK ANALYSIS  \n- Max Size: 0.02x (Free Collateral × Risk Factor ÷ Leverage)  \n- What it means: Risk only 2% of free collateral on this trade.  \n- How to apply: Position value = $400 × 0.02 = $8.00  \n- Example: $8 ÷ 30 = $0.27 margin locked. Keep $399.73 free.  \n- Final recommended invest: $8.00  \n- Liquidation Risk: 49.0%  \n- Volatility: 0.48% daily  \n- Safe Leverage: ≤30x  \n\n📌 FINAL GUIDANCE  \n1. HOLD setup shows best risk/reward profile  \n2. 0.3% target offers optimal probability  \n3. Maintain strict stop-loss discipline  \n4. Monitor funding rates hourly  \n\n🔄 UPDATES  \nNext analysis in: 15m"}
-      />*/}
-      
+      <AnalyzeInProgressModal open={showProgressModal} />
+      {analysisResultMessage && (
+        <AnalysisResultModal
+          open={showAnalysisResultModal}
+          onClose={() => {
+            setShowAnalysisResultModal(false);
+            setAnalysisResultMessage(null);
+          }}
+          message={analysisResultMessage}
+          selectedAsset={selectedSymbol ?? undefined}
+        />
+      )}
+
     </MarketsProvider>
   );
 };

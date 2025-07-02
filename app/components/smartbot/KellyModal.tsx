@@ -156,6 +156,7 @@ const KellyModal: FC<KellyModalProps> = ({
                   }}
                   size="lg"
                   variant="outlined"
+                  key="interval-select"
                   error={errors.interval}
                   placeholder={t("apolo.smartTrade.select.interval")}
                   classNames={{ trigger: "w-full" }}
@@ -274,6 +275,7 @@ const KellyModal: FC<KellyModalProps> = ({
                   }}
                   size="lg"
                   variant="outlined"
+                  key="indicator-select"
                   error={errors.indicator}
                   placeholder={t("apolo.smartTrade.choose.strategy")}
                   classNames={{ trigger: "w-full" }}
