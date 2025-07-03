@@ -54,6 +54,7 @@ const AnalysisResultModal: FC<Props> = ({ open, message, selectedAsset = "PERP_E
           @media (max-width: 640px) {
             .dialog-mobile-max {
               max-width: 90% !important;
+              margin-top: 3px !important;
             }
           }
           .analysis-content {
