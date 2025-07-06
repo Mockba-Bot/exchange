@@ -34,7 +34,6 @@ type Props = {
 const formatTelegramText = (text: string) => {
   return text
     .replace(/\n/g, "<br />")
-    .replace(/\s{2,}/g, " ");
 };
 
 const AnalysisResultModal: FC<Props> = ({ open, message, selectedAsset = "PERP_ETH_USDC", onClose }) => {

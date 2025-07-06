@@ -40,13 +40,23 @@ const SmartBotMarketsPage = () => {
 
   const t = useTranslation();
 
+  const isTokenValid = (): boolean => {
+    const exp = Number(localStorage.getItem("token_exp") || "0");
+    const now = Math.floor(Date.now() / 1000);
+    return exp > now;
+  };
+
   const getAuthHeaders = () => {
-    const token = localStorage.getItem("token");
+    if (!isTokenValid()) {
+      window.dispatchEvent(new Event("force-telegram-login"));
+      return {};
+    }
     return {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     };
   };
+
 
   const showProgress = () => setShowProgressModal(true);
   const showAnalysisResult = () => setShowAnalysisResultModal(true);
@@ -257,11 +267,13 @@ const SmartBotMarketsPage = () => {
         }}
         setSelectedSymbolElliot={(symbol, leverage) => {
           setSelectedSymbolElliot(symbol);
+          setSelectedSymbol(symbol);
           setMaxLeverage(leverage);
           setShowElliotModal(true);
         }}
         setSelectedSymbolKelly={(symbol, leverage) => {
           setSelectedSymbolKelly(symbol);
+          setSelectedSymbol(symbol);
           setMaxLeverage(leverage);
           setShowKellyModal(true);
         }}

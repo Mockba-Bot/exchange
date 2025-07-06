@@ -407,14 +407,14 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
                             icon={<ChartSpline />}
                             onClick={() => setSelectedSymbolElliot(market.symbol, market.leverage || 100)}
                           >
-                            {t("apolo.smartTrade.elliotWaves")}
+                            {t("apolo.smartTrade.elliotWaves") || enTranslations["apolo.smartTrade.title"]}
                           </Button>
                           <Button
                             size="sm"
                             icon={<FileDigit />}
                             onClick={() => setSelectedSymbolKelly(market.symbol, market.leverage || 100)}
                           >
-                            {t("apolo.smartTrade.kelly")}
+                            {t("apolo.smartTrade.kelly")|| enTranslations["apolo.smartTrade.title"]}
                           </Button>
                         </div>
                       ) : (

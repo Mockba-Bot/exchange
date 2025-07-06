@@ -7,19 +7,21 @@ import {
 } from "@orderly.network/ui";
 import { useTranslation as useOrderlyTranslation } from "@orderly.network/i18n";
 import enTranslationsJson from "../../../public/locales/en.json";
+
 const enTranslations = enTranslationsJson as Record<string, string>;
 
 const useTranslation = () => {
   const { t } = useOrderlyTranslation();
-  const currentLang = localStorage.getItem('orderly_i18nLng');
+  const currentLang = localStorage.getItem("orderly_i18nLng");
 
   return (key: string) => {
     const orderlyTranslation = t(key);
     if (orderlyTranslation !== key) return orderlyTranslation;
-    if (currentLang === 'en' && enTranslations[key]) return enTranslations[key];
+    if (currentLang === "en" && enTranslations[key]) return enTranslations[key];
     return key;
   };
 };
+
 const TelegramLoginDialog = () => {
   const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
   const wallet = localStorage.getItem("orderly_mainnet_address") || "0x";
@@ -30,62 +32,61 @@ const TelegramLoginDialog = () => {
   const [isLinked, setIsLinked] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
 
+  // 📌 Check token expiration and wallet-link status
   useEffect(() => {
-    // const checkTelegramLink = async () => {
-    //   try {
-    //     const token = localStorage.getItem("token");
-    //     const exp = Number(localStorage.getItem("token_exp") || "0");
+    const checkTelegramLink = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const exp = Number(localStorage.getItem("token_exp") || "0");
+        const now = Math.floor(Date.now() / 1000);
 
-    //     const now = Math.floor(Date.now() / 1000);
-    //     if (token && exp > now) {
-    //       setIsLinked(true);
-    //       setShowDialog(false);
-    //       return;
-    //     }
+        if (token && exp > now) {
+          setIsLinked(true);
+          setShowDialog(false);
+          return;
+        }
 
-    //     // Otherwise check if Telegram link exists
-    //     const response = await fetch(`${apiUrl}/central/tlogin/by_wallet/${wallet}`);
+        // Fetch from backend if wallet is linked
+        const response = await fetch(`${apiUrl}/central/tlogin/by_wallet/${wallet}`);
+        if (response.ok) {
+          const data = await response.json();
+          const userPayload = {
+            telegram_id: data.data.telegram_id,
+            first_name: "",
+            last_name: "",
+            username: "",
+            photo_url: "",
+            auth_date: "",
+            hash: "",
+          };
 
-    //     if (response.ok) {
-    //       const data = await response.json();
-    //       const userPayload = {
-    //         telegram_id: data.data.telegram_id,
-    //         first_name: "",
-    //         last_name:  "",
-    //         username:  "",
-    //         photo_url:  "",
-    //         auth_date: "",
-    //         hash: "",
-    //       };
-    //       localStorage.setItem("telegram_user", JSON.stringify(userPayload));
-    //       localStorage.setItem("token", data.data.token);
-    //       localStorage.setItem("token_exp", data.data.expires_at.toString());
-    //       setIsLinked(true);
-    //       setShowDialog(false);
-    //     } else if (response.status === 404) {
-    //       // ✅ Wallet not found — proceed to show Telegram login
-    //       setIsLinked(false);
-    //       setShowDialog(true);
-    //     } else {
-    //       // 🔥 Handle other errors
-    //       const errText = await response.text();
-    //       console.error("Unexpected error checking wallet:", errText);
-    //       setIsLinked(false);
-    //       setShowDialog(true);
-    //     }
+          const now = Math.floor(Date.now() / 1000);
+          const expiresAt = now + Number(data.data.expires_at);
 
+          localStorage.setItem("telegram_user", JSON.stringify(userPayload));
+          localStorage.setItem("token", data.data.token);
+          localStorage.setItem("token_exp", expiresAt.toString());
 
-    //   } catch (error) {
-    //     console.error("Error checking Telegram link:", error);
-    //     setIsLinked(false);
-    //     setShowDialog(true);
-    //   } finally {
-    //     setIsLoading(false);
-    //   }
-    // };
-    // // Start checking Telegram link status
-    // checkTelegramLink();
+          setIsLinked(true);
+          setShowDialog(false);
+        } else {
+          setIsLinked(false);
+          setShowDialog(true);
+        }
+      } catch (error) {
+        console.error("Error checking Telegram link:", error);
+        setIsLinked(false);
+        setShowDialog(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
+    checkTelegramLink();
+  }, [wallet, apiUrl]);
+
+  // 📌 Handle Telegram widget login
+  useEffect(() => {
     (window as any).onTelegramAuth = async function (user: {
       id: number;
       first_name: string;
@@ -106,6 +107,7 @@ const TelegramLoginDialog = () => {
         auth_date: user.auth_date,
         hash: user.hash,
       };
+
       localStorage.setItem("telegram_user", JSON.stringify(userPayload));
 
       try {
@@ -124,10 +126,17 @@ const TelegramLoginDialog = () => {
 
         if (!res.ok) throw new Error("TLogin failed");
 
-
         const result = await res.json();
+
+        const now = Math.floor(Date.now() / 1000);
+        const expiresAt = now + Number(result.data.expires_at);
+
+        localStorage.setItem("token", result.data.token);
+        localStorage.setItem("token_exp", expiresAt.toString());
+
         setIsLinked(true);
         setShowDialog(false);
+
         window.dispatchEvent(new CustomEvent("telegram-auth", { detail: result }));
       } catch (error) {
         console.error("Telegram Auth Error:", error);
@@ -142,23 +151,22 @@ const TelegramLoginDialog = () => {
     };
   }, [wallet, language, apiUrl]);
 
+  // 📌 Inject Telegram widget if needed
   useEffect(() => {
     if (!isLoading && showDialog && !isLinked) {
       const tryInjectTelegramWidget = () => {
         const container = document.getElementById("telegram-button-container");
         if (!container) {
-          // Retry after 100ms if container not ready
           setTimeout(tryInjectTelegramWidget, 100);
           return;
         }
 
-        if (container.childNodes.length > 0) return; // already injected
-
+        if (container.childNodes.length > 0) return;
         container.innerHTML = "";
 
         const script = document.createElement("script");
         script.src = "https://telegram.org/js/telegram-widget.js?22";
-        script.setAttribute("data-telegram-login", "apolo_futures_bot");
+        script.setAttribute("data-telegram-login", "apolo_futures_bot"); // your bot username
         script.setAttribute("data-size", "large");
         script.setAttribute("data-userpic", "false");
         script.setAttribute("data-onauth", "onTelegramAuth(user)");
@@ -168,7 +176,6 @@ const TelegramLoginDialog = () => {
         container.appendChild(script);
       };
 
-      // Start injection after short delay to ensure DOM stability
       setTimeout(tryInjectTelegramWidget, 100);
     }
 
@@ -177,6 +184,18 @@ const TelegramLoginDialog = () => {
       if (container) container.innerHTML = "";
     };
   }, [isLoading, showDialog, isLinked]);
+
+  // 📌 External trigger: open dialog on token expiration
+  useEffect(() => {
+    const handleForceLogin = () => {
+      console.warn("Triggering Telegram login due to expired token");
+      setShowDialog(true);
+      setIsLinked(false);
+    };
+
+    window.addEventListener("force-telegram-login", handleForceLogin);
+    return () => window.removeEventListener("force-telegram-login", handleForceLogin);
+  }, []);
 
   if (isLoading || !showDialog || isLinked) return null;
 
@@ -191,7 +210,7 @@ const TelegramLoginDialog = () => {
           }
         `}
       </style>
-      <Dialog open={showDialog} onOpenChange={() => { }}>
+      <Dialog open={showDialog} onOpenChange={() => {}}>
         <DialogContent className="oui-space-y-6 pb-2 dialog-mobile-max">
           <DialogHeader>
             <DialogTitle className="flex items-center">
