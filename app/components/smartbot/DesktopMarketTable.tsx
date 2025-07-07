@@ -230,9 +230,9 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
                 aria-orientation="horizontal"
                 data-orientation="horizontal"
               >
-                <div className="flex oui-justify-center">
+                {/* <div className="flex oui-justify-center">
                   <TelegramLogin />
-                </div>
+                </div> */}
                 {TABS.map((tabItem) => {
                   const isActive = tab === tabItem.value;
                   return (
