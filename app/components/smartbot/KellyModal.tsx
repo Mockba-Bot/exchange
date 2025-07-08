@@ -9,7 +9,7 @@ import {
   Spinner,
   ThrottledButton
 } from "@orderly.network/ui";
-import { Bot } from "lucide-react";
+import { Bot, MessageCircleQuestion } from "lucide-react";
 import { useTranslation as useOrderlyTranslation } from "@orderly.network/i18n";
 import enTranslationsJson from "../../../public/locales/en.json";
 const enTranslations = enTranslationsJson as Record<string, string>;
@@ -52,6 +52,13 @@ const KellyModal: FC<KellyModalProps> = ({
   const [leverage, setLeverage] = useState("");
   const [indicator, setIndicator] = useState("");
   const [freeCollateral, setFreeCollateral] = useState("");
+  const lang = localStorage.getItem('orderly_i18nLng');
+  let href;
+  if (lang === 'en') {
+    href = "https://learning-dex.apolopay.app/docs/strategy-indicators-reference";
+  } else {
+    href = `https://learning-dex.apolopay.app/${lang}/docs/strategy-indicators-reference`;
+  }
 
   const t = useTranslation();
 
@@ -292,6 +299,17 @@ const KellyModal: FC<KellyModalProps> = ({
                     {t("apolo.smartTrade.required")}
                   </p>
                 )}
+
+                <div className="oui-flex oui-justify-end oui-mt-2">
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="oui-flex oui-items-center oui-gap-1 oui-text-xs"
+                  >
+                    <MessageCircleQuestion size={20} />
+                  </a>
+                </div>
               </div>
 
               {/* Submit Button */}
