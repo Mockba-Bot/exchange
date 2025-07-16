@@ -105,7 +105,7 @@ const TermsModal: FC<Props> = ({ open, onClose }) => {
             {t("apolo.terms.condition.link")}
           </a>
         </div>
-        <div className="dialog-actions oui-flex oui-justify-end oui-pt-15">
+        <div className="dialog-actions oui-flex oui-justify-center oui-pt-15">
           <Button
             variant="contained"
             size="md"
