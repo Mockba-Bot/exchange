@@ -747,5 +747,10 @@
   "apolo.smartTrade.loadmore": "Załaduj więcej",
   "apolo.smartTrade.gotoTop": "Idź na górę",
   "apolo.smartTrade.success.title": "Analiza rozpoczęta",
-  "apolo.smartTrade.success.subtitle": "Wkrótce otrzymasz powiadomienie na Telegramie."
+  "apolo.smartTrade.success.subtitle": "Wkrótce otrzymasz powiadomienie na Telegramie.",
+  "apolo.terms.conditions": "Regulamin",
+  "apolo.terms.condition.read": "Przeczytaj regulamin przed kontynuowaniem.",
+  "apolo.terms.conditions.approve": "Przeczytałem i akceptuję regulamin",
+  "apolo.terms.condition.link": "Kliknij, aby przeczytać",
+  
 }

@@ -645,5 +645,9 @@
   "apolo.smartTrade.loadmore": "さらに読み込む",
   "apolo.smartTrade.gotoTop": "トップに移動",
   "apolo.smartTrade.success.title": "分析が開始されました",
-  "apolo.smartTrade.success.subtitle": "Telegramで通知が届きます"
+  "apolo.smartTrade.success.subtitle": "Telegramで通知が届きます",
+  "apolo.terms.conditions": "利用規約",
+  "apolo.terms.condition.read": "続行する前に利用規約をお読みください。",
+  "apolo.terms.conditions.approve": "利用規約を読み、同意しました",
+  "apolo.terms.condition.link": "クリックして読む"
 }

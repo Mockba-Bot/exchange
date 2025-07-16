@@ -645,5 +645,9 @@
   "apolo.smartTrade.loadmore": "Tải thêm",
   "apolo.smartTrade.gotoTop": "Quay lại đầu trang",
   "apolo.smartTrade.success.title": "Phân tích đã bắt đầu",
-  "apolo.smartTrade.success.subtitle": "Bạn sẽ nhận được thông báo trên Telegram sớm."
+  "apolo.smartTrade.success.subtitle": "Bạn sẽ nhận được thông báo trên Telegram sớm.",
+  "apolo.terms.conditions": "Điều khoản và Điều kiện",
+  "apolo.terms.condition.read": "Vui lòng đọc Điều khoản và Điều kiện trước khi tiếp tục.",
+  "apolo.terms.conditions.approve": "Tôi đã đọc và đồng ý với Điều khoản và Điều kiện",
+  "apolo.terms.condition.link": "Nhấn để đọc"
 }

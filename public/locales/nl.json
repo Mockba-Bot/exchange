@@ -747,5 +747,9 @@
   "apolo.smartTrade.loadmore": "Meer Laden",
   "apolo.smartTrade.gotoTop": "Naar Boven",
   "apolo.smartTrade.success.title": "Analyse Gestart",
-  "apolo.smartTrade.success.subtitle": "U ontvangt binnenkort een melding op Telegram."
+  "apolo.smartTrade.success.subtitle": "U ontvangt binnenkort een melding op Telegram.",
+  "apolo.terms.conditions": "Algemene Voorwaarden",
+  "apolo.terms.condition.read": "Lees de Algemene Voorwaarden voordat je doorgaat.",
+  "apolo.terms.conditions.approve": "Ik heb de Algemene Voorwaarden gelezen en ga akkoord",
+  "apolo.terms.condition.link": "Klik om te lezen"
 }

@@ -747,5 +747,9 @@
   "apolo.smartTrade.loadmore": "Daha fazla yükle",
   "apolo.smartTrade.gotoTop": "Başa dön",
   "apolo.smartTrade.success.title": "Analiz Başladı",
-  "apolo.smartTrade.success.subtitle": "Yakında Telegram üzerinden bir bildirim alacaksınız."
+  "apolo.smartTrade.success.subtitle": "Yakında Telegram üzerinden bir bildirim alacaksınız.",
+  "apolo.terms.conditions": "Şartlar ve Koşullar",
+  "apolo.terms.condition.read": "Lütfen devam etmeden önce Şartlar ve Koşulları okuyun.",
+  "apolo.terms.conditions.approve": "Şartlar ve Koşulları okudum ve kabul ediyorum",
+  "apolo.terms.condition.link": "Okumak için tıklayın"
 }

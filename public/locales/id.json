@@ -747,5 +747,9 @@
   "apolo.smartTrade.loadmore": "Muat lebih banyak",
   "apolo.smartTrade.gotoTop": "Ke atas",
   "apolo.smartTrade.success.title": "Analisis Dimulai",
-  "apolo.smartTrade.success.subtitle": "Anda akan mendapatkan notifikasi di Telegram segera."
+  "apolo.smartTrade.success.subtitle": "Anda akan mendapatkan notifikasi di Telegram segera.",
+  "apolo.terms.conditions": "Syarat dan Ketentuan",
+  "apolo.terms.condition.read": "Silakan baca Syarat dan Ketentuan sebelum melanjutkan.",
+  "apolo.terms.conditions.approve": "Saya telah membaca dan menyetujui Syarat dan Ketentuan",
+  "apolo.terms.condition.link": "Klik untuk membaca"
 }
