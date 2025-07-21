@@ -20,6 +20,7 @@ import { useTranslation as useOrderlyTranslation } from "@orderly.network/i18n";
 import enTranslationsJson from "../../../public/locales/en.json";
 const enTranslations = enTranslationsJson as Record<string, string>;
 import TelegramLogin from "@/components/smartbot/TelegramLogin"; // ✅ Add import
+import { validateToken } from "@/utils/validateToken";
 
 import {
   Search as LucideSearch,
@@ -92,6 +93,24 @@ const MobileMarketTable: FC<MobileMarketTableProps> = ({
     };
   }, []);
 
+  /*------------------------------Check token----------------------------*/
+    // This effect checks if the token is valid on initial load and removes it if not  
+    useEffect(() => {
+    const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
+    const token = localStorage.getItem("token");
+  
+    const check = async () => {
+      const valid = await validateToken(token || "", apiUrl);
+      if (!valid) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("token_exp");
+        localStorage.removeItem("telegram_user");
+        window.dispatchEvent(new Event("force-telegram-login"));
+      }
+    };
+  
+    check();
+  }, []);
   /*------------------------------Check token----------------------------*/
   useEffect(() => {
     // console.log("📌 [useEffect] Starting Telegram auto-link logic");

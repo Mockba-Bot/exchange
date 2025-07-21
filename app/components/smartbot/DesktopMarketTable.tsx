@@ -20,6 +20,7 @@ import {
   FileDigit,
   PocketKnife
 } from "lucide-react";
+import { validateToken } from "@/utils/validateToken";
 
 // ✅ Static list for compile-time type
 const STATIC_TABS = [
@@ -123,6 +124,25 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
     const start = (pagination.page - 1) * pagination.pageSize;
     return data.slice(start, start + pagination.pageSize);
   }, [data, pagination.page, pagination.pageSize]);
+
+/*------------------------------Check token----------------------------*/
+  // This effect checks if the token is valid on initial load and removes it if not  
+  useEffect(() => {
+  const apiUrl = import.meta.env.VITE_MOCKBA_API_URL;
+  const token = localStorage.getItem("token");
+
+  const check = async () => {
+    const valid = await validateToken(token || "", apiUrl);
+    if (!valid) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("token_exp");
+      localStorage.removeItem("telegram_user");
+      window.dispatchEvent(new Event("force-telegram-login"));
+    }
+  };
+
+  check();
+}, []);
 
   /*------------------------------Check token----------------------------*/
   useEffect(() => {

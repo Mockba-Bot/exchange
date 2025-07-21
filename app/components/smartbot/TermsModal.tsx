@@ -63,7 +63,7 @@ const TermsModal: FC<Props> = ({ open, onClose }) => {
         {`
           @media (max-width: 640px) {
             .dialog-mobile-max {
-              max-width: 90% !important;
+              max-width: 98% !important;
               margin-top: 3px !important;
             }
           }
