@@ -168,7 +168,7 @@ const CustomMarketTable: FC<CustomMarketTableProps> = ({
 
         if (response.ok) {
           const data = await response.json();
-          console.log("✅ Telegram data:", data);
+          // console.log("✅ Telegram data:", data);
 
           const userPayload = {
             telegram_id: data.data.telegram_id,

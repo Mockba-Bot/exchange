@@ -44,14 +44,14 @@ const SmartBotMarketsPage = () => {
     const exp = Number(localStorage.getItem("token_exp") || "0");
     const now = Math.floor(Date.now() / 1000);
 
-    // console.log("[🔑 TOKEN CHECK] now:", now, "exp:", exp);
-    // console.log("[🔑 TOKEN] ", localStorage.getItem("token"));
+    console.log("[🔑 TOKEN CHECK] now:", now, "exp:", exp);
+    console.log("[🔑 TOKEN] ", localStorage.getItem("token"));
 
     return exp > now;
   };
 
   const getAuthHeaders = () => {
-    // console.log("[🛡️ getAuthHeaders] Checking token validity...");
+    console.log("[🛡️ getAuthHeaders] Checking token validity...");
     const valid = isTokenValid();
 
     if (!valid) {
@@ -61,7 +61,7 @@ const SmartBotMarketsPage = () => {
     }
 
     const token = localStorage.getItem("token");
-    // console.log("[✅ TOKEN VALID] Using token:", token);
+    console.log("[✅ TOKEN VALID] Using token:", token);
 
     return {
       "Content-Type": "application/json",
