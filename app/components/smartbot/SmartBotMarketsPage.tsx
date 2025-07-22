@@ -40,34 +40,19 @@ const SmartBotMarketsPage = () => {
 
   const t = useTranslation();
 
-  const isTokenValid = (): boolean => {
-    const exp = Number(localStorage.getItem("token_exp") || "0");
-    const now = Math.floor(Date.now() / 1000);
-
-    console.log("[🔑 TOKEN CHECK] now:", now, "exp:", exp);
-    console.log("[🔑 TOKEN] ", localStorage.getItem("token"));
-
-    return exp > now;
-  };
-
   const getAuthHeaders = () => {
-    console.log("[🛡️ getAuthHeaders] Checking token validity...");
-    const valid = isTokenValid();
-
-    if (!valid) {
-      // console.warn("[❌ TOKEN INVALID] Dispatching force-telegram-login");
-      window.dispatchEvent(new Event("force-telegram-login"));
-      throw new Error("TOKEN_EXPIRED");
-    }
-
     const token = localStorage.getItem("token");
-    console.log("[✅ TOKEN VALID] Using token:", token);
+    if (!token) {
+      window.dispatchEvent(new Event("force-telegram-login"));
+      throw new Error("TOKEN_MISSING");
+    }
 
     return {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     };
   };
+
 
 
   const showProgress = () => setShowProgressModal(true);
