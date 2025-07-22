@@ -43,17 +43,29 @@ const SmartBotMarketsPage = () => {
   const isTokenValid = (): boolean => {
     const exp = Number(localStorage.getItem("token_exp") || "0");
     const now = Math.floor(Date.now() / 1000);
+
+    // console.log("[🔑 TOKEN CHECK] now:", now, "exp:", exp);
+    // console.log("[🔑 TOKEN] ", localStorage.getItem("token"));
+
     return exp > now;
   };
 
   const getAuthHeaders = () => {
-    if (!isTokenValid()) {
+    // console.log("[🛡️ getAuthHeaders] Checking token validity...");
+    const valid = isTokenValid();
+
+    if (!valid) {
+      // console.warn("[❌ TOKEN INVALID] Dispatching force-telegram-login");
       window.dispatchEvent(new Event("force-telegram-login"));
-      return {};
+      throw new Error("TOKEN_EXPIRED");
     }
+
+    const token = localStorage.getItem("token");
+    // console.log("[✅ TOKEN VALID] Using token:", token);
+
     return {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${token}`,
     };
   };
 
@@ -101,10 +113,20 @@ const SmartBotMarketsPage = () => {
       // toast.success(
       //   <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
       // );
-    } catch (error) {
+    } catch (error: any) {
       hideProgress();
+
+      if (error.message === "TOKEN_EXPIRED") {
+        // Already handled globally by force-telegram-login
+        return;
+      }
+
       toast.error(
-        <ToastTile title={t("apolo.smartTrade.error.tittle")} subtitle={t("apolo.smartTrade.error.subtittle")} />, { duration: 10000 }
+        <ToastTile
+          title={t("apolo.smartTrade.error.tittle")}
+          subtitle={t("apolo.smartTrade.error.subtittle")}
+        />,
+        { duration: 10000 }
       );
     } finally {
       setLoading(false);
@@ -148,10 +170,20 @@ const SmartBotMarketsPage = () => {
       // toast.success(
       //   <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
       // );
-    } catch (error) {
+    } catch (error: any) {
       hideProgress();
+
+      if (error.message === "TOKEN_EXPIRED") {
+        // Already handled globally by force-telegram-login
+        return;
+      }
+
       toast.error(
-        <ToastTile title={t("apolo.smartTrade.error.tittle")} subtitle={t("apolo.smartTrade.error.subtittle")} />, { duration: 10000 }
+        <ToastTile
+          title={t("apolo.smartTrade.error.tittle")}
+          subtitle={t("apolo.smartTrade.error.subtittle")}
+        />,
+        { duration: 10000 }
       );
     } finally {
       setLoading(false);
@@ -198,10 +230,20 @@ const SmartBotMarketsPage = () => {
       // toast.success(
       //   <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
       // );
-    } catch (error) {
+    } catch (error: any) {
       hideProgress();
+
+      if (error.message === "TOKEN_EXPIRED") {
+        // Already handled globally by force-telegram-login
+        return;
+      }
+
       toast.error(
-        <ToastTile title={t("apolo.smartTrade.error.tittle")} subtitle={t("apolo.smartTrade.error.subtittle")} />, { duration: 10000 }
+        <ToastTile
+          title={t("apolo.smartTrade.error.tittle")}
+          subtitle={t("apolo.smartTrade.error.subtittle")}
+        />,
+        { duration: 10000 }
       );
     } finally {
       setLoading(false);
@@ -247,10 +289,20 @@ const SmartBotMarketsPage = () => {
       // toast.success(
       //   <ToastTile title={t("apolo.smartTrade.success.title")} subtitle={t("apolo.smartTrade.success.subtitle")} />, { duration: 10000 }
       // );
-    } catch (error) {
+    } catch (error: any) {
       hideProgress();
+
+      if (error.message === "TOKEN_EXPIRED") {
+        // Already handled globally by force-telegram-login
+        return;
+      }
+
       toast.error(
-        <ToastTile title={t("apolo.smartTrade.error.tittle")} subtitle={t("apolo.smartTrade.error.subtittle")} />, { duration: 10000 }
+        <ToastTile
+          title={t("apolo.smartTrade.error.tittle")}
+          subtitle={t("apolo.smartTrade.error.subtittle")}
+        />,
+        { duration: 10000 }
       );
     } finally {
       setLoading(false);

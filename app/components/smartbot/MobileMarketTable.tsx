@@ -64,6 +64,8 @@ interface MobileMarketTableProps {
 
 const PAGE_SIZE = 20;
 
+
+
 /* -------------------------------------------------------------------------- */
 /*                               main component                               */
 /* -------------------------------------------------------------------------- */
@@ -82,16 +84,20 @@ const MobileMarketTable: FC<MobileMarketTableProps> = ({
   const { wallet, connecting, connect } = useWalletConnector();
   const isConnected = !!wallet;
 
-  useEffect(() => {
-    const check = () =>
-      setConnectedStorage(!!localStorage.getItem("orderly_mainnet_address"));
-    const id = setInterval(check, 1_000);
-    window.addEventListener("storage", check);
-    return () => {
-      clearInterval(id);
-      window.removeEventListener("storage", check);
-    };
-  }, []);
+  const [isWalletStored, setIsWalletStored] = useState<boolean>(() =>
+  !!localStorage.getItem("orderly_mainnet_address")
+);
+
+useEffect(() => {
+  const check = () =>
+    setIsWalletStored(!!localStorage.getItem("orderly_mainnet_address"));
+  const id = setInterval(check, 1000);
+  window.addEventListener("storage", check);
+  return () => {
+    clearInterval(id);
+    window.removeEventListener("storage", check);
+  };
+}, []);
 
   /*------------------------------Check token----------------------------*/
     // This effect checks if the token is valid on initial load and removes it if not  
@@ -131,11 +137,11 @@ const MobileMarketTable: FC<MobileMarketTableProps> = ({
 
       try {
         const response = await fetch(`${apiUrl}/central/tlogin/by_wallet/${wallet}`);
-        console.log("[✅ Telegram auto-link response]", response);
+        // console.log("[✅ Telegram auto-link response]", response);
 
         if (response.ok) {
           const data = await response.json();
-          console.log("✅ Telegram data:", data);
+          // console.log("✅ Telegram data:", data);
 
           const userPayload = {
             telegram_id: data.data.telegram_id,
