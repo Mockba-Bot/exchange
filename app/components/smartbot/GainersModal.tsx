@@ -16,13 +16,28 @@ const enTranslations = enTranslationsJson as Record<string, string>;
 
 const useTranslation = () => {
   const { t } = useOrderlyTranslation();
-  const currentLang = localStorage.getItem('orderly_i18nLng');
   
   return (key: string) => {
+    // Get current language safely
+    const currentLang = typeof window !== 'undefined' 
+      ? localStorage.getItem('orderly_i18nLng') || 'en'
+      : 'en';
+    
+    // Get translation from orderly
     const orderlyTranslation = t(key);
-    if (orderlyTranslation !== key) return orderlyTranslation;
-    if (currentLang === 'en' && enTranslations[key]) return enTranslations[key];
-    return key;
+    
+    // Ensure we always return a string
+    if (typeof orderlyTranslation === 'string' && orderlyTranslation !== key) {
+      return orderlyTranslation;
+    }
+    
+    // Fallback to custom translations
+    if (currentLang === 'en' && enTranslations[key]) {
+      return String(enTranslations[key]); // Ensure it's a string
+    }
+    
+    // Always return a string, even if it's just the key
+    return String(key);
   };
 };
 
