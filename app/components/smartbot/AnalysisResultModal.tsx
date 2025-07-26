@@ -31,10 +31,18 @@ type Props = {
 };
 
 
-const formatTelegramText = (text: string) => {
+function formatTelegramText(text: unknown): string {
+  if (typeof text !== 'string') {
+    console.warn("formatTelegramText expected a string but got:", text);
+    return "";
+  }
+
   return text
-    .replace(/\n/g, "<br />")
-};
+    .replace(/💥/g, '🔥')
+    .replace(/\n/g, '<br />')
+    .replace(/✅/g, '🟢')
+    .replace(/❌/g, '🔴');
+}
 
 const AnalysisResultModal: FC<Props> = ({ open, message, selectedAsset = "PERP_ETH_USDC", onClose }) => {
   const t = useTranslation();
