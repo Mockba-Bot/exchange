@@ -291,7 +291,7 @@ const KellyModal: FC<KellyModalProps> = ({
                   <SelectItem value="Volatility Breakout">Volatility Breakout</SelectItem>
                   <SelectItem value="Momentum Reversal">Momentum Reversal</SelectItem>
                   <SelectItem value="Momentum + Volatility">Momentum + Volatility</SelectItem>
-                  <SelectItem value="Advanced">Hybrid</SelectItem>
+                  <SelectItem value="Hybrid">Hybrid</SelectItem>
                   <SelectItem value="Advanced">Advanced</SelectItem>
                 </Select>
                 {errors.indicator && (
