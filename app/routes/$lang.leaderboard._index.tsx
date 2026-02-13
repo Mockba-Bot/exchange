@@ -3,8 +3,8 @@ import { useMemo } from "react";
 import { useScaffoldContext } from "@orderly.network/ui-scaffold";
 import { Box, useScreen } from "@orderly.network/ui";
 import {
-  Campaign,
-  LeaderboardWidget,
+  CampaignConfig,
+  LeaderboardPage,
 } from "@orderly.network/trading-leaderboard";
 import { i18n, parseI18nLang } from "@orderly.network/i18n";
 import { PageTitleMap, PathEnum } from "@/constant";
@@ -24,23 +24,24 @@ function getCampaigns() {
 
   const dateRange = [
     // ongoing
-    { startTime: addDays(new Date(), -1), endTime: addDays(new Date(), 30) },
+    { start_time: addDays(new Date(), -1).toISOString(), end_time: addDays(new Date(), 30).toISOString() },
     // future
-    { startTime: addDays(new Date(), 1), endTime: addDays(new Date(), 30) },
+    { start_time: addDays(new Date(), 1).toISOString(), end_time: addDays(new Date(), 30).toISOString() },
     // past
-    { startTime: addDays(new Date(), -30), endTime: addDays(new Date(), -1) },
+    { start_time: addDays(new Date(), -30).toISOString(), end_time: addDays(new Date(), -1).toISOString() },
   ];
 
   return dateRange.map(
-    (date) =>
+    (date, index) =>
       ({
+        campaign_id: index + 1,
         title: "RISE ABOVE. OUTTRADE THE REST",
         description:
           "A new era of traders is rising. Are you the one leading the charge? Compete for your share of $10K by climbing the ranks. Only the bold will make it to the top.",
         image: "/leaderboard/campaign.jpg",
         href: "https://orderly.network/",
         ...date,
-      } as Campaign)
+      } as CampaignConfig)
   );
 }
 
@@ -67,7 +68,7 @@ export default function MarketsPage() {
             }px)`,
       }}
     >
-      <LeaderboardWidget
+      <LeaderboardPage
         campaigns={getCampaigns()}
         href={{
           trading: tradingUrl,
