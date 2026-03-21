@@ -1,8 +1,6 @@
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { useOrderlyConfig } from "@/hooks/useOrderlyConfig";
 import { useLocation, Link } from "@remix-run/react";
 import {
-  BotMessageSquare,
   User,
   ChartNoAxesCombined,
   ChartCandlestick,
@@ -14,9 +12,6 @@ import { PathEnum } from "@/constant";
 const iconMap: Record<string, (isActive: boolean) => JSX.Element> = {
   [PathEnum.Root]: (isActive) => (
     <ChartCandlestick className={`oui-w-5 oui-h-5 ${isActive ? "oui-text-primary-darken" : "oui-text-base-foreground"}`} />
-  ),
-  [PathEnum.SmartBot]: (isActive) => (
-    <BotMessageSquare className={`oui-w-5 oui-h-5 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
   ),
   [PathEnum.Portfolio]: (isActive) => (
     <User className={`oui-w-5 oui-h-5 ${isActive ? "oui-text-primary-darken" : "text-white"}`} />
@@ -37,31 +32,11 @@ export function MobileFooter() {
   const lang = i18n.language || "en";
   const currentPath = location.pathname;
 
-  // Explicitly define the ordered paths we want in the footer
-  const orderedHrefs = [
-    PathEnum.Root,
-    PathEnum.SmartBot,
-    PathEnum.Portfolio,
-    PathEnum.Markets,
+  const menus: Array<{ name: string; href: PathEnum }> = [
+    { name: t("common.trading") || "Trade", href: PathEnum.Root },
+    { name: t("common.portfolio") || "Portfolio", href: PathEnum.Portfolio },
+    { name: t("common.markets") || "Markets", href: PathEnum.Markets },
   ];
-
-  // Safely map and filter menu items with fallbacks for translations
-  const menus = orderedHrefs
-    .map((href) => {
-      switch (href) {
-        case PathEnum.SmartBot:
-          return { name: t("common.smartBot") || "Smart", href };
-        case PathEnum.Root:
-          return { name: t("common.trading") || "Trade", href };
-        case PathEnum.Portfolio:
-          return { name: t("common.portfolio") || "Portfolio", href };
-        case PathEnum.Markets:
-          return { name: t("common.markets") || "Markets", href };
-        default:
-          return null;
-      }
-    })
-    .filter((m): m is { name: string; href: string } => !!m);
 
 
   const cleanPath = (path: string) => path.replace(/\/+$/, "");
@@ -89,7 +64,7 @@ export function MobileFooter() {
             key={menu.href}
             to={fullPath}
             className={`oui-flex oui-h-16 oui-flex-col oui-items-center oui-justify-center
-                        oui-text-2xs oui-font-bold oui-gap-1 oui-flex-shrink-0 oui-basis-1/5 oui-pt-3 oui-pb-2
+                        oui-text-2xs oui-font-bold oui-gap-1 oui-flex-shrink-0 oui-basis-1/4 oui-pt-3 oui-pb-2
                         oui-cursor-pointer
                         ${isActive ? "oui-text-white" : "oui-text-base-contrast-36 hover:oui-text-white"}`}
           >

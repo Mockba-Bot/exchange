@@ -44,7 +44,6 @@ export const useOrderlyConfig = () => {
         mainNavProps: {
           mainMenus: [
             { name: t("common.trading"), href: PathEnum.Root },
-            { name: t("common.smartBot"), href: PathEnum.SmartBot },
             { name: t("common.portfolio"), href: PathEnum.Portfolio },
             { name: t("common.markets"), href: PathEnum.Markets },
             {

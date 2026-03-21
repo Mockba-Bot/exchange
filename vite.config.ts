@@ -35,7 +35,7 @@ export default defineConfig(() => {
       }),
       tsconfigPaths(),
       cjsInterop({
-        dependencies: ["bs58", "@coral-xyz/anchor", "lodash"],
+        dependencies: ["bs58", "@coral-xyz/anchor", "lodash", "use-constant"],
       }),
       nodePolyfills({
         include: ["buffer", "crypto"],
